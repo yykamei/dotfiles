@@ -1,0 +1,18 @@
+Config { font = "xft:Sans-11:bold"
+       , bgColor = "black"
+       , fgColor = "white"
+       , position = Top
+       , lowerOnStart = True
+       , commands = [ Run Weather "RJTT" ["-t","東京国際空港:<tempC>C","-L","18","-H","25","--normal","green","--high","red","--low","lightblue"] 6000
+                    , Run Com "uname" ["-s","-r"] "" 36000
+                    , Run Date "%Y/%m/%d(%a)" "day" 36000
+                    , Run Date "%H:%M:%S" "time" 10
+                    , Run StdinReader
+                    , Run Com "/home/kamei/bin/my_acpi" [] "acpi" 100
+                    , Run Com "/home/kamei/bin/get-amount-of-rain.py" [] "rain" 18000
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ | %acpi% | <fc=#ffcc00>%day%</fc> <fc=#ffff00>%time%</fc>"
+       --, template = "%StdinReader% }{ | %RJTT% %rain% | %acpi% | <fc=#ffcc00>%day%</fc> <fc=#ffff00>%time%</fc>"
+       }
