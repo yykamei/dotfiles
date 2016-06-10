@@ -1,0 +1,19 @@
+! Switch Caps lock to Control Key
+remove Lock = Caps_Lock
+keysym Caps_Lock = Control_L
+add Control = Control_L
+
+! Switch Muhenkan to mod3
+keycode 102 = Mode_switch
+keysym h = h H Left
+keysym j = j J Down
+keysym k = k K Up
+keysym l = l L Right
+keysym p = p P Prior
+keysym n = n N Next
+keysym m = m M End
+keysym o = o O Home
+keysym 2 = 2 quotedbl apostrophe
+
+! Escape
+keycode 35 = bracketleft braceleft Escape
