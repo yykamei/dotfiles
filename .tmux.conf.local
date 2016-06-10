@@ -1,0 +1,52 @@
+# Prefix
+set-option -g prefix C-q
+
+# reload
+bind r source-file ~/.tmux.conf\; display-message "Reloaded"
+
+# like vi
+set-window-option -g mode-keys vi
+
+# history limitation
+set-option -g history-limit 10000
+
+# status bar setting
+#set-option -g status-utf8 on
+set-option -g status-style "bg=red fg=brightwhite"
+set-option -g status-right "|#(date +%H:%M) - #h"
+set-option -g status-left ""
+set-option -g window-status-separator "|"
+set-option -g window-status-current-style "bg=brightgreen fg=blue"
+
+# clock setting
+set-option -g clock-mode-colour yellow
+set-option -g clock-mode-style 24
+
+# copy mode word separators
+set-option -g word-separators ' !"#$%&()*+,-./:;<=>?@[\\]^`{|}~'"'"
+
+# Prevent rename status line
+set-option -g allow-rename off
+
+# resizing by vi key
+bind -r C-h resize-pane -L
+bind -r C-l resize-pane -R
+bind -r C-k resize-pane -U
+bind -r C-j resize-pane -D
+
+# move by vi key
+bind  h select-pane -L
+bind  l select-pane -R
+bind  k select-pane -U
+bind  j select-pane -D
+
+# select window
+bind  N command-prompt "select-window -t '%%'"
+
+# split pane or new window
+bind    c new-window      -c '#{pane_current_path}'
+bind  '"' split-window    -c '#{pane_current_path}'
+bind    % split-window -h -c '#{pane_current_path}'
+
+# save buffer to clipboard
+bind C-c run-shell "tmux show-buffer | xsel -i -b"

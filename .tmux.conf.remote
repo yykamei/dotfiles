@@ -1,0 +1,31 @@
+# Prefix
+set-option -g prefix C-g
+
+# reload
+bind r source-file ~/.tmux.conf\; display-message "Reloaded"
+
+# like vi
+set-window-option -g mode-keys vi
+
+# history limitation
+set-option -g history-limit 10000
+
+# resizing by vi key
+bind -r C-h resize-pane -L
+bind -r C-l resize-pane -R
+bind -r C-k resize-pane -U
+bind -r C-j resize-pane -D
+
+# move by vi key
+bind  h select-pane -L
+bind  l select-pane -R
+bind  k select-pane -U
+bind  j select-pane -D
+
+# select window
+bind  N command-prompt "select-window -t '%%'"
+
+# split pane or new window
+bind    c new-window      -c '#{pane_current_path}'
+bind  '"' split-window    -c '#{pane_current_path}'
+bind    % split-window -h -c '#{pane_current_path}'
