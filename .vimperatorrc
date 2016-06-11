@@ -1,0 +1,36 @@
+" no mapping
+map <C-q> <NOP>
+
+" use alphabet for hint chars 
+set hintchars=asdfwer
+
+" clicp board (using file)
+" command -nargs=* co :! xsel -o > c
+
+" tab itself moving
+map <C-a-p> :tabmove! -1<cr>
+map <C-a-n> :tabmove! +1<cr>
+
+" misc key binding
+map b <C-b>
+
+" disable auto focus
+set focuscontent
+
+" hint size setting
+hi Hint z-index:5000; font-size:16px; font-weight: bold; color:white; background-color:red; border-color:ButtonShadow; border-width:0px; border-style:solid; padding:0px 2px 0px 2px; position:absolute;
+
+" command line color setting
+hi CmdLine background: black; color: white; -moz-transition: all 0.25s;
+
+" compose box color setting
+hi CompDesc width: 500px; max-width: 500px; color: #484848;
+hi CompItem background: black; color: white; height: 18px; min-height: 18px; padding: 0 0.5ex;
+hi CompItem[selected] background: #666; color: #FFF;
+
+" help page color setting
+hi Help background: black; color: white; font-size: 10pt; line-height: 1.4em; font-family: -moz-fixed;
+hi HelpKey color: #ff2693;
+hi HelpLink text-decoration: none; color:#06F;
+
+" vim: set filetype=vim :
