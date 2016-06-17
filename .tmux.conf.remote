@@ -10,6 +10,17 @@ set-window-option -g mode-keys vi
 # history limitation
 set-option -g history-limit 10000
 
+# status bar setting
+set-option -g status-right "|#(date +%H:%M) - #h"
+set-option -g status-left ""
+set-option -g window-status-separator "|"
+
+# copy mode word separators
+set-option -g word-separators ' !"#$%&()*+,-./:;<=>?@[\\]^`{|}~'"'"
+
+# Prevent rename status line
+set-option -g allow-rename off
+
 # resizing by vi key
 bind -r C-h resize-pane -L
 bind -r C-l resize-pane -R
