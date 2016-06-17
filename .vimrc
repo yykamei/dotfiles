@@ -1,11 +1,5 @@
 " Copyright (C) 2016 Yutaka Kamei
 
-" We use vim-plug for package management
-"
-" curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-"     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"
-
 " Skip initialization for vim-tiny
 if !1 | finish | endif
 
@@ -19,6 +13,11 @@ function! GetFileInfo()
 endfunction
 
 " Load plugins
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 call plug#begin('~/.vim/plugged')
 Plug 'vim-scripts/ifdef-highlighting'
 Plug 'Align'
