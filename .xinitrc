@@ -1,4 +1,4 @@
-# Thsi file is used when I use i3 window manager.
+# This file is used when I use i3 window manager.
 #
 # Required commands:
 #
