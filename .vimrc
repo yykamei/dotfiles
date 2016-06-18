@@ -98,7 +98,13 @@ nnoremap [L :lfirst<CR>
 nnoremap ]L :llast<CR>
 
 " Key mapping for some utilities
+"
+" Put date time
+nnoremap <F5> "=strftime("%c")<CR>P
 inoremap <F5> <C-R>=strftime("%c")<CR>
+" Copy yanked text into clipboard
+nnoremap <F6> yiw:call system("xclip -in -selection clipboard -loops 1", @0)<CR>
+vnoremap <F6> y:call system("xclip -in -selection clipboard -loops 1", @0)<CR>
 
 " Color settings
 syntax on
