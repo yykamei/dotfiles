@@ -103,7 +103,7 @@ nnoremap ]L :llast<CR>
 nnoremap <F5> "=strftime("%c")<CR>P
 inoremap <F5> <C-R>=strftime("%c")<CR>
 " Copy yanked text into clipboard
-nnoremap <F6> yiw:call system("xclip -in -selection clipboard -loops 1", @0)<CR>
+nnoremap <F6> yiW:call system("xclip -in -selection clipboard -loops 1", @0)<CR>
 vnoremap <F6> y:call system("xclip -in -selection clipboard -loops 1", @0)<CR>
 
 " Color settings
