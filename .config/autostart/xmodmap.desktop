@@ -1,5 +1,5 @@
 [Desktop Entry]
 Name=xmodmap
-Exec=bash -c "xmodmap $HOME/.Xmodmap"
+Exec=sh -c "xmodmap $HOME/.Xmodmap"
 Terminal=true
 Type=Application
