@@ -139,10 +139,7 @@ if has('autocmd')
 endif
 
 " NERD tree
-if has('autocmd')
-  let g:NERDTreeShowHidden = 1
-  let g:NERDTreeIgnore = ['\.sw[po]$', '\.pyc$', '\.pyo$']
-  let g:loaded_netrw = 1
-  let g:loaded_netrwPlugin = 1
-  autocmd VimEnter * if exists(":NERDTree") | execute 'NERDTree' | endif
-endif
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeIgnore = ['\.sw[po]$', '\.pyc$', '\.pyo$']
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
