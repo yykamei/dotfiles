@@ -28,15 +28,16 @@ bind -r C-k resize-pane -U
 bind -r C-j resize-pane -D
 
 # move by vi key
-bind  h select-pane -L
-bind  l select-pane -R
-bind  k select-pane -U
-bind  j select-pane -D
+bind h select-pane -L
+bind l select-pane -R
+bind k select-pane -U
+bind j select-pane -D
+bind C-g select-pane -t +
 
 # select window
-bind  N command-prompt "select-window -t '%%'"
+bind N command-prompt "select-window -t '%%'"
 
 # split pane or new window
-bind    c new-window      -c '#{pane_current_path}'
-bind  '"' split-window    -c '#{pane_current_path}'
-bind    % split-window -h -c '#{pane_current_path}'
+bind c new-window      -c '#{pane_current_path}'
+bind '"' split-window    -c '#{pane_current_path}'
+bind % split-window -h -c '#{pane_current_path}'
