@@ -139,7 +139,7 @@ if has('autocmd')
 endif
 
 " vim-markdown
-let g:vim_markdown_folding_level = 6
+let g:vim_markdown_folding_level = 4
 
 " nerdtree
 let g:NERDTreeShowHidden = 1
