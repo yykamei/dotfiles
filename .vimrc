@@ -138,7 +138,10 @@ if has('autocmd')
   autocmd! FileType vim setlocal shiftwidth=2 tabstop=2
 endif
 
-" NERD tree
+" vim-markdown
+let g:vim_markdown_folding_level = 6
+
+" nerdtree
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeIgnore = ['\.sw[po]$', '\.pyc$', '\.pyo$']
 let g:loaded_netrw = 1
