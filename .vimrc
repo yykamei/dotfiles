@@ -31,7 +31,7 @@ call plug#end()
 " Display settings
 set fileencodings=ucs-bom,utf-8,cp932,euc-jp  " Encoding
 set laststatus=2  " Show status line
-set statusline=%n:\ %F\ %y%{GetFileInfo()}%m%h%r%=%c%V,%l/%L\ %P
+set statusline=%n:\ %f\ %y%{GetFileInfo()}%m%h%r%=%c%V,%l/%L\ %P
 set ruler  " Show the cursor position all the time
 set number  " Show line numbers
 
