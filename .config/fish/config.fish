@@ -1,10 +1,14 @@
 if status --is-login
-	set PATH $PATH ~/bin
+	set --global --export PATH $PATH ~/bin $HOME/.local/bin
 end
 if not set --query LANG
 	set --global LANG en_US.UTF-8
 end
+
+# Show full path
 set --global fish_prompt_pwd_dir_length 0
+
+# Use vim as main EDITOR
 set --global --export EDITOR vim
 
 # SSH settings
