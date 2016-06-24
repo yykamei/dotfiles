@@ -125,19 +125,6 @@ if has('autocmd')
 
   " Disable recovery in directories which user does not have write
   autocmd BufNewFile,BufReadPre /media/*,/mnt/* setlocal directory=
-
-  " Specific file extensions indentation
-  autocmd! FileType html setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType htmldjango setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType ruby setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType eruby setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType xml setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType css setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType javascript setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType json setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType less setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType yaml setlocal shiftwidth=2 tabstop=2
-  autocmd! FileType vim setlocal shiftwidth=2 tabstop=2
 endif
 
 " vim-markdown
