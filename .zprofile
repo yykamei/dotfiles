@@ -11,7 +11,6 @@ export PAGER=less
 export VIDEO_FORMAT=NTSC # For devede_ng.py
 export GOPATH=$HOME/go
 
-/usr/bin:/usr/sbin:/home/kamei/bin:/home/kamei/.local/bin:/home/kamei/.cabal/bin:/home/kamei/.node_modules/bin:/home/kamei/go/bin
 # PATH settings
 PATH=/bin:/usr/local/bin:/usr/local/sbin
 PATH=$PATH:/usr/bin:/usr/sbin
