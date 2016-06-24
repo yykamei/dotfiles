@@ -26,6 +26,8 @@ Plug 'plasticboy/vim-markdown'
 Plug 'elzr/vim-json'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree'
+Plug 'dag/vim-fish'
+Plug 'scrooloose/syntastic'
 call plug#end()
 
 " Display settings
@@ -111,8 +113,11 @@ syntax on
 colorscheme elflord
 set background=dark
 
+" Change Search highlight
+highlight Search ctermbg=Yellow ctermfg=White
+
 " We want to highlight specific words
-highlight MY_HILIGHT ctermfg=Black ctermbg=Yellow
+highlight MY_HILIGHT term=bold ctermfg=White ctermbg=Magenta
 match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
 
 if has('autocmd')
@@ -127,11 +132,25 @@ if has('autocmd')
   autocmd BufNewFile,BufReadPre /media/*,/mnt/* setlocal directory=
 endif
 
-" vim-markdown
+" plasticboy/vim-markdown
 let g:vim_markdown_folding_level = 3
 
-" nerdtree
+" scrooloose/nerdtree
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeIgnore = ['\.sw[po]$', '\.pyc$', '\.pyo$']
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
+
+" rust-lang/rust.vim
+let g:rustfmt_autosave = 1
+
+" scrooloose/syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_python_checkers = ["flake8"]
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
