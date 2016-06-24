@@ -37,4 +37,4 @@ alias less='less -ciRM'
 eval `dircolors -b`
 
 ## Stop Ctrl-S
-stty stop undef
+stty stop undef || :
