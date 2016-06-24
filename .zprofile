@@ -19,3 +19,10 @@ PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin
 PATH=$PATH:$HOME/.node_modules/bin
 export PATH=$PATH:$GOPATH/bin
+
+# TERM settings
+if [ ${TERM:-none} = "xterm" ]; then
+    export TERM=xterm-256color
+elif [ ${TERM:-none} = "screen" ]; then
+    export TERM=screen-256color
+fi
