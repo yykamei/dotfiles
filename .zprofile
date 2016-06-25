@@ -2,9 +2,9 @@
 # zprofile
 
 # Environmental Variables
-export LANG=en_US.UTF-8
-export C_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+export LANG=C.UTF-8
+export C_CTYPE=C.UTF-8
+export LC_ALL=C.UTF-8
 export EDITOR=/usr/bin/vim
 export WORDCHARS='"*?_-,.[]~=/&;!#$%^(){}<>|'
 export PAGER=less
