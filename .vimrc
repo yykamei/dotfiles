@@ -26,7 +26,6 @@ Plug 'plasticboy/vim-markdown'
 Plug 'elzr/vim-json'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree'
-Plug 'dag/vim-fish'
 Plug 'scrooloose/syntastic'
 call plug#end()
 
@@ -114,7 +113,7 @@ colorscheme elflord
 set background=dark
 
 " Change Search highlight
-highlight Search ctermbg=Yellow ctermfg=White
+highlight Search ctermbg=DarkYellow ctermfg=White
 
 " We want to highlight specific words
 highlight MY_HILIGHT term=bold ctermfg=White ctermbg=Magenta
@@ -150,6 +149,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_python_checkers = ["flake8"]
+let g:syntastic_ruby_checkers = ['rubocop']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
