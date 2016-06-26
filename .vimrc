@@ -19,12 +19,12 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 call plug#begin('~/.vim/plugged')
-Plug 'vim-scripts/ifdef-highlighting'
+Plug 'vim-scripts/ifdef-highlighting', {'for': ['c', 'cpp']}
 Plug 'Align'
 Plug 'vim-scripts/matchit.zip'
-Plug 'plasticboy/vim-markdown'
-Plug 'elzr/vim-json'
-Plug 'rust-lang/rust.vim'
+Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+Plug 'elzr/vim-json', {'for': ['json']}
+Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
 call plug#end()
@@ -116,7 +116,7 @@ set background=dark
 highlight Search ctermbg=DarkYellow ctermfg=White
 
 " We want to highlight specific words
-highlight MY_HILIGHT term=bold ctermfg=White ctermbg=Magenta
+highlight MY_HILIGHT term=bold ctermfg=White ctermbg=DarkBlue
 match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
 
 if has('autocmd')
