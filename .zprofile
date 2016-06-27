@@ -3,8 +3,6 @@
 
 # Environmental Variables
 export LANG=en_US.UTF-8
-export C_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 export EDITOR=/usr/bin/vim
 export WORDCHARS='"*?_-,.[]~=/&;!#$%^(){}<>|'
 export PAGER=less
