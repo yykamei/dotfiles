@@ -17,6 +17,7 @@ PATH=$PATH:$HOME/bin
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin
 PATH=$PATH:$HOME/.node_modules/bin
+PATH=$PATH:$HOME/.cargo/bin
 PATH=$PATH:$GOPATH/bin
 PATH=$PATH:$GEM_HOME/bin
 export PATH
