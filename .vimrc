@@ -136,9 +136,10 @@ let g:vim_markdown_folding_level = 3
 
 " scrooloose/nerdtree
 let g:NERDTreeShowHidden = 1
-let g:NERDTreeIgnore = ['\.sw[po]$', '\.pyc$', '\.pyo$']
+let g:NERDTreeIgnore = ['\.sw[po]$', '\.py[oc]$']
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
+nnoremap <silent> gl :NERDTree<CR><C-w><C-p>
 
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
