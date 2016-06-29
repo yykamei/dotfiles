@@ -72,6 +72,9 @@ set hidden
 " path settings
 set path=,,
 
+" Encoding
+set encoding=UTF-8
+
 " Key mapping for insert mode (like Bash)
 inoremap <C-e> <End>
 inoremap <C-a> <Home>
