@@ -23,6 +23,7 @@ export PATH
 
 # Locale settings
 unset LANG LC_ALL
+export LANG="ja_JP.UTF-8"
 export LC_CTYPE="ja_JP.UTF-8"
 export LC_NUMERIC="ja_JP.UTF-8"
 export LC_TIME="ja_JP.UTF-8"
