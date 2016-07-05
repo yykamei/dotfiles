@@ -10,15 +10,16 @@ export GOPATH=$HOME/go
 export GEM_HOME=$HOME/.gem
 
 # PATH settings
-PATH=/bin:/usr/local/bin:/usr/local/sbin
-PATH=$PATH:/usr/bin:/usr/sbin
+PATH=/usr/local/bin:/usr/local/sbin
 PATH=$PATH:$HOME/bin
+PATH=$PATH:$HOME/.rbenv/bin
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin
 PATH=$PATH:$HOME/.node_modules/bin
 PATH=$PATH:$HOME/.cargo/bin
-PATH=$PATH:$GOPATH/bin
 PATH=$PATH:$GEM_HOME/bin
+PATH=$PATH:$GOPATH/bin
+PATH=$PATH:/bin:/usr/bin:/usr/sbin
 export PATH
 
 # Locale settings

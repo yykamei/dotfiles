@@ -33,8 +33,11 @@ alias la="ls -AF"
 alias grep='grep --color=auto'
 alias less='less -ciRM'
 
-## Color
+# Color
 eval `dircolors -b`
 
-## Stop Ctrl-S
+# Stop Ctrl-S
 stty stop undef || :
+
+# rbenv
+which rbenv 1> /dev/null 2>/dev/null && eval "$(rbenv init -)"
