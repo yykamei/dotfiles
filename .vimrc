@@ -27,6 +27,7 @@ Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
+Plug 'thinca/vim-ref'
 Plug 'fatih/vim-go', {'for': ['go']}
 call plug#end()
 
@@ -159,6 +160,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+" thinca/vim-ref
+let g:ref_pydoc_cmd = 'python3 -m pydoc'
 
 " fatih/vim-go
 let g:go_highlight_functions = 1
