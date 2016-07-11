@@ -130,8 +130,8 @@ match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
 
 if has('autocmd')
   " For editting in mutt
-  autocmd BufRead /run/shm/mutt-* setlocal tw=72 fo+=m
-  autocmd BufRead /tmp/mutt-* setlocal tw=72 fo+=m
+  autocmd BufRead /run/shm/mutt-* setlocal tw=36 fo+=m
+  autocmd BufRead /tmp/mutt-* setlocal tw=36 fo+=m
 
   " Disable recovery in directories which user does not have write
   autocmd BufNewFile,BufReadPre /media/*,/mnt/* setlocal directory=
