@@ -40,7 +40,7 @@ set number  " Show line numbers
 
 " Editting behaviors
 set backspace=indent,eol,start
-set formatoptions=tcrqmj
+set formatoptions=tcrqmjB
 
 " Tab settings
 set autoindent
@@ -76,6 +76,7 @@ set path=,,
 
 " Encoding
 set encoding=UTF-8
+scriptencoding UTF-8
 
 " Key mapping for insert mode (like Bash)
 inoremap <C-e> <End>
@@ -117,6 +118,9 @@ syntax on
 colorscheme elflord
 set background=dark
 
+" File type plugins
+filetype plugin indent on
+
 " Change Search highlight
 highlight Search ctermbg=DarkYellow ctermfg=White
 
@@ -125,9 +129,6 @@ highlight MY_HILIGHT term=bold ctermfg=White ctermbg=DarkBlue
 match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
 
 if has('autocmd')
-  " File type plugins
-  filetype plugin indent on
-
   " For editting in mutt
   autocmd BufRead /run/shm/mutt-* setlocal tw=72 fo+=m
   autocmd BufRead /tmp/mutt-* setlocal tw=72 fo+=m
