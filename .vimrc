@@ -23,6 +23,7 @@ Plug 'vim-scripts/ifdef-highlighting', {'for': ['c', 'cpp']}
 Plug 'Align'
 Plug 'vim-scripts/matchit.zip'
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+Plug 'kannokanno/previm'
 Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'scrooloose/nerdtree'
@@ -139,6 +140,9 @@ endif
 
 " plasticboy/vim-markdown
 let g:vim_markdown_folding_level = 3
+
+" kannokanno/previm
+let g:previm_open_cmd = 'chromium-browser -incognito'
 
 " scrooloose/nerdtree
 let g:NERDTreeShowHidden = 1
