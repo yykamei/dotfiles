@@ -7,17 +7,15 @@ export WORDCHARS='"*?_-,.[]~=/&;!#$%^(){}<>|'
 export PAGER=less
 export VIDEO_FORMAT=NTSC # For devede_ng.py
 export GOPATH=$HOME/go
-export GEM_HOME=$HOME/.gem
 
 # PATH settings
 PATH=/usr/local/bin:/usr/local/sbin
-PATH=$PATH:$HOME/bin
 PATH=$PATH:$HOME/.rbenv/bin
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin
 PATH=$PATH:$HOME/.node_modules/bin
 PATH=$PATH:$HOME/.cargo/bin
-PATH=$PATH:$GEM_HOME/bin
+PATH=$PATH:$HOME/bin
 PATH=$PATH:$GOPATH/bin
 PATH=$PATH:/bin:/usr/bin:/usr/sbin
 export PATH
