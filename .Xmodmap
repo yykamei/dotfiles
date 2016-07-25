@@ -1,8 +1,7 @@
-! NOTE: Caps key settings is modified by gnome-tweak-tool
 ! Switch Caps lock to Control Key
-!remove Lock = Caps_Lock
-!keysym Caps_Lock = Control_L
-!add Control = Control_L
+remove Lock = Caps_Lock
+keysym Caps_Lock = Control_L
+add Control = Control_L
 
 ! Switch Muhenkan to mod3
 keycode 102 = Mode_switch
