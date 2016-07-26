@@ -169,6 +169,9 @@ new_float  pixel 3
 # workspace
 workspace 8 output HDMI1
 
+# workspace default layout
+workspace_layout tabbed
+
 # Disable mouse warping
 mouse_warping none
 focus_follows_mouse no
