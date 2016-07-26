@@ -7,9 +7,8 @@
 # * setxkbmap
 # * xkbset
 # * xmodmap
-# * ibus-daemon
+# * fcitx-mozc
 # * i3
-#
 
 # mouse cursor setting
 xsetroot -cursor_name left_ptr
@@ -18,7 +17,7 @@ xsetroot -cursor_name left_ptr
 xset r rate 200 50
 
 # set LANG
-export LANG="ja_JP.UTF8"
+export LANG="en_US.UTF8"
 
 # Font configuration
 export XDG_CONFIG_HOME=$HOME/.config
@@ -26,27 +25,15 @@ export XDG_CONFIG_HOME=$HOME/.config
 # set keyboard layout - Must be before xmodmap
 setxkbmap -layout jp,us -model pc104 -option 'keypad:pointerkeys'
 
-# set mousekey speed
-xkbset ma 15 15 20 30 10
-
 # keysym setting
 xmodmap ~/.Xmodmap
-
-# screen saver
-#xscreensaver -nosplash &
-# we use i3lock
 
 # backlight setting
 # modify /sys/class/backlight/intel_backlight/brightness
 
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
-# ibus-daemon
-ibus-daemon -dxr
-
-# ssh-agent for X window
-eval `ssh-agent`
+export GTK_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export QT_IM_MODULE=fcitx
 
 # start window manager
-exec /usr/bin/i3
+exec i3
