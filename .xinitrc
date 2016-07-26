@@ -2,6 +2,7 @@
 #
 # Required commands:
 #
+# * xautolock (configured in i3)
 # * xsetroot
 # * xset
 # * setxkbmap
