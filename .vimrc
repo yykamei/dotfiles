@@ -29,6 +29,7 @@ Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
 Plug 'thinca/vim-ref'
+Plug 'szw/vim-tags'
 Plug 'fatih/vim-go', {'for': ['go']}
 call plug#end()
 
