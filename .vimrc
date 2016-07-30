@@ -136,6 +136,10 @@ if has('autocmd')
 
   " Disable recovery in directories which user does not have write
   autocmd BufNewFile,BufReadPre /media/*,/mnt/* setlocal directory=
+
+  " Set filetype
+  autocmd BufNewFile,BufRead *.jbuilder set filetype=ruby
+  autocmd BufNewFile,BufRead *.pryrc set filetype=ruby
 endif
 
 " plasticboy/vim-markdown
