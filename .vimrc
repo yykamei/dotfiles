@@ -147,7 +147,7 @@ endif
 let g:vim_markdown_folding_level = 3
 
 " kannokanno/previm
-let g:previm_open_cmd = 'chromium-browser -incognito'
+let g:previm_open_cmd = 'chromium -incognito'
 
 " scrooloose/nerdtree
 let g:NERDTreeShowHidden = 1
