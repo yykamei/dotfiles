@@ -29,6 +29,7 @@ Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
 Plug 'thinca/vim-ref'
+Plug 'yuku-t/vim-ref-ri', {'for': ['ruby']}
 Plug 'szw/vim-tags'
 Plug 'fatih/vim-go', {'for': ['go']}
 call plug#end()
@@ -158,6 +159,7 @@ nnoremap <silent> gl :NERDTree<CR><C-w><C-p>
 
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
+let g:rustfmt_fail_silently = 1
 
 " scrooloose/syntastic
 set statusline+=%#warningmsg#
