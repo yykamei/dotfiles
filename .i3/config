@@ -175,5 +175,3 @@ workspace_layout tabbed
 # Disable mouse warping
 mouse_warping none
 focus_follows_mouse no
-
-for_window [instance="gimp"] floating disable
