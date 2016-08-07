@@ -33,6 +33,7 @@ Plug 'yuku-t/vim-ref-ri', {'for': ['ruby']}
 Plug 'szw/vim-tags'
 Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim'
+Plug 'nginx.vim'
 call plug#end()
 
 " Display settings
