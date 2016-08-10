@@ -179,6 +179,10 @@ nnoremap <silent> gs :SyntasticToggleMode<CR>
 " thinca/vim-ref
 let g:ref_pydoc_cmd = 'python3 -m pydoc'
 
+" 'szw/vim-tags'
+autocmd BufNewFile,BufRead * let g:vim_tags_main_file = 'tags.' . &filetype
+autocmd BufNewFile,BufRead * let g:vim_tags_project_tags_command = '{CTAGS} -R --fields=+l --languages=' . &filetype . ' {OPTIONS} {DIRECTORY} 2>/dev/null'
+
 " fatih/vim-go
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
