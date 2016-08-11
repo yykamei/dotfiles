@@ -149,7 +149,7 @@ bindsym $mod+r mode "resize"
 
 # Lock screen
 bindsym $mod+Delete exec i3lock -c 000000 --dpms --nofork
-exec --no-startup-id "xautolock -time 10 -locker 'i3lock -c 000000 --dpms --nofork'"
+exec --no-startup-id "xautolock -time 3 -locker 'i3lock -c 000000 --dpms --nofork'"
 
 # fcitx
 exec --no-startup-id fcitx
