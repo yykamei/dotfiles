@@ -154,6 +154,7 @@ let g:previm_open_cmd = 'chromium -incognito'
 
 " scrooloose/nerdtree
 let g:NERDTreeShowHidden = 1
+let g:NERDTreeCaseSensitiveSort = 1
 let g:NERDTreeIgnore = ['\.sw[po]$', '\.py[oc]$']
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
