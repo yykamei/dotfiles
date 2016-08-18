@@ -147,7 +147,7 @@ if has('autocmd')
 endif
 
 " plasticboy/vim-markdown
-let g:vim_markdown_folding_level = 3
+let g:vim_markdown_folding_disabled = 1
 
 " kannokanno/previm
 let g:previm_open_cmd = 'chromium -incognito'
