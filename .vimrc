@@ -34,6 +34,7 @@ Plug 'szw/vim-tags'
 Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim'
 Plug 'nginx.vim'
+Plug 'kchmck/vim-coffee-script'
 call plug#end()
 
 " Display settings
