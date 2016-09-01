@@ -129,6 +129,7 @@ filetype plugin indent on
 
 " Change Tab pages highlight
 highlight TabLineFill ctermfg=DarkGray
+highlight TabLine ctermfg=Gray
 highlight TabLineSel ctermfg=White ctermbg=DarkGreen
 
 " Change Search highlight
