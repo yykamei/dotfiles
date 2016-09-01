@@ -127,6 +127,10 @@ set background=dark
 " File type plugins
 filetype plugin indent on
 
+" Change Tab pages highlight
+highlight TabLineFill ctermfg=DarkGray
+highlight TabLineSel ctermfg=White ctermbg=DarkGreen
+
 " Change Search highlight
 highlight Search ctermbg=DarkYellow ctermfg=White
 
