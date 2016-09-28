@@ -17,6 +17,7 @@ PATH=$PATH:$HOME/.node_modules/bin
 PATH=$PATH:$HOME/.cargo/bin
 PATH=$PATH:$HOME/bin
 PATH=$PATH:$GOPATH/bin
+PATH=$PATH:$HOME/google-cloud-sdk/bin
 PATH=$PATH:/bin:/usr/bin:/usr/sbin
 export PATH
 
