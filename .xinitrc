@@ -24,7 +24,7 @@ export LANG="en_US.UTF8"
 export XDG_CONFIG_HOME=$HOME/.config
 
 # set keyboard layout - Must be before xmodmap
-setxkbmap -layout jp,us -model pc104 -option 'keypad:pointerkeys'
+setxkbmap -layout us,jp -model pc104 -option 'keypad:pointerkeys'
 
 # keysym setting
 xmodmap ~/.Xmodmap
