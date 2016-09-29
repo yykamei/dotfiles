@@ -26,6 +26,9 @@ export XDG_CONFIG_HOME=$HOME/.config
 # set keyboard layout - Must be before xmodmap
 setxkbmap -layout us,jp -model pc104 -option 'keypad:pointerkeys'
 
+# NOTE: This disables touchpad!
+synclient TouchpadOff=1
+
 # keysym setting
 xmodmap ~/.Xmodmap
 
