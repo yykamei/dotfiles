@@ -167,7 +167,8 @@ new_window pixel 3
 new_float  pixel 3
 
 # workspace
-workspace 8 output HDMI1
+#workspace 8 output HDMI1
+workspace 8 output HDMI2
 
 # workspace default layout
 workspace_layout tabbed
