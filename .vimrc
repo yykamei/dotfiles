@@ -112,12 +112,15 @@ nnoremap ]L :llast<CR>
 
 " Key mapping for some utilities
 "
-" Put date time
+"" Put date time
 nnoremap <F5> "=strftime("%c")<CR>P
 inoremap <F5> <C-R>=strftime("%c")<CR>
-" Copy yanked text into clipboard
+"" Copy yanked text into clipboard
 nnoremap <F6> yiW:call system("xclip -in -selection clipboard -loops 1", @0)<CR>
 vnoremap <F6> y:call system("xclip -in -selection clipboard -loops 1", @0)<CR>
+"" :update
+nnoremap <Leader>w :update<CR>
+nnoremap <Leader>t :$tabedit<CR>
 
 " Color settings
 syntax on
