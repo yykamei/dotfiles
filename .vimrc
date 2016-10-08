@@ -119,6 +119,8 @@ inoremap <F5> <C-R>=strftime("%c")<CR>
 nnoremap <Leader>w :update<CR>
 nnoremap <Leader>t :$tabedit<CR>
 nnoremap <Leader>q :quit<CR>
+nnoremap <Leader>b :bdelete<CR>
+nnoremap <Leader>! :!
 inoremap <C-\> <ESC>
 
 " Color settings
