@@ -21,6 +21,7 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'vim-scripts/ifdef-highlighting', {'for': ['c', 'cpp']}
 Plug 'Align'
+Plug 'Raimondi/delimitMate'
 Plug 'vim-scripts/matchit.zip'
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'kannokanno/previm'
@@ -35,6 +36,7 @@ Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim'
 Plug 'nginx.vim'
 Plug 'kchmck/vim-coffee-script'
+Plug 'digitaltoad/vim-pug'
 call plug#end()
 
 " Display settings
