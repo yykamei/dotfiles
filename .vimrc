@@ -123,13 +123,6 @@ nnoremap <C-w>N :vnew<CR>
 "" Put date time
 nnoremap <F5> "=strftime("%c")<CR>P
 inoremap <F5> <C-R>=strftime("%c")<CR>
-"" Shortcut with Leader
-nnoremap <Leader>w :update<CR>
-nnoremap <Leader>t :$tabedit<CR>
-nnoremap <Leader>q :quit<CR>
-nnoremap <Leader>b :bdelete<CR>
-nnoremap <Leader>! :!
-inoremap <C-\> <ESC>
 
 " Color settings
 syntax on
