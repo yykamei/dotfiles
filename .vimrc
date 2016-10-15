@@ -123,6 +123,8 @@ nnoremap <C-w>N :vnew<CR>
 "" Put date time
 nnoremap <F5> "=strftime("%c")<CR>P
 inoremap <F5> <C-R>=strftime("%c")<CR>
+"" Update shortcuts - I don't use mode-Ex
+nnoremap Q :update<CR>
 
 " Color settings
 syntax on
