@@ -36,7 +36,6 @@ Plug 'slim-template/vim-slim'
 Plug 'nginx.vim'
 Plug 'digitaltoad/vim-pug'
 Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
-Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " Display settings
