@@ -21,7 +21,6 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'vim-scripts/ifdef-highlighting', {'for': ['c', 'cpp']}
 Plug 'Align'
-Plug 'Raimondi/delimitMate'
 Plug 'vim-scripts/matchit.zip'
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'kannokanno/previm'
@@ -35,8 +34,9 @@ Plug 'szw/vim-tags'
 Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim'
 Plug 'nginx.vim'
-Plug 'kchmck/vim-coffee-script'
 Plug 'digitaltoad/vim-pug'
+Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " Display settings
@@ -126,6 +126,9 @@ inoremap <F5> <C-R>=strftime("%c")<CR>
 "" Update shortcuts - I don't use mode-Ex
 nnoremap Q :update<CR>
 
+"" paste nopaste switch
+set pastetoggle=<F2>
+
 " Color settings
 syntax on
 colorscheme elflord
@@ -184,6 +187,7 @@ set statusline+=%*
 let g:syntastic_python_checkers = ["flake8"]
 let g:syntastic_ruby_checkers = ['rubocop']
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
