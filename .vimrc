@@ -35,6 +35,8 @@ Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim'
 Plug 'nginx.vim'
 Plug 'digitaltoad/vim-pug'
+Plug 'ryym/vim-riot'
+Plug 'kchmck/vim-coffee-script'
 Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
 call plug#end()
 
