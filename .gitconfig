@@ -1,2 +1,6 @@
 [core]
 	excludesfile = /home/kamei/.gitignore_global
+[log]
+	abbrevCommit = off
+[color "status"]
+	untracked = "red bold "
