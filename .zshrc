@@ -23,13 +23,13 @@ promptinit
 prompt adam1 ${PROMPT_COLOR:-red}
 
 # Alias
-alias rm="rm -i"
-alias mv="mv -i"
-alias cp="cp -i"
-alias ls="ls --color=auto"
-alias l="ls -lF"
-alias ll="ls -AlF"
-alias la="ls -AF"
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+alias ls='ls --color=auto'
+alias l='ls -lF'
+alias ll='ls -AlF'
+alias la='ls -AF'
 alias grep='grep --color=auto'
 alias less='less -ciRM'
 
