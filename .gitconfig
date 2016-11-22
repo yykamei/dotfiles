@@ -2,5 +2,6 @@
 	excludesfile = /home/kamei/.gitignore_global
 [log]
 	abbrevCommit = off
+	decorate = true
 [color "status"]
 	untracked = "red bold "
