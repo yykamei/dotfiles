@@ -39,6 +39,7 @@ Plug 'ryym/vim-riot'
 Plug 'kchmck/vim-coffee-script'
 Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
+Plug 'dart-lang/dart-vim-plugin'
 call plug#end()
 
 " Display settings
