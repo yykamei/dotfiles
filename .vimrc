@@ -1,4 +1,4 @@
-" Copyright (C) 2016 Yutaka Kamei
+" Copyright (C) 2016-2017 Yutaka Kamei
 
 " Skip initialization for vim-tiny
 if !1 | finish | endif
@@ -26,7 +26,8 @@ Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'kannokanno/previm'
 Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
-Plug 'scrooloose/nerdtree'
+Plug 'justinmk/vim-dirvish'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/syntastic'
 Plug 'thinca/vim-ref'
 Plug 'yuku-t/vim-ref-ri', {'for': ['ruby']}
@@ -48,6 +49,8 @@ set laststatus=2  " Show status line
 set statusline=%n:\ %f\ %y%{GetFileInfo()}%m%h%r%=%c%V,%l/%L\ %P
 set ruler  " Show the cursor position all the time
 set number  " Show line numbers
+set splitbelow
+set splitright
 
 " Editting behaviors
 set backspace=indent,eol,start
@@ -171,14 +174,6 @@ let g:vim_markdown_folding_disabled = 1
 " kannokanno/previm
 let g:previm_open_cmd = 'chromium -incognito'
 
-" scrooloose/nerdtree
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeCaseSensitiveSort = 1
-let g:NERDTreeIgnore = ['\.sw[po]$', '\.py[oc]$']
-let g:loaded_netrw = 1
-let g:loaded_netrwPlugin = 1
-nnoremap <silent> gl :NERDTree<CR><C-w><C-p>
-
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
 let g:rustfmt_fail_silently = 1
@@ -189,6 +184,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_python_checkers = ["flake8"]
 let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_ruby_rubocop_args = '--force-exclusion'
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_java_checkers=['javac']
