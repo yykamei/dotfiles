@@ -166,6 +166,7 @@ if has('autocmd')
   " Set filetype
   autocmd BufNewFile,BufRead *.jbuilder set filetype=ruby
   autocmd BufNewFile,BufRead *.pryrc set filetype=ruby
+  autocmd BufNewFile,BufRead *.jb set filetype=ruby
 endif
 
 " plasticboy/vim-markdown
@@ -199,8 +200,10 @@ nnoremap <silent> gs :SyntasticToggleMode<CR>
 let g:ref_pydoc_cmd = 'python3 -m pydoc'
 
 " 'szw/vim-tags'
-autocmd BufNewFile,BufRead * let g:vim_tags_main_file = 'tags.' . &filetype
-autocmd BufNewFile,BufRead * let g:vim_tags_project_tags_command = '{CTAGS} -R --fields=+l --languages=' . &filetype . ' {OPTIONS} {DIRECTORY} 2>/dev/null'
+if has('autocmd')
+  autocmd BufNewFile,BufRead * let g:vim_tags_main_file = 'tags.' . &filetype
+  autocmd BufNewFile,BufRead * let g:vim_tags_project_tags_command = '{CTAGS} -R --fields=+l --languages=' . &filetype . ' {OPTIONS} {DIRECTORY} 2>/dev/null'
+end
 
 " fatih/vim-go
 let g:go_highlight_functions = 1
