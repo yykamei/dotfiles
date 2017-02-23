@@ -19,28 +19,26 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 call plug#begin('~/.vim/plugged')
-Plug 'vim-scripts/ifdef-highlighting', {'for': ['c', 'cpp']}
 Plug 'Align'
 Plug 'vim-scripts/matchit.zip'
-Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
-Plug 'kannokanno/previm'
-Plug 'elzr/vim-json', {'for': ['json']}
-Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'justinmk/vim-dirvish'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'szw/vim-tags'
 Plug 'scrooloose/syntastic'
 Plug 'thinca/vim-ref'
-Plug 'yuku-t/vim-ref-ri', {'for': ['ruby']}
-Plug 'szw/vim-tags'
-Plug 'fatih/vim-go', {'for': ['go']}
-Plug 'slim-template/vim-slim'
 Plug 'nginx.vim'
-Plug 'digitaltoad/vim-pug'
-Plug 'ryym/vim-riot'
-Plug 'kchmck/vim-coffee-script'
+Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+Plug 'kannokanno/previm', {'for': ['markdown']}
+Plug 'elzr/vim-json', {'for': ['json']}
+Plug 'rust-lang/rust.vim', {'for': ['rust']}
+Plug 'yuku-t/vim-ref-ri', {'for': ['ruby']}
+Plug 'fatih/vim-go', {'for': ['go']}
+Plug 'slim-template/vim-slim', {'for': ['slim']}
+Plug 'digitaltoad/vim-pug', {'for': ['pug']}
+Plug 'kchmck/vim-coffee-script', {'for': ['coffee']}
 Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
-Plug 'dart-lang/dart-vim-plugin'
+Plug 'dart-lang/dart-vim-plugin', {'for': ['dart']}
 call plug#end()
 
 " Display settings
