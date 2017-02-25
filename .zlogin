@@ -1,7 +1,7 @@
 # Copyright (C) 2016 Yutaka Kamei
 # zlogin
 
-agent="/tmp/.`whoami`-ssh"
+agent="/dev/shm/.`whoami`-ssh"
 if [ -S $agent ]; then
     export SSH_AUTH_SOCK=$agent
 else

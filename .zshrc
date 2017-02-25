@@ -41,3 +41,11 @@ stty stop undef || :
 
 # rbenv
 which rbenv 1> /dev/null 2>/dev/null && eval "$(rbenv init -)"
+
+# XXX: following scripts should be run by zlogin.
+agent="/dev/shm/.`whoami`-ssh"
+if [ -S $agent ]; then
+    export SSH_AUTH_SOCK=$agent
+else
+    eval `ssh-agent -a $agent`
+fi
