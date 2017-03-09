@@ -22,7 +22,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'Align'
 Plug 'vim-scripts/matchit.zip'
 Plug 'justinmk/vim-dirvish'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'szw/vim-tags'
 Plug 'scrooloose/syntastic'
 Plug 'thinca/vim-ref'
@@ -36,7 +35,7 @@ Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim', {'for': ['slim']}
 Plug 'digitaltoad/vim-pug', {'for': ['pug']}
 Plug 'kchmck/vim-coffee-script', {'for': ['coffee']}
-Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
+" Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'dart-lang/dart-vim-plugin', {'for': ['dart']}
 call plug#end()
