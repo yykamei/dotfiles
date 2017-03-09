@@ -16,6 +16,9 @@ unsetopt BEEP
 # Select emacs mode
 bindkey -e
 
+# ~/.zfunc
+# fpath+=~/.zfunc
+
 # Prompt
 autoload -Uz compinit promptinit
 compinit
