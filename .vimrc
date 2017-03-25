@@ -30,12 +30,15 @@ Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
+Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'yuku-t/vim-ref-ri', {'for': ['ruby']}
 Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim', {'for': ['slim']}
 Plug 'digitaltoad/vim-pug', {'for': ['pug']}
 Plug 'kchmck/vim-coffee-script', {'for': ['coffee']}
 " Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
+Plug 'othree/yajs.vim', {'for': ['javascript']}
+Plug 'mxw/vim-jsx'
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'dart-lang/dart-vim-plugin', {'for': ['dart']}
 call plug#end()
@@ -170,7 +173,7 @@ endif
 let g:vim_markdown_folding_disabled = 1
 
 " kannokanno/previm
-let g:previm_open_cmd = 'chromium -incognito'
+let g:previm_open_cmd = 'firefox'
 
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
