@@ -200,6 +200,7 @@ nnoremap <silent> gs :SyntasticToggleMode<CR>
 let g:ref_pydoc_cmd = 'python3 -m pydoc'
 
 " 'szw/vim-tags'
+let g:vim_tags_ignore_files = []
 if has('autocmd')
   autocmd BufNewFile,BufRead * let g:vim_tags_main_file = 'tags.' . &filetype
   autocmd BufNewFile,BufRead * let g:vim_tags_project_tags_command = '{CTAGS} -R --fields=+l --languages=' . &filetype . ' {OPTIONS} {DIRECTORY} 2>/dev/null'
