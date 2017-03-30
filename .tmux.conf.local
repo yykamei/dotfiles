@@ -12,11 +12,12 @@ set-option -g history-limit 10000
 
 # status bar setting
 #set-option -g status-utf8 on
-set-option -g status-style "bg=red fg=brightwhite"
-set-option -g status-right "|#(date +%H:%M) - #h"
+set-option -g status-style "bg=colour124 fg=colour231"
+set-option -g status-right "|git-branch: #(cd #{pane_current_path}; git rev-parse --abbrev-ref HEAD || echo no-git)"
 set-option -g status-left ""
 set-option -g window-status-separator "|"
-set-option -g window-status-current-style "bg=brightgreen fg=blue"
+set-option -g window-status-current-style "bg=colour84 fg=colour0"
+set-option -g window-status-current-format "#I:#W#F"
 
 # clock setting
 set-option -g clock-mode-colour yellow
