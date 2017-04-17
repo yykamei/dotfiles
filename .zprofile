@@ -51,11 +51,3 @@ test -z "`perl -e exit 2>&1`" || \
                            LC_TELEPHONE \
                            LC_MEASUREMENT \
                            LC_IDENTIFICATION
-# NOTE: I use xfce4-terminal.
-#       Following commands disable visual mode highlight in vim editor.
-## TERM settings
-#if [ ${TERM:-none} = "xterm" ]; then
-#    export TERM=xterm-256color
-#elif [ ${TERM:-none} = "screen" ]; then
-#    export TERM=screen-256color
-#fi
