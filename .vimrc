@@ -167,6 +167,7 @@ if has('autocmd')
   autocmd BufNewFile,BufRead *.jbuilder set filetype=ruby
   autocmd BufNewFile,BufRead *.pryrc set filetype=ruby
   autocmd BufNewFile,BufRead *.jb set filetype=ruby
+  autocmd BufNewFile,BufRead *.vue set filetype=javascript
 endif
 
 " plasticboy/vim-markdown
