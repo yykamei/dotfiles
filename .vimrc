@@ -174,7 +174,7 @@ endif
 let g:vim_markdown_folding_disabled = 1
 
 " kannokanno/previm
-let g:previm_open_cmd = 'firefox'
+let g:previm_open_cmd = 'chromium -incognito'
 
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
