@@ -34,13 +34,15 @@ Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'yuku-t/vim-ref-ri', {'for': ['ruby']}
 Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim', {'for': ['slim']}
-Plug 'digitaltoad/vim-pug', {'for': ['pug']}
 Plug 'kchmck/vim-coffee-script', {'for': ['coffee']}
 " Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
 Plug 'othree/yajs.vim', {'for': ['javascript']}
-Plug 'mxw/vim-jsx'
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'dart-lang/dart-vim-plugin', {'for': ['dart']}
+Plug 'digitaltoad/vim-pug'
+Plug 'wavded/vim-stylus'
+Plug 'posva/vim-vue'
+Plug 'mxw/vim-jsx'
 call plug#end()
 
 " Display settings
@@ -167,7 +169,6 @@ if has('autocmd')
   autocmd BufNewFile,BufRead *.jbuilder set filetype=ruby
   autocmd BufNewFile,BufRead *.pryrc set filetype=ruby
   autocmd BufNewFile,BufRead *.jb set filetype=ruby
-  autocmd BufNewFile,BufRead *.vue set filetype=javascript
 endif
 
 " plasticboy/vim-markdown
