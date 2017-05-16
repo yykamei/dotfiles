@@ -33,7 +33,7 @@ alias ls='ls --color=auto'
 alias l='ls -lF'
 alias ll='ls -AlF'
 alias la='ls -AF'
-alias grep='grep --color=auto'
+alias grep='grep --color=auto --exclude="*.sw[po]"'
 alias less='less -ciRM'
 
 # Color
