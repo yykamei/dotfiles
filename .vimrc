@@ -43,6 +43,7 @@ Plug 'digitaltoad/vim-pug'
 Plug 'wavded/vim-stylus'
 Plug 'posva/vim-vue'
 Plug 'mxw/vim-jsx'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " Display settings
