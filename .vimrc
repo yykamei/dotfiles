@@ -35,7 +35,7 @@ Plug 'yuku-t/vim-ref-ri', {'for': ['ruby']}
 Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim', {'for': ['slim']}
 Plug 'kchmck/vim-coffee-script', {'for': ['coffee']}
-" Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
+Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
 Plug 'othree/yajs.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'dart-lang/dart-vim-plugin', {'for': ['dart']}
