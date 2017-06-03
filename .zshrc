@@ -21,10 +21,14 @@ bindkey -e
 # fpath+=~/.zfunc
 
 # Prompt
-autoload -Uz compinit promptinit
+autoload -Uz compinit promptinit vcs_info
 compinit
 promptinit
 prompt adam1 ${PROMPT_COLOR:-red}
+
+setopt prompt_subst
+precmd () { vcs_info }
+RPROMPT=$RPROMPT'${vcs_info_msg_0_}'
 
 # Alias
 alias rm='rm -i'
