@@ -39,6 +39,8 @@ Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
 Plug 'othree/yajs.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'dart-lang/dart-vim-plugin', {'for': ['dart']}
+Plug 'tell-k/vim-autopep8', {'for': ['python']}
+Plug 'davidhalter/jedi-vim', {'for': ['python']}
 Plug 'digitaltoad/vim-pug'
 Plug 'wavded/vim-stylus'
 Plug 'posva/vim-vue'
@@ -186,7 +188,7 @@ let g:rustfmt_fail_silently = 1
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-let g:syntastic_python_checkers = ["flake8"]
+let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_ruby_checkers = ['rubocop']
 let g:syntastic_ruby_rubocop_args = '--force-exclusion --display-cop-names'
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
@@ -217,3 +219,10 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
+
+" tell-k/vim-autopep8
+if has('autocmd')
+  autocmd FileType python set equalprg=autopep8\ -
+end
+let g:autopep8_max_line_length=120
+let g:autopep8_disable_show_diff=1
