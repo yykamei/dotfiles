@@ -46,6 +46,8 @@ Plug 'wavded/vim-stylus'
 Plug 'posva/vim-vue'
 Plug 'mxw/vim-jsx'
 Plug 'tpope/vim-fugitive'
+Plug 'cespare/vim-toml'
+Plug 'leafgarland/typescript-vim'
 call plug#end()
 
 " Display settings
