@@ -9,3 +9,8 @@
 	helper = cache --timeout=3600
 [rebase]
 	autosquash = true
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
