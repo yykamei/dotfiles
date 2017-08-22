@@ -40,6 +40,7 @@ alias ll='ls -AlF'
 alias la='ls -AF'
 alias grep='grep --color=auto --exclude="*.sw[po]"'
 alias less='less -ciRM'
+alias CAPS='xdotool key Caps_Lock'
 
 # Color
 eval `dircolors -b`
