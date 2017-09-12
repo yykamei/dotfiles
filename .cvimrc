@@ -1,0 +1,19 @@
+set nosmoothscroll
+set noautofocus
+
+let locale = 'jp'
+let blacklists = ['https://inbox.google.com/*', 'https://keep.google.com/*', 'https://calendar.google.com/*']
+let hintcharacters = 'qwertasdfg'
+let barposition = 'top'
+
+map <C-d> scrollPageDown
+map <C-u> scrollPageUp
+map <C-f> scrollFullPageDown
+map <C-b> scrollFullPageUp
+map <C-e> scrollDown
+map <C-y> scrollUp
+
+map <C-o> goBack
+map <C-i> goForward
+
+unmap H S L D R E e
