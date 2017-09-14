@@ -6,6 +6,8 @@ let blacklists = ['https://inbox.google.com/*', 'https://keep.google.com/*', 'ht
 let hintcharacters = 'qwertasdfg'
 let barposition = 'top'
 
+unmap H S L D R E e t <C-6>
+
 map <C-d> scrollPageDown
 map <C-u> scrollPageUp
 map <C-f> scrollFullPageDown
@@ -16,4 +18,4 @@ map <C-y> scrollUp
 map <C-o> goBack
 map <C-i> goForward
 
-unmap H S L D R E e
+map O :tabnew<Space>
