@@ -40,7 +40,6 @@ Plug 'othree/yajs.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'dart-lang/dart-vim-plugin', {'for': ['dart']}
 Plug 'tell-k/vim-autopep8', {'for': ['python']}
-Plug 'davidhalter/jedi-vim', {'for': ['python']}
 Plug 'digitaltoad/vim-pug'
 Plug 'wavded/vim-stylus'
 Plug 'posva/vim-vue'
