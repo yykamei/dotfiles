@@ -47,6 +47,7 @@ Plug 'mxw/vim-jsx'
 Plug 'tpope/vim-fugitive'
 Plug 'cespare/vim-toml'
 Plug 'leafgarland/typescript-vim'
+Plug 'udalov/kotlin-vim'
 call plug#end()
 
 " Display settings
