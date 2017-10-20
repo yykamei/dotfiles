@@ -2,7 +2,7 @@ set nosmoothscroll
 set noautofocus
 
 let locale = 'jp'
-let blacklists = ['https://inbox.google.com/*', 'https://keep.google.com/*', 'https://calendar.google.com/*', 'https://docs.google.com/*']
+let blacklists = ['https://inbox.google.com/*', 'https://keep.google.com/*', 'https://calendar.google.com/*', 'https://docs.google.com/*', 'https://drive.google.com/*']
 let hintcharacters = 'qwertasdfg'
 let barposition = 'top'
 
