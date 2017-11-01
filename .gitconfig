@@ -14,3 +14,5 @@
 	conflictstyle = diff3
 [mergetool]
 	prompt = false
+[user]
+	name = Yutaka Kamei
