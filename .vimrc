@@ -36,6 +36,7 @@ Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim', {'for': ['slim']}
 Plug 'kchmck/vim-coffee-script', {'for': ['coffee']}
 Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
+Plug 'alessioalex/syntastic-local-tslint.vim', {'for': ['typescript']}
 Plug 'othree/yajs.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'dart-lang/dart-vim-plugin', {'for': ['dart']}
@@ -205,6 +206,8 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_dart_checkers = ['dartanalyzer']
 let g:syntastic_dart_dartanalyzer_args = ['--lints']
+let g:syntastic_typescript_checkers = ['tslint']
+let g:syntastic_typescript_tslint_args = ['--project', '.']
 nnoremap <silent> gs :SyntasticToggleMode<CR>
 
 " thinca/vim-ref
