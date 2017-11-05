@@ -208,6 +208,7 @@ let g:syntastic_dart_checkers = ['dartanalyzer']
 let g:syntastic_dart_dartanalyzer_args = ['--lints']
 let g:syntastic_typescript_checkers = ['tslint']
 let g:syntastic_typescript_tslint_args = ['--project', '.']
+let g:syntastic_scss_scss_lint_args = ['--exclude-linter', 'PropertySortOrder']
 nnoremap <silent> gs :SyntasticToggleMode<CR>
 
 " thinca/vim-ref
