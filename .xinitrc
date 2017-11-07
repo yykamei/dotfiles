@@ -35,6 +35,12 @@ xmodmap ~/.Xmodmap
 # backlight setting
 # modify /sys/class/backlight/intel_backlight/brightness
 
+# Set IBM TrackPoint configuration
+#
+# NOTE: Device id can be confirmed by `xinput list`.
+#
+xinput --set-prop 12 'libinput Accel Speed' -0.3
+
 export GTK_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 export QT_IM_MODULE=fcitx
