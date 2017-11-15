@@ -40,6 +40,7 @@ alias ll='ls -AlF'
 alias la='ls -AF'
 alias grep='grep --color=auto --exclude="*.sw[po]"'
 alias less='less -ciRM'
+alias vvim='vim -c "let g:syntastic_mode_map = {\"mode\": \"passive\"}"'
 alias CAPS='xdotool key Caps_Lock'
 
 # Color
