@@ -5,6 +5,7 @@ let locale = 'jp'
 let blacklists = ['https://inbox.google.com/*', 'https://keep.google.com/*', 'https://calendar.google.com/*', 'https://docs.google.com/*', 'https://drive.google.com/*']
 let hintcharacters = 'qwertasdfg'
 let barposition = 'top'
+let regexp = 0
 
 unmap H S L D R E e t <C-6>
 
