@@ -9,7 +9,8 @@ let blacklists = [
   \'https://docs.google.com/*',
   \'https://drive.google.com/*',
   \'https://*.slack.com/*',
-  \'http://localhost*/*'
+  \'http://localhost*/*',
+  \'https://kubernetes.io/docs/tutorials/kubernetes-basics/*-interactive/'
   \]
 
 let hintcharacters = 'qwertasdfg'
