@@ -22,13 +22,11 @@ Plug 'vim-scripts/matchit.zip'
 Plug 'justinmk/vim-dirvish'
 Plug 'szw/vim-tags'
 Plug 'scrooloose/syntastic'
-Plug 'thinca/vim-ref'
 Plug 'nginx.vim'
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'racer-rust/vim-racer', {'for': ['rust']}
-Plug 'yuku-t/vim-ref-ri', {'for': ['ruby']}
 Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim', {'for': ['slim']}
 Plug 'kchmck/vim-coffee-script', {'for': ['coffee']}
@@ -203,9 +201,6 @@ let g:syntastic_typescript_tslint_args = ['--project', '.']
 let g:syntastic_scss_checkers = ['scss_lint']
 let g:syntastic_scss_scss_lint_args = ['--exclude-linter', 'PropertySortOrder']
 nnoremap <silent> gs :SyntasticToggleMode<CR>
-
-" thinca/vim-ref
-let g:ref_pydoc_cmd = 'python3 -m pydoc'
 
 " 'szw/vim-tags'
 let g:vim_tags_ignore_files = []
