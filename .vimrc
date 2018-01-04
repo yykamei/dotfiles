@@ -1,5 +1,3 @@
-" Copyright (C) 2016-2017 Yutaka Kamei
-
 " Skip initialization for vim-tiny
 if !1 | finish | endif
 
@@ -26,7 +24,6 @@ Plug 'szw/vim-tags'
 Plug 'scrooloose/syntastic'
 Plug 'thinca/vim-ref'
 Plug 'nginx.vim'
-Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
@@ -176,11 +173,6 @@ if has('autocmd')
   autocmd BufNewFile,BufRead *.pryrc set filetype=ruby
   autocmd BufNewFile,BufRead *.jb set filetype=ruby
 endif
-
-" plasticboy/vim-markdown
-let g:vim_markdown_folding_disabled = 0
-let g:vim_markdown_override_foldtext = 1
-let g:vim_markdown_toc_autofit = 1
 
 " kannokanno/previm
 let g:previm_open_cmd = 'chromium -incognito'
