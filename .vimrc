@@ -219,3 +219,11 @@ if has('autocmd')
 end
 let g:autopep8_max_line_length=120
 let g:autopep8_disable_show_diff=1
+
+" User defined commands
+
+"" Rename file
+command! -nargs=1 -complete=file Rename :file <args> | call delete(expand('#'))
+
+"" Delete file and delete buffer
+command! -nargs=0 Delete :call delete(expand('%')) | :bdelete
