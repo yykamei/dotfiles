@@ -9,16 +9,20 @@ let blacklists = [
   \'https://docs.google.com/*',
   \'https://drive.google.com/*',
   \'https://*.slack.com/*',
-  \'http://localhost*/*',
-  \'https://kubernetes.io/docs/tutorials/kubernetes-basics/*-interactive/'
+  \'http://localhost*/*'
   \]
 
 let hintcharacters = 'qwertasdfg'
 let barposition = 'top'
 let regexp = 0
 
-unmap H S L D R E e t <C-6>
+unmap H S L D R E e t F <C-6>
 
+" Unmap text boxes mapping
+unmap <C-i> <C-e> <C-u> <C-o> <C-y> <C-p> <C-h> <C-l> <C-f> <C-b> <C-j> <C-k>
+
+map D     createTabbedHint
+map F     createActiveTabbedHint
 map <C-d> scrollPageDown
 map <C-u> scrollPageUp
 map <C-f> scrollFullPageDown
