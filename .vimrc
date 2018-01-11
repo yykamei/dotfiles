@@ -227,3 +227,10 @@ command! -nargs=1 -complete=file Rename :file <args> | call delete(expand('#'))
 
 "" Delete file and delete buffer
 command! -nargs=0 Delete :call delete(expand('%')) | :bdelete
+
+"" Convert character form
+command! -range PascalCase <line1>,<line2>:call case#ConvertCaseTo('PascalCase')
+command! -range CamelCase <line1>,<line2>:call case#ConvertCaseTo('CamelCase')
+command! -range AllCaps <line1>,<line2>:call case#ConvertCaseTo('AllCaps')
+command! -range SnakeCase <line1>,<line2>:call case#ConvertCaseTo('SnakeCase')
+command! -range KebabCase  <line1>,<line2>:call case#ConvertCaseTo('KebabCase')
