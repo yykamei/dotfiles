@@ -44,6 +44,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'cespare/vim-toml'
 Plug 'leafgarland/typescript-vim'
 Plug 'udalov/kotlin-vim'
+Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
 " Display settings
