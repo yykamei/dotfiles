@@ -8,6 +8,7 @@ let blacklists = [
   \'https://calendar.google.com/*',
   \'https://docs.google.com/*',
   \'https://drive.google.com/*',
+  \'https://support.google.com/*',
   \'https://*.slack.com/*',
   \'http://localhost*/*'
   \]
