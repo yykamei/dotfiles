@@ -18,7 +18,6 @@ PATH=$PATH:$HOME/.cargo/bin
 PATH=$PATH:$HOME/bin
 PATH=$PATH:$GOPATH/bin
 PATH=$PATH:$HOME/google-cloud-sdk/bin
-PATH=$PATH:/usr/lib/dart/bin
 PATH=$PATH:$HOME/.pub-cache/bin
 PATH=$PATH:/bin:/usr/bin:/usr/sbin
 export PATH
