@@ -25,13 +25,13 @@ Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'slim-template/vim-slim'
 Plug 'kchmck/vim-coffee-script'
+Plug 'mxw/vim-jsx', {'for': ['javascript']}
 Plug 'othree/yajs.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'tell-k/vim-autopep8', {'for': ['python']}
 Plug 'digitaltoad/vim-pug'
 Plug 'wavded/vim-stylus'
 Plug 'posva/vim-vue'
-Plug 'mxw/vim-jsx'
 Plug 'tpope/vim-fugitive'
 Plug 'cespare/vim-toml'
 Plug 'leafgarland/typescript-vim'
