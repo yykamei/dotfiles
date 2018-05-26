@@ -20,17 +20,14 @@ call plug#begin('~/.vim/plugged')
 Plug 'Align'
 Plug 'justinmk/vim-dirvish'
 Plug 'szw/vim-tags'
-Plug 'scrooloose/syntastic'
 Plug 'nginx.vim'
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'fatih/vim-go', {'for': ['go']}
-Plug 'slim-template/vim-slim', {'for': ['slim']}
-Plug 'kchmck/vim-coffee-script', {'for': ['coffee']}
-Plug 'mtscout6/syntastic-local-eslint.vim', {'for': ['javascript']}
-Plug 'alessioalex/syntastic-local-tslint.vim', {'for': ['typescript']}
+Plug 'slim-template/vim-slim'
+Plug 'kchmck/vim-coffee-script'
 Plug 'othree/yajs.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'dart-lang/dart-vim-plugin', {'for': ['dart']}
@@ -165,29 +162,6 @@ let g:previm_open_cmd = 'chromium -incognito'
 " rust-lang/rust.vim
 let g:rustfmt_autosave = 1
 let g:rustfmt_fail_silently = 1
-
-" scrooloose/syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_python_checkers = ['python', 'flake8']
-let g:syntastic_ruby_checkers = ['rubocop']
-let g:syntastic_ruby_rubocop_args = '--force-exclusion --display-cop-names'
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_java_checkers=['javac']
-let g:syntastic_java_javac_config_file_enabled = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_dart_checkers = ['dartanalyzer']
-let g:syntastic_dart_dartanalyzer_args = ['--lints']
-let g:syntastic_typescript_checkers = ['tslint']
-let g:syntastic_typescript_tslint_args = ['--project', '.']
-let g:syntastic_scss_checkers = ['scss_lint']
-let g:syntastic_scss_scss_lint_args = ['--exclude-linter', 'PropertySortOrder,SelectorFormat,LeadingZero']
-nnoremap <silent> gs :SyntasticToggleMode<CR>
 
 " 'szw/vim-tags'
 let g:vim_tags_ignore_files = []
