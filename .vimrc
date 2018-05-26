@@ -18,7 +18,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 call plug#begin('~/.vim/plugged')
 Plug 'Align'
-Plug 'vim-scripts/matchit.zip'
 Plug 'justinmk/vim-dirvish'
 Plug 'szw/vim-tags'
 Plug 'scrooloose/syntastic'
