@@ -21,7 +21,6 @@ Plug 'Align'
 Plug 'justinmk/vim-dirvish'
 Plug 'szw/vim-tags'
 Plug 'kannokanno/previm', {'for': ['markdown']}
-Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'fatih/vim-go', {'for': ['go']}
