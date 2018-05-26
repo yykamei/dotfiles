@@ -20,7 +20,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'Align'
 Plug 'justinmk/vim-dirvish'
 Plug 'szw/vim-tags'
-Plug 'nginx.vim'
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
