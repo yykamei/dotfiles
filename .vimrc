@@ -160,15 +160,6 @@ highlight Search ctermbg=DarkYellow ctermfg=White
 highlight MY_HILIGHT term=bold ctermfg=White ctermbg=DarkBlue
 match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
 
-if has('autocmd')
-  " For editting in mutt
-  autocmd BufRead /run/shm/mutt-* setlocal tw=36 fo+=m
-  autocmd BufRead /tmp/mutt-* setlocal tw=36 fo+=m
-
-  " Disable recovery in directories which user does not have write
-  autocmd BufNewFile,BufReadPre /media/*,/mnt/* setlocal directory=
-endif
-
 " kannokanno/previm
 let g:previm_open_cmd = 'chromium -incognito'
 
