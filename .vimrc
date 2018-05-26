@@ -23,7 +23,6 @@ Plug 'szw/vim-tags'
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 Plug 'racer-rust/vim-racer', {'for': ['rust']}
-Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'slim-template/vim-slim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/yajs.vim', {'for': ['javascript']}
@@ -167,15 +166,6 @@ if has('autocmd')
   autocmd BufNewFile,BufRead * let g:vim_tags_main_file = 'tags.' . &filetype
   autocmd BufNewFile,BufRead * let g:vim_tags_project_tags_command = '{CTAGS} -R --fields=+l --languages=' . &filetype . ' {OPTIONS} {DIRECTORY} 2>/dev/null'
 end
-
-" fatih/vim-go
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_fmt_command = "goimports"
 
 " tell-k/vim-autopep8
 if has('autocmd')
