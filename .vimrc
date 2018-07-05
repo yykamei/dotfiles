@@ -18,6 +18,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 call plug#begin('~/.vim/plugged')
 Plug 'Align'
+Plug 'tmhedberg/matchit'
 Plug 'justinmk/vim-dirvish'
 Plug 'szw/vim-tags'
 Plug 'kannokanno/previm', {'for': ['markdown']}
