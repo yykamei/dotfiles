@@ -39,7 +39,15 @@ xmodmap ~/.Xmodmap
 #
 # NOTE: Device id can be confirmed by `xinput list`.
 #
-xinput --set-prop 12 'libinput Accel Speed' -0.3
+xinput --set-prop 12 'libinput Accel Speed' -0.2
+
+# Set TouchPad configuration
+#
+# NOTE: Device id can be confirmed by `xinput list`.
+#
+xinput --set-prop 11 'libinput Accel Speed' 0.3
+xinput --set-prop 11 'libinput Tapping Enabled' 1
+xinput --set-prop 11 'libinput Disable While Typing Enabled' 1
 
 export GTK_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
