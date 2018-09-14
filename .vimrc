@@ -30,6 +30,7 @@ Plug 'mxw/vim-jsx', {'for': ['javascript']}
 Plug 'othree/yajs.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'tell-k/vim-autopep8', {'for': ['python']}
+Plug 'davidhalter/jedi-vim', {'for': ['python']}
 Plug 'digitaltoad/vim-pug'
 Plug 'wavded/vim-stylus'
 Plug 'posva/vim-vue'
@@ -39,6 +40,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'udalov/kotlin-vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'powerman/vim-plugin-AnsiEsc'
 call plug#end()
 
 " Display settings
