@@ -39,7 +39,7 @@ xmodmap ~/.Xmodmap
 #
 # NOTE: Device id can be confirmed by `xinput list`.
 #
-xinput --set-prop 12 'libinput Accel Speed' -0.2
+xinput --set-prop 12 'libinput Accel Speed' -0.1
 
 # Set TouchPad configuration
 #
