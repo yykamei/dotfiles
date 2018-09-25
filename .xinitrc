@@ -39,15 +39,15 @@ xmodmap ~/.Xmodmap
 #
 # NOTE: Device id can be confirmed by `xinput list`.
 #
-xinput --set-prop 12 'libinput Accel Speed' -0.1
+xinput --set-prop 'TPPS/2 IBM TrackPoint' 'libinput Accel Speed' -0.1
 
 # Set TouchPad configuration
 #
 # NOTE: Device id can be confirmed by `xinput list`.
 #
-xinput --set-prop 11 'libinput Accel Speed' 0.3
-xinput --set-prop 11 'libinput Tapping Enabled' 1
-xinput --set-prop 11 'libinput Disable While Typing Enabled' 1
+xinput --set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' 0.5
+xinput --set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Tapping Enabled' 1
+xinput --set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Disable While Typing Enabled' 1
 
 export GTK_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
