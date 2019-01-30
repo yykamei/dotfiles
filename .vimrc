@@ -25,7 +25,6 @@ Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'slim-template/vim-slim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'digitaltoad/vim-pug'
-Plug 'wavded/vim-stylus'
 Plug 'posva/vim-vue'
 Plug 'tpope/vim-fugitive'
 Plug 'cespare/vim-toml'
