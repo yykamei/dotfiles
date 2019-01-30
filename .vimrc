@@ -24,8 +24,6 @@ Plug 'szw/vim-tags'
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'slim-template/vim-slim'
 Plug 'kchmck/vim-coffee-script'
-Plug 'tell-k/vim-autopep8', {'for': ['python']}
-Plug 'davidhalter/jedi-vim', {'for': ['python']}
 Plug 'digitaltoad/vim-pug'
 Plug 'wavded/vim-stylus'
 Plug 'posva/vim-vue'
@@ -159,13 +157,6 @@ if has('autocmd')
   autocmd BufNewFile,BufRead * let g:vim_tags_main_file = 'tags.' . &filetype
   autocmd BufNewFile,BufRead * let g:vim_tags_project_tags_command = '{CTAGS} -R --fields=+l --languages=' . &filetype . ' {OPTIONS} {DIRECTORY} 2>/dev/null'
 end
-
-" tell-k/vim-autopep8
-if has('autocmd')
-  autocmd FileType python set equalprg=autopep8\ -
-end
-let g:autopep8_max_line_length=120
-let g:autopep8_disable_show_diff=1
 
 " User defined commands
 
