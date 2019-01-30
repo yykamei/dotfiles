@@ -32,7 +32,6 @@ Plug 'cespare/vim-toml'
 Plug 'leafgarland/typescript-vim'
 Plug 'udalov/kotlin-vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'powerman/vim-plugin-AnsiEsc'
 call plug#end()
 
