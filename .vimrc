@@ -24,7 +24,6 @@ Plug 'szw/vim-tags'
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'tpope/vim-fugitive'
 Plug 'cespare/vim-toml'
-Plug 'udalov/kotlin-vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'powerman/vim-plugin-AnsiEsc'
 call plug#end()
