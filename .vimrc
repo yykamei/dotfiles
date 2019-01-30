@@ -22,7 +22,6 @@ Plug 'tmhedberg/matchit'
 Plug 'justinmk/vim-dirvish'
 Plug 'szw/vim-tags'
 Plug 'kannokanno/previm', {'for': ['markdown']}
-Plug 'posva/vim-vue'
 Plug 'tpope/vim-fugitive'
 Plug 'cespare/vim-toml'
 Plug 'leafgarland/typescript-vim'
