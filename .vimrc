@@ -22,8 +22,6 @@ Plug 'tmhedberg/matchit'
 Plug 'justinmk/vim-dirvish'
 Plug 'szw/vim-tags'
 Plug 'kannokanno/previm', {'for': ['markdown']}
-Plug 'rust-lang/rust.vim', {'for': ['rust']}
-Plug 'racer-rust/vim-racer', {'for': ['rust']}
 Plug 'slim-template/vim-slim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'mxw/vim-jsx', {'for': ['javascript']}
@@ -157,10 +155,6 @@ match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
 
 " kannokanno/previm
 let g:previm_open_cmd = 'chromium -incognito'
-
-" rust-lang/rust.vim
-let g:rustfmt_autosave = 1
-let g:rustfmt_fail_silently = 1
 
 " 'szw/vim-tags'
 let g:vim_tags_ignore_files = []
