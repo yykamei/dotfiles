@@ -24,8 +24,6 @@ Plug 'szw/vim-tags'
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'slim-template/vim-slim'
 Plug 'kchmck/vim-coffee-script'
-Plug 'mxw/vim-jsx', {'for': ['javascript']}
-Plug 'othree/yajs.vim', {'for': ['javascript']}
 Plug 'tfnico/vim-gradle', {'for': ['groovy']}
 Plug 'tell-k/vim-autopep8', {'for': ['python']}
 Plug 'davidhalter/jedi-vim', {'for': ['python']}
