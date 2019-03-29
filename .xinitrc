@@ -39,7 +39,7 @@ xmodmap ~/.Xmodmap
 #
 # NOTE: Device id can be confirmed by `xinput list`.
 #
-xinput --set-prop 'TPPS/2 IBM TrackPoint' 'libinput Accel Speed' -0.1
+xinput --set-prop 'TPPS/2 IBM TrackPoint' 'libinput Accel Speed' 0.5
 
 # Set TouchPad configuration
 #
