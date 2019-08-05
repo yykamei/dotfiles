@@ -21,6 +21,7 @@ PATH=$PATH:$HOME/google-cloud-sdk/bin
 PATH=$PATH:$HOME/flutter/bin
 PATH=$PATH:$HOME/android-studio/bin
 PATH=$PATH:$HOME/.pub-cache/bin
+PATH=$PATH:$HOME/.config/composer/vendor/bin
 PATH=$PATH:/bin:/usr/bin:/usr/sbin
 export PATH
 
