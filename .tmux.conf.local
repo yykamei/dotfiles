@@ -50,8 +50,5 @@ bind c new-window -c '#{pane_current_path}'
 bind '"' split-window -c '#{pane_current_path}'
 bind % split-window -h -c '#{pane_current_path}'
 
-# save buffer to clipboard
-bind C-c run-shell "tmux show-buffer | xsel -i -b"
-
 # Replace default choose-buffer =
 bind = choose-buffer -F '#{=48:buffer_sample}'
