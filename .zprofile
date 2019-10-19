@@ -11,7 +11,6 @@ export GOPATH=$HOME/go
 # PATH settings
 PATH=/usr/local/bin:/usr/local/sbin
 PATH=$PATH:$HOME/.rbenv/bin
-PATH=$PATH:$HOME/.pyenv/bin
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin
 PATH=$PATH:$HOME/.node_modules/bin

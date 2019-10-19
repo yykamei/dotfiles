@@ -51,9 +51,6 @@ stty stop undef || :
 # rbenv
 which rbenv 1> /dev/null 2>/dev/null && eval "$(rbenv init -)"
 
-# pyenv
-which pyenv 1> /dev/null 2>/dev/null && eval "$(pyenv init -)"
-
 # XXX: following scripts should be run by zlogin.
 agent="/dev/shm/.`whoami`-ssh"
 if [ -S $agent ]; then
