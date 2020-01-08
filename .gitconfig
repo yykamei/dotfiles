@@ -16,3 +16,5 @@
 	prompt = false
 [user]
 	name = Yutaka Kamei
+[tag]
+	sort = version:refname
