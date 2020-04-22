@@ -24,7 +24,8 @@ bindkey -e
 autoload -Uz compinit promptinit vcs_info
 compinit
 promptinit
-prompt adam1 ${PROMPT_COLOR:-red}
+# This follows pws theme
+export PS1="%F{red}%(?..(%?%))%F{cyan}%B%~%f%b $ "
 
 setopt prompt_subst
 precmd () { vcs_info }

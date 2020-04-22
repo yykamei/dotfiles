@@ -122,7 +122,6 @@ set pastetoggle=<F2>
 " Color settings
 syntax on
 colorscheme elflord
-set background=dark
 
 " File type plugins
 filetype plugin indent on
