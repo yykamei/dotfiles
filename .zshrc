@@ -20,16 +20,9 @@ bindkey -e
 # ~/.zfunc
 # fpath+=~/.zfunc
 
-# Prompt
-autoload -Uz compinit promptinit vcs_info
+# Completion
+autoload -Uz compinit
 compinit
-promptinit
-# This follows pws theme
-export PS1="%F{red}%(?..(%?%))%F{cyan}%B%~%f%b $ "
-
-setopt prompt_subst
-precmd () { vcs_info }
-RPROMPT=$RPROMPT'${vcs_info_msg_0_}'
 
 # Alias
 alias rm='rm -i'
@@ -49,11 +42,14 @@ eval `dircolors -b`
 # Stop Ctrl-S
 stty stop undef || :
 
+# starship to initialize the prompt
+which starship 1> /dev/null 2> /dev/null && eval "$(starship init zsh)"
+
 # rbenv
-which rbenv 1> /dev/null 2>/dev/null && eval "$(rbenv init -)"
+which rbenv 1> /dev/null 2> /dev/null && eval "$(rbenv init -)"
 
 # pyenv
-which pyenv 1> /dev/null 2>/dev/null && eval "$(pyenv init -)"
+which pyenv 1> /dev/null 2> /dev/null && eval "$(pyenv init -)"
 
 # XXX: following scripts should be run by zlogin.
 agent="/dev/shm/.`whoami`-ssh"
