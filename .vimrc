@@ -19,7 +19,6 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'tmhedberg/matchit'
 Plug 'justinmk/vim-dirvish'
-Plug 'szw/vim-tags'
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'tpope/vim-fugitive'
 Plug 'cespare/vim-toml'
@@ -140,13 +139,6 @@ match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
 
 " kannokanno/previm
 let g:previm_open_cmd = 'chromium -incognito'
-
-" 'szw/vim-tags'
-let g:vim_tags_ignore_files = []
-if has('autocmd')
-  autocmd BufNewFile,BufRead * let g:vim_tags_main_file = 'tags.' . &filetype
-  autocmd BufNewFile,BufRead * let g:vim_tags_project_tags_command = '{CTAGS} -R --fields=+l --languages=' . &filetype . ' {OPTIONS} {DIRECTORY} 2>/dev/null'
-end
 
 " User defined commands
 
