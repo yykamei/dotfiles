@@ -30,8 +30,8 @@ alias mv='mv -i'
 alias cp='cp -i'
 alias ls='ls --color=auto --group-directories-first'
 alias l='ls -lF'
-alias ll='ls -AlF'
-alias la='ls -AF'
+alias ll='ls -alF'
+alias la='ls -aF'
 alias grep='grep --color=auto --exclude="*.sw[po]"'
 alias less='less -ciRM'
 alias CAPS='xdotool key Caps_Lock'
@@ -41,6 +41,10 @@ eval `dircolors -b`
 
 # Stop Ctrl-S
 stty stop undef || :
+
+# if exa(1) exist
+which exa 1> /dev/null 2> /dev/null && \
+    alias ls='exa --group-directories-first'
 
 # starship to initialize the prompt
 which starship 1> /dev/null 2> /dev/null && eval "$(starship init zsh)"
