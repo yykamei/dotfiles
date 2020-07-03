@@ -17,3 +17,5 @@
 	name = Yutaka Kamei
 [tag]
 	sort = version:refname
+[pull]
+	ff = only
