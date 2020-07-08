@@ -116,3 +116,6 @@ if [ -S $agent ]; then
 else
     eval `ssh-agent -a $agent`
 fi
+
+# The next line updates PATH for Netlify's Git Credential Helper.
+if [ -f '/home/kamei/.netlify/helper/path.zsh.inc' ]; then source '/home/kamei/.netlify/helper/path.zsh.inc'; fi
