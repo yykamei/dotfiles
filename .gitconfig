@@ -19,3 +19,5 @@
 	sort = version:refname
 [pull]
 	ff = only
+[init]
+	defaultBranch = main
