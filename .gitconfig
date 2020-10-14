@@ -1,5 +1,6 @@
 [core]
 	excludesfile = /home/kamei/.gitignore_global
+	quotePath = false
 [log]
 	abbrevCommit = off
 	decorate = true
