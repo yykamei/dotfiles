@@ -1,1 +1,11 @@
 set ideajoin
+
+" Key mapping for insert mode (like Bash)
+inoremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-d> <Del>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-k> <C-O>D
+nnoremap <C-PageUp> :tabprevious<CR>
+nnoremap <C-PageDown> :tabnext<CR>
