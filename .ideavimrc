@@ -1,4 +1,9 @@
 set ideajoin
+set nowrapscan
+set hlsearch
+set incsearch
+set noignorecase
+set magic
 
 " Key mapping for insert mode (like Bash)
 inoremap <C-e> <End>
