@@ -7,6 +7,7 @@ export WORDCHARS='"*?_-,.[]~=/&;!#$%^(){}<>|'
 export PAGER=less
 export VIDEO_FORMAT=NTSC # For devede_ng.py
 export GOPATH=$HOME/go
+export ANDROID_HOME=$HOME/Android/Sdk
 
 # PATH settings
 PATH=/usr/local/bin:/usr/local/sbin
@@ -23,6 +24,10 @@ PATH=$PATH:$HOME/flutter/bin
 PATH=$PATH:$HOME/android-studio/bin
 PATH=$PATH:$HOME/.pub-cache/bin
 PATH=$PATH:$HOME/.config/composer/vendor/bin
+PATH=$PATH:$ANDROID_HOME/emulator
+PATH=$PATH:$ANDROID_HOME/tools
+PATH=$PATH:$ANDROID_HOME/tools/bin
+PATH=$PATH:$ANDROID_HOME/platform-tools
 PATH=$PATH:/bin:/usr/bin:/usr/sbin
 export PATH
 
