@@ -12,5 +12,7 @@ inoremap <C-d> <Del>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
 inoremap <C-k> <C-O>D
+inoremap <C-n> <ESC>:action HippieCompletion<CR>a
+inoremap <C-p> <ESC>:action HippieBackwardCompletion<CR>a
 nnoremap <C-PageUp> :tabprevious<CR>
 nnoremap <C-PageDown> :tabnext<CR>
