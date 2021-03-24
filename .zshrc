@@ -93,6 +93,7 @@ alias ll='ls -alF'
 alias la='ls -aF'
 alias grep='grep --color=auto --exclude="*.sw[po]"'
 alias less='less -ciRM'
+alias curl='curl -fsSL'
 alias CAPS='xdotool key Caps_Lock'
 
 # Color
