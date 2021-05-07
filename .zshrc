@@ -29,6 +29,9 @@ PATH=$PATH:$ANDROID_HOME/tools
 PATH=$PATH:$ANDROID_HOME/tools/bin
 PATH=$PATH:$ANDROID_HOME/platform-tools
 PATH=$PATH:/bin:/usr/bin:/usr/sbin
+if which brew 1> /dev/null 2> /dev/null; then
+    PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+fi
 export PATH
 
 # Locale settings
@@ -115,12 +118,14 @@ which rbenv 1> /dev/null 2> /dev/null && eval "$(rbenv init -)"
 # pyenv
 which pyenv 1> /dev/null 2> /dev/null && eval "$(pyenv init -)"
 
-# XXX: following scripts should be run by zlogin.
-agent="/dev/shm/.`whoami`-ssh"
-if [ -S $agent ]; then
-    export SSH_AUTH_SOCK=$agent
-else
-    eval `ssh-agent -a $agent`
+if [ `uname -s` = 'Linux' ]; then
+    # XXX: following scripts should be run by zlogin.
+    agent="/dev/shm/.`whoami`-ssh"
+    if [ -S $agent ]; then
+        export SSH_AUTH_SOCK=$agent
+    else
+        eval `ssh-agent -a $agent`
+    fi
 fi
 
 # The next line updates PATH for Netlify's Git Credential Helper.
