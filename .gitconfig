@@ -1,5 +1,5 @@
 [core]
-	excludesfile = /home/kamei/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	quotePath = false
 [log]
 	abbrevCommit = off
@@ -16,6 +16,8 @@
 	prompt = false
 [user]
 	name = Yutaka Kamei
+	signingkey = B4282A48C22883EE
+	email = kamei@example.com
 [tag]
 	sort = version:refname
 [pull]
@@ -27,6 +29,8 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[commit]
+	gpgsign = true
 
 # This next lines include Netlify's Git Credential Helper configuration in your Git configuration.
 [include]
