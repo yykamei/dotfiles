@@ -11,6 +11,9 @@ export ANDROID_HOME=$HOME/Android/Sdk
 
 # PATH settings
 PATH=/usr/local/bin:/usr/local/sbin
+if [ -d /sbin ]; then
+  PATH=$PATH:/sbin
+fi
 PATH=$PATH:$HOME/.rbenv/bin
 PATH=$PATH:$HOME/.pyenv/bin
 PATH=$PATH:$HOME/.local/bin
