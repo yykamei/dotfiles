@@ -17,7 +17,7 @@
 [user]
 	name = Yutaka Kamei
 	signingkey = B4282A48C22883EE
-	email = kamei@example.com
+	email = kamei@yykamei.me
 [tag]
 	sort = version:refname
 [pull]

@@ -140,6 +140,9 @@ match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
 " kannokanno/previm
 let g:previm_open_cmd = 'chromium -incognito'
 
+" justinmk/vim-dirvish
+let g:dirvish_relative_paths = 1
+
 " User defined commands
 
 "" Rename file
