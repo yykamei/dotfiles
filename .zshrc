@@ -15,7 +15,6 @@ if [ -d /sbin ]; then
   PATH=$PATH:/sbin
 fi
 PATH=$PATH:$HOME/.rbenv/bin
-PATH=$PATH:$HOME/.pyenv/bin
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin
 PATH=$PATH:$HOME/.node_modules/bin
@@ -98,10 +97,13 @@ alias ls='ls --color=auto --group-directories-first'
 alias l='ls -lF'
 alias ll='ls -alF'
 alias la='ls -aF'
-alias grep='grep --color=auto --exclude="*.sw[po]"'
 alias less='less -ciRM'
 alias curl='curl -fsSL'
-alias CAPS='xdotool key Caps_Lock'
+if [ `uname -s` = 'Darwin' ]; then
+  alias grep='ggrep --color=auto --exclude="*.sw[po]"'
+else
+  alias grep='grep --color=auto --exclude="*.sw[po]"'
+fi
 
 # Color
 eval `dircolors -b`
@@ -118,9 +120,6 @@ which starship 1> /dev/null 2> /dev/null && eval "$(starship init zsh)"
 
 # rbenv
 which rbenv 1> /dev/null 2> /dev/null && eval "$(rbenv init -)"
-
-# pyenv
-which pyenv 1> /dev/null 2> /dev/null && eval "$(pyenv init -)"
 
 if [ `uname -s` = 'Linux' ]; then
     # XXX: following scripts should be run by zlogin.
