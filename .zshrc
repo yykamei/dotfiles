@@ -8,6 +8,7 @@ export PAGER=less
 export VIDEO_FORMAT=NTSC # For devede_ng.py
 export GOPATH=$HOME/go
 export ANDROID_HOME=$HOME/Android/Sdk
+export THWACK_EXEC=vim
 
 # PATH settings
 PATH=/usr/local/bin:/usr/local/sbin
