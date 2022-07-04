@@ -34,4 +34,8 @@
 
 # This next lines include Netlify's Git Credential Helper configuration in your Git configuration.
 [include]
-	path = /home/kamei/.netlify/helper/git-config
+  path = /Users/yutaka.kamei/Library/Preferences/netlify/helper/git-config
+[credential "https://github.com"]
+	helper = !/usr/local/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = !/usr/local/bin/gh auth git-credential
