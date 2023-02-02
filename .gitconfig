@@ -41,3 +41,5 @@
 	helper = !/usr/local/bin/gh auth git-credential
 [branch]
 	autoSetupMerge = false
+[advice]
+	skippedCherryPicks = false
