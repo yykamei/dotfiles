@@ -32,6 +32,10 @@ PATH=$PATH:$ANDROID_HOME/tools
 PATH=$PATH:$ANDROID_HOME/tools/bin
 PATH=$PATH:$ANDROID_HOME/platform-tools
 PATH=$PATH:/bin:/usr/bin:/usr/sbin
+
+if [ -f /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 if which brew 1> /dev/null 2> /dev/null; then
     PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
     PATH="$(brew --prefix)/opt/findutils/libexec/gnubin:$PATH"
