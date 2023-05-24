@@ -147,4 +147,4 @@ if [ -f '/Users/yutaka.kamei/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yu
 if [ -f '/Users/yutaka.kamei/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yutaka.kamei/google-cloud-sdk/completion.zsh.inc'; fi
 
 # The next line updates PATH for Netlify's Git Credential Helper.
-test -f '/Users/yutaka.kamei/Library/Preferences/netlify/helper/path.zsh.inc' && source '/Users/yutaka.kamei/Library/Preferences/netlify/helper/path.zsh.inc'
+test -f '/Users/yutaka.kamei/Library/Preferences/netlify/helper/path.zsh.inc' && source '/Users/yutaka.kamei/Library/Preferences/netlify/helper/path.zsh.inc' || :
