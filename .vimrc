@@ -24,6 +24,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'powerman/vim-plugin-AnsiEsc'
+Plug 'hashivim/vim-terraform'
 call plug#end()
 
 " Display settings
