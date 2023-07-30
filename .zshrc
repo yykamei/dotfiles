@@ -39,6 +39,7 @@ fi
 if which brew 1> /dev/null 2> /dev/null; then
     PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
     PATH="$(brew --prefix)/opt/findutils/libexec/gnubin:$PATH"
+    PATH="$(brew --prefix python)/libexec/bin:$PATH"
 fi
 export PATH
 
