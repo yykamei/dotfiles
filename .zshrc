@@ -108,6 +108,7 @@ alias ll='ls -alF'
 alias la='ls -aF'
 alias less='less -ciRM'
 alias curl='curl -fsSL'
+alias vim='nvim'
 if [ `uname -s` = 'Darwin' ]; then
   alias grep='ggrep --color=auto --exclude="*.sw[po]"'
 else
