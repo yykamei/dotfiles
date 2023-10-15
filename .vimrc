@@ -21,7 +21,6 @@ Plug 'tmhedberg/matchit'
 Plug 'justinmk/vim-dirvish'
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'tpope/vim-fugitive'
-Plug 'cespare/vim-toml'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'hashivim/vim-terraform'
@@ -63,7 +62,7 @@ set matchtime=2
 set list
 set listchars=tab:>-,trail:-,extends:>,precedes:<
 
-" We comply with modeline
+" Comply with modeline
 set modeline
 
 " Buffer settings
@@ -134,17 +133,14 @@ highlight TabLineSel ctermfg=White ctermbg=DarkGreen
 " Change Search highlight
 highlight Search ctermbg=DarkYellow ctermfg=White
 
-" We want to highlight specific words
+" Highlight specific words
 highlight MY_HILIGHT term=bold ctermfg=White ctermbg=DarkBlue
 match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
-
-" kannokanno/previm
-let g:previm_open_cmd = 'chromium -incognito'
 
 " justinmk/vim-dirvish
 let g:dirvish_relative_paths = 1
 
-" User defined commands
+" ========= User defined commands =========
 
 "" Rename file
 command! -nargs=1 -complete=file Rename :file <args> | call delete(expand('#'))
@@ -152,9 +148,3 @@ command! -nargs=1 -complete=file Rename :file <args> | call delete(expand('#'))
 "" Delete file and delete buffer
 command! -nargs=0 Delete :call delete(expand('%')) | :bdelete
 
-"" Convert character form
-command! -range PascalCase <line1>,<line2>:call case#ConvertCaseTo('PascalCase')
-command! -range CamelCase <line1>,<line2>:call case#ConvertCaseTo('CamelCase')
-command! -range AllCaps <line1>,<line2>:call case#ConvertCaseTo('AllCaps')
-command! -range SnakeCase <line1>,<line2>:call case#ConvertCaseTo('SnakeCase')
-command! -range KebabCase  <line1>,<line2>:call case#ConvertCaseTo('KebabCase')
