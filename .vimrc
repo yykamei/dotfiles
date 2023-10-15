@@ -147,4 +147,3 @@ command! -nargs=1 -complete=file Rename :file <args> | call delete(expand('#'))
 
 "" Delete file and delete buffer
 command! -nargs=0 Delete :call delete(expand('%')) | :bdelete
-
