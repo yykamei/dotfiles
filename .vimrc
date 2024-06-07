@@ -53,7 +53,6 @@ set nowrapscan
 set hlsearch
 set incsearch
 set noignorecase
-set magic
 
 # Show pair of brackets
 set showmatch
