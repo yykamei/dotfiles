@@ -52,7 +52,6 @@ set smarttab
 set nowrapscan
 set hlsearch
 set incsearch
-set noignorecase
 
 # Show pair of brackets
 set showmatch
