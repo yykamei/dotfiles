@@ -27,6 +27,11 @@ Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'hashivim/vim-terraform'
 plug#end()
 
+# XXX: Vim hangs when trying to open TypeScript files on macOS.
+#      This settings mitigate the problem.
+#      See https://vi.stackexchange.com/questions/25086/vim-hangs-when-i-open-a-typescript-file/28721
+set regexpengine=2
+
 # Display settings
 set fileencodings=ucs-bom,utf-8,cp932,euc-jp # Encoding
 set laststatus=2 # Show status line
