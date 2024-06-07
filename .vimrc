@@ -2,13 +2,13 @@
 if !1 | finish | endif
 
 " Get file informations for statusline
-function! GetFileInfo()
-  let ex_status = '[' . &fileformat . ']'
+def! GetFileInfo(): string
+  var ex_status = '[' .. &fileformat .. ']'
   if has('multi_byte') && &fileencoding != ''
-    let ex_status = ex_status . '[' . &fileencoding . ']'
+    ex_status = ex_status .. '[' .. &fileencoding .. ']'
   endif
   return ex_status
-endfunction
+enddef
 
 " Load plugins
 if empty(glob('~/.vim/autoload/plug.vim'))
