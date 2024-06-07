@@ -18,7 +18,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
-call plug#begin('~/.vim/plugged')
+plug#begin('~/.vim/plugged')
 Plug 'tmhedberg/matchit'
 Plug 'justinmk/vim-dirvish'
 Plug 'kannokanno/previm', {'for': ['markdown']}
@@ -26,7 +26,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'hashivim/vim-terraform'
-call plug#end()
+plug#end()
 
 # Display settings
 set fileencodings=ucs-bom,utf-8,cp932,euc-jp # Encoding
@@ -145,7 +145,7 @@ final g:dirvish_relative_paths = 1
 # ========= User defined commands =========
 
 ## Rename file
-command! -nargs=1 -complete=file Rename :file <args> | call delete(expand('#'))
+command! -nargs=1 -complete=file Rename :file <args> | delete(expand('#'))
 
 ## Delete file and delete buffer
-command! -nargs=0 Delete :call delete(expand('%')) | :bdelete
+command! -nargs=0 Delete delete(expand('%')) | :bdelete
