@@ -41,6 +41,9 @@ if which brew 1> /dev/null 2> /dev/null; then
     PATH="$(brew --prefix)/opt/findutils/libexec/gnubin:$PATH"
     PATH="$(brew --prefix python)/libexec/bin:$PATH"
 fi
+if which direnv 1> /dev/null 2> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
 export PATH
 
 # Locale settings
