@@ -21,7 +21,6 @@ endif
 plug#begin('~/.vim/plugged')
 Plug 'tmhedberg/matchit'
 Plug 'justinmk/vim-dirvish'
-Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'tpope/vim-fugitive'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'powerman/vim-plugin-AnsiEsc'
