@@ -1,8 +1,10 @@
-" Skip initialization for vim-tiny
+vim9script
+
+# Skip initialization for vim-tiny
 if !1 | finish | endif
 
-" Get file informations for statusline
-def! GetFileInfo(): string
+# Get file informations for statusline
+def g:GetFileInfo(): string
   var ex_status = '[' .. &fileformat .. ']'
   if has('multi_byte') && &fileencoding != ''
     ex_status = ex_status .. '[' .. &fileencoding .. ']'
@@ -10,7 +12,7 @@ def! GetFileInfo(): string
   return ex_status
 enddef
 
-" Load plugins
+# Load plugins
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -26,56 +28,56 @@ Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'hashivim/vim-terraform'
 call plug#end()
 
-" Display settings
-set fileencodings=ucs-bom,utf-8,cp932,euc-jp  " Encoding
-set laststatus=2  " Show status line
+# Display settings
+set fileencodings=ucs-bom,utf-8,cp932,euc-jp # Encoding
+set laststatus=2 # Show status line
 set statusline=%n:\ %f\ %y%{GetFileInfo()}%m%h%r%=%c%V,%l/%L\ %P
-set ruler  " Show the cursor position all the time
-set number  " Show line numbers
+set ruler # Show the cursor position all the time
+set number # Show line numbers
 set splitbelow
 set splitright
 
-" Editting behaviors
+# Editting behaviors
 set backspace=indent,eol,start
 set formatoptions=tcrqmjB
 
-" Tab settings
+# Tab settings
 set autoindent
 set tabstop=2
 set shiftwidth=2
 set expandtab
 set smarttab
 
-" Search behavior settings
+# Search behavior settings
 set nowrapscan
 set hlsearch
 set incsearch
 set noignorecase
 set magic
 
-" Show pair of brackets
+# Show pair of brackets
 set showmatch
 set matchpairs+=<:>
 set matchtime=2
 
-" Show whitespace characters
+# Show whitespace characters
 set list
 set listchars=tab:>-,trail:-,extends:>,precedes:<
 
-" Comply with modeline
+# Comply with modeline
 set modeline
 
-" Buffer settings
+# Buffer settings
 set hidden
 
-" path settings
+# path settings
 set path=,,
 
-" Encoding
+# Encoding
 set encoding=UTF-8
 scriptencoding UTF-8
 
-" Key mapping for insert mode (like Bash)
+# Key mapping for insert mode (like Bash)
 inoremap <C-e> <End>
 inoremap <C-a> <Home>
 inoremap <C-d> <Del>
@@ -83,7 +85,7 @@ inoremap <C-b> <Left>
 inoremap <C-f> <Right>
 inoremap <C-k> <C-O>D
 
-" Key mapping for buffer, args, quickfix and location navigation
+# Key mapping for buffer, args, quickfix and location navigation
 nnoremap [b :bprevious<CR>
 nnoremap ]b :bnext<CR>
 nnoremap [B :bfirst<CR>
@@ -105,45 +107,45 @@ nnoremap ]t :tabnext<CR>
 nnoremap [T :tabfirst<CR>
 nnoremap ]T :tablast<CR>
 
-" Key mapping for some utilities
-"
-"" Window utilities
+# Key mapping for some utilities
+#
+## Window utilities
 nnoremap <C-w>N :vnew<CR>
-"" Put date time
+## Put date time
 nnoremap <F5> "=strftime("%c")<CR>P
 inoremap <F5> <C-R>=strftime("%c")<CR>
-"" Update shortcuts - I don't use mode-Ex
+## Update shortcuts - I don't use mode-Ex
 nnoremap Q :update<CR>
 
-"" paste nopaste switch
+## paste nopaste switch
 set pastetoggle=<F2>
 
-" Color settings
+# Color settings
 syntax on
 colorscheme default
 
-" File type plugins
+# File type plugins
 filetype plugin indent on
 
-" Change Tab pages highlight
+# Change Tab pages highlight
 highlight TabLineFill ctermfg=DarkGray
 highlight TabLine ctermfg=Gray
 highlight TabLineSel ctermfg=White ctermbg=DarkGreen
 
-" Change Search highlight
+# Change Search highlight
 highlight Search ctermbg=DarkYellow ctermfg=White
 
-" Highlight specific words
+# Highlight specific words
 highlight MY_HILIGHT term=bold ctermfg=White ctermbg=DarkBlue
 match MY_HILIGHT /\v<FIXME>|<TODO>|<NOTE>/
 
-" justinmk/vim-dirvish
-let g:dirvish_relative_paths = 1
+# justinmk/vim-dirvish
+final g:dirvish_relative_paths = 1
 
-" ========= User defined commands =========
+# ========= User defined commands =========
 
-"" Rename file
+## Rename file
 command! -nargs=1 -complete=file Rename :file <args> | call delete(expand('#'))
 
-"" Delete file and delete buffer
+## Delete file and delete buffer
 command! -nargs=0 Delete :call delete(expand('%')) | :bdelete
