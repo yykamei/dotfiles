@@ -36,9 +36,9 @@
 [include]
   path = /Users/yutaka.kamei/Library/Preferences/netlify/helper/git-config
 [credential "https://github.com"]
-	helper = !/usr/local/bin/gh auth git-credential
+	helper = !gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = !/usr/local/bin/gh auth git-credential
+	helper = !gh auth git-credential
 [branch]
 	autoSetupMerge = false
 [advice]
