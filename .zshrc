@@ -153,3 +153,5 @@ if [ -f '/Users/yutaka.kamei/google-cloud-sdk/completion.zsh.inc' ]; then . '/Us
 
 # The next line updates PATH for Netlify's Git Credential Helper.
 test -f '/Users/yutaka.kamei/Library/Preferences/netlify/helper/path.zsh.inc' && source '/Users/yutaka.kamei/Library/Preferences/netlify/helper/path.zsh.inc' || :
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
