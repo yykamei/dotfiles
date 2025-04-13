@@ -19,7 +19,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 plug#begin('~/.vim/plugged')
-Plug 'tmhedberg/matchit'
 Plug 'justinmk/vim-dirvish'
 Plug 'tpope/vim-fugitive'
 Plug 'editorconfig/editorconfig-vim'
