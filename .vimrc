@@ -39,6 +39,7 @@ set ruler # Show the cursor position all the time
 set number # Show line numbers
 set splitbelow
 set splitright
+set guifont=Osaka-Mono:h14
 
 # Editting behaviors
 set backspace=indent,eol,start
