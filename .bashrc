@@ -27,3 +27,4 @@ alias la="ls -AF"
 PS1='\e[42m\u@\h\e[0m \w\n $ '
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+. "$HOME/.cargo/env"
