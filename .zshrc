@@ -38,8 +38,9 @@ if [ -f /opt/homebrew/bin/brew ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 if which brew 1> /dev/null 2> /dev/null; then
-    PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
-    PATH="$(brew --prefix)/opt/findutils/libexec/gnubin:$PATH"
+    PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+    PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
+    PATH="$HOMEBREW_PREFIX/opt/make/libexec/gnubin:$PATH"
     PATH="$(brew --prefix python)/libexec/bin:$PATH"
 fi
 if which direnv 1> /dev/null 2> /dev/null; then
