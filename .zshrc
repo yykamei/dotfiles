@@ -154,3 +154,9 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-clou
 
 # The next line updates PATH for Netlify's Git Credential Helper.
 test -f "$HOME/Library/Preferences/netlify/helper/path.zsh.inc" && source "$HOME/Library/Preferences/netlify/helper/path.zsh.inc" || :
+
+# Load directory specific environment variables
+test -f "$PWD/tmp/envrc" && source "$PWD/tmp/envrc"
+function chpwd() {
+    test -f "$PWD/tmp/envrc" && source "$PWD/tmp/envrc"
+}
