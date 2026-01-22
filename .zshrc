@@ -156,7 +156,25 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-clou
 test -f "$HOME/Library/Preferences/netlify/helper/path.zsh.inc" && source "$HOME/Library/Preferences/netlify/helper/path.zsh.inc" || :
 
 # Load directory specific environment variables
-test -f "$PWD/tmp/envrc" && source "$PWD/tmp/envrc"
+typeset -g _envrc_vars=()
+
+function _load_envrc() {
+    for var in $_envrc_vars; do
+        unset $var
+    done
+    _envrc_vars=()
+
+    if [[ -f "$PWD/tmp/envrc" ]]; then
+        while IFS= read -r line; do
+            if [[ $line =~ ^export[[:space:]]+([A-Za-z_][A-Za-z0-9_]*)= ]]; then
+                _envrc_vars+=("${match[1]}")
+            fi
+        done < "$PWD/tmp/envrc"
+        source "$PWD/tmp/envrc"
+    fi
+}
+
+_load_envrc
 function chpwd() {
-    test -f "$PWD/tmp/envrc" && source "$PWD/tmp/envrc"
+    _load_envrc
 }
