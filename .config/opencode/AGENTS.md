@@ -16,6 +16,7 @@ You are OpenCode. I use specialized agents and skills for complex tasks.
 
 Detailed guidelines are in `~/.config/opencode/rules`:
 
-| Rule File | Contents |
-|-----------|----------|
-| git-commit.md | Git commit format, and what to write |
+| Rule File     | Contents                               |
+| ------------- | -------------------------------------- |
+| git-commit.md | Git commit format, and what to write   |
+| testing.md    | TDD workflow, 80% coverage requirement |
