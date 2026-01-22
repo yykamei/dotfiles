@@ -14,9 +14,17 @@ You are OpenCode. I use specialized agents and skills for complex tasks.
 
 ## Modular Rules
 
-Detailed guidelines are in `~/.config/opencode/rules`:
+Detailed guidelines are in `~/.config/opencode/rules/`:
 
 | Rule File     | Contents                               |
 | ------------- | -------------------------------------- |
 | git-commit.md | Git commit format, and what to write   |
 | testing.md    | TDD workflow, 80% coverage requirement |
+
+## Available Agents
+
+Located in `~/.config/opencode/agents/`:
+
+| Agent             | Purpose                         |
+| ----------------- | ------------------------------- |
+| security-reviewer | Security vulnerability analysis |
