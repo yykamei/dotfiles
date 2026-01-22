@@ -147,10 +147,10 @@ if [ `uname -s` = 'Linux' ]; then
 fi
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/yutaka.kamei/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yutaka.kamei/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/yutaka.kamei/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yutaka.kamei/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
 
 # The next line updates PATH for Netlify's Git Credential Helper.
-test -f '/Users/yutaka.kamei/Library/Preferences/netlify/helper/path.zsh.inc' && source '/Users/yutaka.kamei/Library/Preferences/netlify/helper/path.zsh.inc' || :
+test -f "$HOME/Library/Preferences/netlify/helper/path.zsh.inc" && source "$HOME/Library/Preferences/netlify/helper/path.zsh.inc" || :
