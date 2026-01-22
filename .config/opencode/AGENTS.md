@@ -28,3 +28,4 @@ Located in `~/.config/opencode/agents/`:
 | Agent             | Purpose                         |
 | ----------------- | ------------------------------- |
 | security-reviewer | Security vulnerability analysis |
+| planner           | Feature implementation planning |
