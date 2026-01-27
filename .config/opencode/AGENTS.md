@@ -12,20 +12,20 @@ You are OpenCode. I use specialized agents and skills for complex tasks.
 - **Test-Driven**: Write tests before implementation
 - **Security-First**: Never compromise on security
 
-## Modular Rules
+## Available Skills
 
-Detailed guidelines are in `~/.config/opencode/rules/`:
+Skills are loaded on-demand via the `skill` tool. Located in `~/.config/opencode/skills/`:
 
-| Rule File     | Contents                               |
-| ------------- | -------------------------------------- |
-| git-commit.md | Git commit format, and what to write   |
-| testing.md    | TDD workflow, 80% coverage requirement |
+| Skill        | Purpose                                  |
+| ------------ | ---------------------------------------- |
+| git-commit   | Git commit message format and guidelines |
+| tdd-workflow | TDD workflow and testing best practices  |
 
 ## Available Agents
 
-Located in `~/.config/opencode/agents/`:
+Subagents for specialized tasks. Located in `~/.config/opencode/agents/`:
 
-| Agent             | Purpose                         |
-| ----------------- | ------------------------------- |
-| security-reviewer | Security vulnerability analysis |
-| planner           | Feature implementation planning |
+| Agent             | Purpose                                       |
+| ----------------- | --------------------------------------------- |
+| security-reviewer | Security vulnerability analysis and checklist |
+| planner           | Feature implementation planning               |

@@ -1,3 +1,8 @@
+---
+name: git-commit
+description: Git commit message guidelines for creating human-friendly commit messages.
+---
+
 # Git Commit Message Guidelines
 
 Act as an experienced software engineer.
@@ -37,6 +42,8 @@ Select the appropriate prefix based on the changes.
   Focus on "Why" rather than "What".
   Do not write what is obvious from the code; describe the intent and the scope of influence.
   Ensure the Body is written in natural prose that is easy for humans to understand, using punctuation appropriately.
+  Besides, the body should be written in present tense, so you should write "implement A" instead of "implemented A".
+
 
 ## Commit message language rules
 
@@ -47,6 +54,7 @@ Select the appropriate prefix based on the changes.
 - **Formatting**: Regardless of the language, always follow the **Conventional Commits** format (feat, fix, etc.).
   - English: `feat: add login function`
   - Japanese: `feat: ログイン機能を追加`
+- **Japanese style**: When you write Japanese commit messages, use です・ます調. Write "Aを実装します" instead of "Aを実装する".
 
 ## Anti-patterns
 
@@ -80,3 +88,4 @@ fix: WIP bugfix
 
 (The content of the fix is unclear, and the reason for the fix is not written)
 ```
+
