@@ -55,6 +55,7 @@ Select the appropriate prefix based on the changes.
   - English: `feat: add login function`
   - Japanese: `feat: ログイン機能を追加`
 - **Japanese style**: When you write Japanese commit messages, use です・ます調. Write "Aを実装します" instead of "Aを実装する".
+- **Japanese line characters**: Japanese characters usually require double-width. If all characters are Japanese, 36 characters is the max per line.
 
 ## Anti-patterns
 
