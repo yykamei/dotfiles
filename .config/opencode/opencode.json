@@ -33,6 +33,15 @@
         "Authorization": "Bearer {env:MY_GITHUB_TOKEN}",
         "X-MCP-Toolsets": "copilot_spaces"
       }
+    },
+    "figma": {
+      "type": "local",
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/figma-mcp"],
+      "enabled": true,
+      "env": {
+        "FIGMA_PERSONAL_ACCESS_TOKEN": "{env:FIGMA_PERSONAL_ACCESS_TOKEN}"
+      }
     }
   }
 }
