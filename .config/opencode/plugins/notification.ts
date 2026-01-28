@@ -18,8 +18,8 @@ export const NotificationPlugin: Plugin = async ({ $ }) => {
       }
     },
 
-    // After tool execution - notify when waiting for user response
-    "tool.execute.after": async (input, output) => {
+    // Before tool execution - notify when question is about to be shown
+    "tool.execute.before": async (input) => {
       // question tool - asking user a question
       if (input.tool === "question") {
         await notify($, "Question for you")
