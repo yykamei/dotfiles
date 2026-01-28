@@ -1,19 +1,35 @@
 import type { Plugin } from "@opencode-ai/plugin"
 
+// Helper function to send notification with sound
+const notify = async (
+  $: any,
+  message: string,
+  sound: string = "Glass"
+): Promise<void> => {
+  await $`osascript -e ${"display notification \"" + message + "\" with title \"OpenCode\" sound name \"" + sound + "\""}`
+}
+
 export const NotificationPlugin: Plugin = async ({ $ }) => {
   return {
     // permission.asked event - when permission is required
     event: async ({ event }) => {
       if (event.type === "permission.asked") {
-        await $`osascript -e 'display notification "Permission required" with title "OpenCode"'`
+        await notify($, "Permission required")
       }
     },
 
-    // After question tool execution
+    // After tool execution - notify when waiting for user response
     "tool.execute.after": async (input, output) => {
+      // question tool - asking user a question
       if (input.tool === "question") {
-        await $`osascript -e 'display notification "Question for you" with title "OpenCode"'`
+        await notify($, "Question for you")
       }
+    },
+
+    // When message is complete and assistant is waiting for input
+    "message.complete": async (message) => {
+      // Notify user that OpenCode is ready for their response
+      await notify($, "Ready for your response")
     },
   }
 }
