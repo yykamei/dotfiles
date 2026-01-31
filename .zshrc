@@ -120,6 +120,11 @@ else
 fi
 alias blu='bundle lock --conservative --update'
 
+# OpenCode: Disable autoupdate on macOS (managed by Homebrew)
+if [ `uname -s` = 'Darwin' ]; then
+  export OPENCODE_CONFIG_CONTENT='{"autoupdate": false}'
+fi
+
 # Color
 eval `dircolors -b`
 
