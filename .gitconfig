@@ -16,7 +16,7 @@
 	prompt = false
 [user]
 	name = Yutaka Kamei
-	signingkey = 1F0D67E5175DD141
+	signingkey = EA1DF39D3F169220
 	email = kamei@yykamei.me
 [tag]
 	sort = version:refname
@@ -43,3 +43,5 @@
 	autoSetupMerge = false
 [advice]
 	skippedCherryPicks = false
+[include]
+	path = ~/.gitconfig-local
