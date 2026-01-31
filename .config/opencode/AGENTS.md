@@ -28,4 +28,3 @@ Subagents for specialized tasks. Located in `~/.config/opencode/agents/`:
 | Agent             | Purpose                                       |
 | ----------------- | --------------------------------------------- |
 | security-reviewer | Security vulnerability analysis and checklist |
-| planner           | Feature implementation planning               |
