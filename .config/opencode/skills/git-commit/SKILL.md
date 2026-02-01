@@ -36,7 +36,7 @@ Select the appropriate prefix based on the changes.
 - **Language**: English or Japanese (See "Commit message language rules" for more details)
 - **Subject**:
   Do not add punctuation (such as ".") at the end.
-  Use the imperative mood.
+  Use the imperative mood (English) or 体言止め (Japanese).
   Describe the action in the form of "do ~" or "fix ~" instead of the past tense.
 - **Body**:
   Focus on "Why" rather than "What".
@@ -54,7 +54,9 @@ Select the appropriate prefix based on the changes.
 - **Formatting**: Regardless of the language, always follow the **Conventional Commits** format (feat, fix, etc.).
   - English: `feat: add login function`
   - Japanese: `feat: ログイン機能を追加`
-- **Japanese style**: When you write Japanese commit messages, use です・ます調. Write "Aを実装します" instead of "Aを実装する".
+- **Japanese style**:
+  - **Subject**: Use 体言止め (noun phrase ending). Write "ログイン機能を追加" instead of "ログイン機能を追加します".
+  - **Body**: Use です・ます調. Write "Aを実装します" instead of "Aを実装する".
 - **Japanese line characters**: Japanese characters usually require double-width. If all characters are Japanese, 36 characters is the max per line.
 
 ## Anti-patterns
