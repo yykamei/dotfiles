@@ -21,6 +21,15 @@ Skills are loaded on-demand via the `skill` tool. Located in `~/.config/opencode
 | git-commit   | Git commit message format and guidelines |
 | tdd-workflow | TDD workflow and testing best practices  |
 
+## Question Guidelines
+
+When asking the user questions using the `question` tool:
+
+- **One question at a time**: Ask only ONE question per `question` tool invocation
+- **Sequential flow**: Wait for the user's answer before asking the next question
+- **Never batch questions**: Do not include multiple questions in the `questions` array
+- **Clear and focused**: Each question should be specific and self-contained
+
 ## Available Agents
 
 Subagents for specialized tasks. Located in `~/.config/opencode/agents/`:
