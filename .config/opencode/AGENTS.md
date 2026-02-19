@@ -20,6 +20,7 @@ Skills are loaded on-demand via the `skill` tool. Located in `~/.config/opencode
 | ------------ | ---------------------------------------- |
 | git-commit   | Git commit message format and guidelines |
 | tdd-workflow | TDD workflow and testing best practices  |
+| pbi-create   | PBI (Product Backlog Item) creation      |
 
 ## Question Guidelines
 
