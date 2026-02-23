@@ -5,13 +5,25 @@ description: Code review workflow guidelines for reviewing pull requests and cod
 
 # Code Review Workflow
 
-Guidelines for conducting effective code reviews on pull requests and code changes.
+Guidelines for conducting effective code reviews on pull requests, local diffs,
+and any code changes.
 
-## Gathering PR Information
+## Determine Review Target
+
+Before starting a review, determine whether you are reviewing a **pull request**
+or a **local diff** (e.g., self-review before committing). The information
+gathering steps differ, but the review process, issue classification, and output
+format are shared.
+
+---
+
+## Gathering Context
+
+### For Pull Requests
 
 Use these GitHub CLI commands to gather context before reviewing:
 
-### View PR Details
+#### View PR Details
 
 ```bash
 # View PR description, title, labels, and metadata
@@ -21,7 +33,7 @@ gh pr view <PR_NUMBER>
 gh pr view <PR_NUMBER> --json title,body,labels,author,baseRefName,headRefName
 ```
 
-### View Code Changes
+#### View Code Changes
 
 ```bash
 # View the diff of changes
@@ -31,7 +43,7 @@ gh pr diff <PR_NUMBER>
 gh pr diff <PR_NUMBER> --color=always
 ```
 
-### View Commits
+#### View Commits
 
 ```bash
 # List commits in the PR
@@ -41,14 +53,14 @@ gh pr view <PR_NUMBER> --json commits --jq '.commits[].messageHeadline'
 gh api repos/{owner}/{repo}/pulls/<PR_NUMBER>/commits
 ```
 
-### Check CI Status
+#### Check CI Status
 
 ```bash
 # View CI check status
 gh pr checks <PR_NUMBER>
 ```
 
-### View PR Comments
+#### View PR Comments
 
 ```bash
 # View review comments
@@ -58,16 +70,58 @@ gh api repos/{owner}/{repo}/pulls/<PR_NUMBER>/comments
 gh api repos/{owner}/{repo}/issues/<PR_NUMBER>/comments
 ```
 
+### For Local Diffs (Self-Review)
+
+Use these git commands to gather changes before reviewing:
+
+#### View Changed Files
+
+```bash
+# List files with uncommitted changes (staged + unstaged)
+git diff HEAD --name-only
+
+# List only staged files
+git diff --staged --name-only
+
+# List only unstaged files
+git diff --name-only
+```
+
+#### View the Diff
+
+```bash
+# View all uncommitted changes (staged + unstaged)
+git diff HEAD
+
+# View only staged changes
+git diff --staged
+
+# View only unstaged changes
+git diff
+```
+
+#### View Recent Commits (if reviewing commits not yet pushed)
+
+```bash
+# View commits ahead of the remote
+git log @{u}..HEAD --oneline
+
+# View diff of commits not yet pushed
+git diff @{u}..HEAD
+```
+
+---
+
 ## Review Process
 
 ### 1. Understand Context
 
 Before diving into code:
 
-1. Read the PR description to understand the intent
-2. Check linked issues or tickets
-3. Review the commit history for logical progression
-4. Understand the scope of changes
+1. **For PRs**: Read the PR description, check linked issues, and review commit
+   history
+2. **For local diffs**: Recall the intent of the changes -- what problem is being
+   solved and what approach was taken
 
 ### 2. Evaluate Code Changes
 
@@ -79,7 +133,7 @@ Review the diff with these language-agnostic criteria:
 - **Consistency**: Does it follow existing patterns in the codebase?
 - **Testability**: Is the code testable? Are tests included?
 
-### 3. Review Metadata Quality
+### 3. Review Metadata Quality (PR Only)
 
 #### PR Description
 
