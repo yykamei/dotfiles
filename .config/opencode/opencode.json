@@ -1,6 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "github-copilot/claude-opus-4.6",
+  "agent": {
+    "explore": {
+      "model": "github-copilot/claude-haiku-4.5"
+    }
+  },
   "instructions": [
     "~/.config/opencode/AGENTS.md",
     "~/.config/opencode/rules/*.md"
