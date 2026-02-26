@@ -11,18 +11,6 @@
       "external_directory": "allow"
     }
   },
-  "tui": {
-    "scroll_speed": 1,
-    "scroll_acceleration": {
-      "enabled": false
-    }
-  },
-  "keybinds": {
-    "app_exit": "ctrl+c,<leader>q",
-    "input_delete_to_line_start": "",
-    "messages_half_page_up": "ctrl+u",
-    "messages_half_page_down": "ctrl+d"
-  },
   "mcp": {
     "github": {
       "type": "remote",
