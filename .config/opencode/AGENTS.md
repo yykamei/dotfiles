@@ -21,6 +21,7 @@ Skills are loaded on-demand via the `skill` tool. Located in `~/.config/opencode
 | git-commit   | Git commit message format and guidelines |
 | tdd-workflow | TDD workflow and testing best practices  |
 | pbi-create   | PBI (Product Backlog Item) creation      |
+| code-review  | Code review workflow and guidelines      |
 
 ## Question Guidelines
 
@@ -37,4 +38,5 @@ Subagents for specialized tasks. Located in `~/.config/opencode/agents/`:
 
 | Agent             | Purpose                                       |
 | ----------------- | --------------------------------------------- |
+| code-reviewer     | Code review for diffs and pull requests        |
 | security-reviewer | Security vulnerability analysis and checklist |
