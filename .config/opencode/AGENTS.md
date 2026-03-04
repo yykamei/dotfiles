@@ -23,15 +23,6 @@ Skills are loaded on-demand via the `skill` tool. Located in `~/.config/opencode
 | pbi-create   | PBI (Product Backlog Item) creation      |
 | code-review  | Code review workflow and guidelines      |
 
-## Question Guidelines
-
-When asking the user questions using the `question` tool:
-
-- **One question at a time**: Ask only ONE question per `question` tool invocation
-- **Sequential flow**: Wait for the user's answer before asking the next question
-- **Never batch questions**: Do not include multiple questions in the `questions` array
-- **Clear and focused**: Each question should be specific and self-contained
-
 ## Available Agents
 
 Subagents for specialized tasks. Located in `~/.config/opencode/agents/`:
