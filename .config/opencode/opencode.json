@@ -15,16 +15,5 @@
       "*": "allow",
       "external_directory": "allow"
     }
-  },
-  "mcp": {
-    "github": {
-      "type": "remote",
-      "url": "https://api.githubcopilot.com/mcp/",
-      "enabled": true,
-      "headers": {
-        "Authorization": "Bearer {env:MY_GITHUB_TOKEN}",
-        "X-MCP-Toolsets": "copilot_spaces"
-      }
-    }
   }
 }
