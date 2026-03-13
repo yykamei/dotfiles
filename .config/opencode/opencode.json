@@ -19,6 +19,10 @@
     },
     "edit": {
       "/tmp/**": "allow"
+    },
+    "bash": {
+      "git push": "ask",
+      "git push *": "ask"
     }
   },
   "mcp": {
