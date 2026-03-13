@@ -12,10 +12,12 @@
   ],
   "permission": {
     "read": {
-      "*": "allow",
-      "external_directory": "allow"
+      "*": "allow"
     },
-    "write": {
+    "external_directory": {
+      "/tmp/**": "allow"
+    },
+    "edit": {
       "/tmp/**": "allow"
     }
   },
