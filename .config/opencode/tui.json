@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/tui.json",
+  "theme": "my-light",
   "keybinds": {
     "app_exit": "ctrl+c,<leader>q",
     "input_delete_to_line_start": "",
