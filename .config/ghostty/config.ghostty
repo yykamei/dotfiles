@@ -5,3 +5,5 @@ keybind = super+alt+arrow_left=previous_tab
 cursor-style = block
 cursor-style-blink = true
 shell-integration-features = no-cursor
+unfocused-split-opacity = 0.7
+unfocused-split-fill = #9A9A98
