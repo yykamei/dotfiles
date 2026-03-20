@@ -28,6 +28,12 @@ Follow this mandatory workflow when writing tests and implementing features.
 - Improve naming and structure
 - Run tests after each refactor to ensure they still pass
 
+### 4. LINT - Run Linters
+
+- Identify the linters configured in the project (e.g., config files, CI workflows, `package.json` scripts, `Makefile` targets)
+- Run all applicable linters and fix any violations before committing
+- If a fix changes behavior, re-run the full test suite and return to the RED/GREEN cycle to update or add tests as needed
+
 ## When to Use Mocks/Stubs
 
 Mocks and stubs should be avoided when possible, but use them when:
@@ -57,6 +63,8 @@ Mocks and stubs should be avoided when possible, but use them when:
 8. Implement: add logic to return items
 9. Run test -> PASS
 10. Refactor if needed
+11. Run project linters -> fix violations
+12. Run tests -> PASS (confirm lint fixes didn't break anything)
 ```
 
 ## Coverage Target
