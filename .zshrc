@@ -151,6 +151,11 @@ if [ `uname -s` = 'Linux' ]; then
     fi
 fi
 
+# Override TERM for SSH to avoid 'unknown terminal type' on hosts without Ghostty's terminfo
+function ssh() {
+  TERM=xterm-256color command ssh "$@"
+}
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 
