@@ -2,6 +2,7 @@ theme = Primary
 font-family = Monaco
 keybind = super+alt+arrow_right=next_tab
 keybind = super+alt+arrow_left=previous_tab
+keybind = ctrl+[=text:\x1b
 cursor-style = block
 cursor-style-blink = true
 shell-integration-features = no-cursor
