@@ -11,25 +11,19 @@ const notify = async (
 
 export const NotificationPlugin: Plugin = async ({ $ }) => {
   return {
-    // permission.asked event - when permission is required
     event: async ({ event }) => {
       if (event.type === "permission.asked") {
         await notify($, "Permission required")
       }
-    },
-
-    // Before tool execution - notify when question is about to be shown
-    "tool.execute.before": async (input) => {
-      // question tool - asking user a question
-      if (input.tool === "question") {
-        await notify($, "Question for you")
+      if (event.type === "session.idle") {
+        await notify($, "Task completed - waiting for input")
       }
     },
 
-    // When message is complete and assistant is waiting for input
-    "message.complete": async (message) => {
-      // Notify user that OpenCode is ready for their response
-      await notify($, "Ready for your response")
+    "tool.execute.before": async (input) => {
+      if (input.tool === "question") {
+        await notify($, "Question for you")
+      }
     },
   }
 }
