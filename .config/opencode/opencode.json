@@ -15,10 +15,12 @@
       "*": "allow"
     },
     "external_directory": {
-      "/tmp/**": "allow"
+      "/tmp/**": "allow",
+      "/private/tmp/**": "allow"
     },
     "edit": {
-      "/tmp/**": "allow"
+      "/tmp/**": "allow",
+      "/private/tmp/**": "allow"
     },
     "bash": {
       "git push": "ask",
