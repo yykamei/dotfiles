@@ -16,11 +16,13 @@
     },
     "external_directory": {
       "/tmp/**": "allow",
-      "/private/tmp/**": "allow"
+      "/private/tmp/**": "allow",
+      "~/.rbenv/versions/**": "allow"
     },
     "edit": {
       "/tmp/**": "allow",
-      "/private/tmp/**": "allow"
+      "/private/tmp/**": "allow",
+      "~/.rbenv/versions/**": "deny"
     },
     "bash": {
       "git push": "ask",
