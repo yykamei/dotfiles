@@ -47,10 +47,16 @@ Select the appropriate prefix based on the changes.
 
 ## Commit message language rules
 
-- **Primary Rule**: Write commit messages in **English** by default.
-- **Exception (Auto-detection)**: You must switch to **Japanese** if either of the following conditions is met:
-  - The project's `README.md` is primarily written in Japanese.
-  - The recent git log (`git log`) shows that previous commits are written in Japanese.
+- **Detection**: Run `git log --oneline -10` and count the language of each
+  commit message. Classify language based on the subject text after the
+  Conventional Commits prefix (e.g., `feat: ログイン機能を追加` is Japanese).
+  Ignore merge commits and bot-generated messages when counting.
+  - If English messages are the majority, use **English**.
+  - If Japanese messages are the majority, use **Japanese**.
+  - If tied, default to **English**.
+  - If the repository has fewer than 10 commits, evaluate all available commits.
+    If there are no commits yet, check whether `README.md` is primarily written
+    in Japanese; if so, use **Japanese**. Otherwise, default to **English**.
 - **Formatting**: Regardless of the language, always follow the **Conventional Commits** format (feat, fix, etc.).
   - English: `feat: add login function`
   - Japanese: `feat: ログイン機能を追加`
