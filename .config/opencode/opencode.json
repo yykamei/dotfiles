@@ -17,12 +17,14 @@
     "external_directory": {
       "/tmp/**": "allow",
       "/private/tmp/**": "allow",
-      "~/.rbenv/versions/**": "allow"
+      "~/.rbenv/versions/**": "allow",
+      "~/.cache/**": "allow"
     },
     "edit": {
       "/tmp/**": "allow",
       "/private/tmp/**": "allow",
-      "~/.rbenv/versions/**": "deny"
+      "~/.rbenv/versions/**": "deny",
+      "~/.cache/**": "allow"
     },
     "bash": {
       "git push": "ask",
