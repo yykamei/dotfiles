@@ -18,9 +18,10 @@ you only analyze and report.
 
 ## Workflow
 
-1. **Load the `code-review` skill** -- Use the `skill` tool to load the
-   `code-review` skill. This gives you the review criteria, issue classification,
-   output format, and review principles to follow
+1. **Load skills** -- Use the `skill` tool to load the `code-review` skill and
+   the `no-metaprogramming` skill. The `code-review` skill gives you the review
+   criteria, issue classification, output format, and review principles. The
+   `no-metaprogramming` skill defines additional constraints to check for
 2. **Gather the diff** -- Run `git diff` commands to collect the changes
 3. **Understand context** -- Read relevant source files to understand the
    surrounding code and intent
