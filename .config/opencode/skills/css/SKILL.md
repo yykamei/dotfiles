@@ -567,6 +567,88 @@ Good — the parent layout owns the spacing:
 > rules*, not spacing best practice. From a spacing perspective, replacing the
 > adjacent-sibling margin with a parent `gap` is preferred.
 
+### Cross-Axis Stretching — Side Effect of Layout Containers
+
+When a parent uses `display: flex` or `display: grid`, its children stretch
+along the cross axis by default (`align-items: stretch`). This means:
+
+- **`flex-direction: column`** — children stretch to the **full width** of
+  the container.
+- **`flex-direction: row`** (default) — children stretch to the **full
+  height** of the tallest sibling.
+- **`display: grid`** — children stretch to fill their grid area (both
+  `align-items` and `justify-items` default to `stretch`).
+
+This is often desirable (e.g., equal-height cards in a row), but it can
+break components that rely on intrinsic sizing — buttons, badges, inline
+inputs, and other elements whose width or height should be determined by
+their content.
+
+Bad — a vertical stack that unintentionally stretches button width:
+
+```css
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+```
+
+Each child — including `.button` — stretches to the full container width
+even when the button's content is much narrower.
+
+Bad — a horizontal row that unintentionally stretches children to equal
+height:
+
+```css
+.toolbar {
+  display: flex;
+  gap: 12px;
+}
+```
+
+If one child is taller than the others, every sibling stretches to match
+its height. This may distort components like badges or single-line inputs.
+
+Good — prevent stretching with `align-items`:
+
+```css
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+```
+
+Good — prevent height stretching in a horizontal row:
+
+```css
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+```
+
+Good — the child opts out of stretching with `align-self`:
+
+```css
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.actions > .button {
+  align-self: flex-start;
+}
+```
+
+Before using `gap` with Flex or Grid, verify that the default cross-axis
+stretching is acceptable for every direct child. If not, set
+`align-items` on the parent or `align-self` on the specific child.
+
 ### Fallback — When `gap` Is Not Available
 
 `gap` requires a Flex or Grid formatting context. When the parent uses
@@ -621,3 +703,7 @@ Before adding spacing to a component, answer these questions:
 4. Is the Block truly page-specific and never reused? → Margin on the
    Block may be acceptable as an exception, but prefer parent-controlled
    spacing.
+5. Does the layout container's default `align-items: stretch` produce
+   acceptable sizing for every direct child? → If not, set
+   **`align-items`** on the parent or **`align-self`** on specific
+   children.
