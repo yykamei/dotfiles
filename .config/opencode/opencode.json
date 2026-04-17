@@ -49,6 +49,10 @@
         "clientId": "{env:FIGMA_MCP_CLIENT_ID}",
         "clientSecret": "{env:FIGMA_MCP_CLIENT_SECRET}"
       }
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
     }
   }
 }
