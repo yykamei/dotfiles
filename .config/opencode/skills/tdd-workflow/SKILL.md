@@ -26,6 +26,14 @@ Follow this mandatory workflow when writing tests and implementing features.
 - Clean up the code while keeping tests green
 - Remove duplication
 - Improve naming and structure
+- **Review tests for scaffolding remnants** -- Remove or consolidate tests
+  that were written solely to drive the RED phase and are now redundant.
+  Examples of scaffolding tests to remove:
+  - Tests that only verify a function/class/module exists
+  - Tests that only assert a dependency is or isn't called, when the
+    same behavior is already covered by a higher-value test
+  - Tests that became duplicates of other tests after refactoring
+  The `code-review` skill flags leftover scaffolding as Warnings.
 - Run tests after each refactor to ensure they still pass
 
 ### 4. LINT - Run Linters
@@ -62,7 +70,7 @@ Mocks and stubs should be avoided when possible, but use them when:
 7. Run test -> FAIL
 8. Implement: add logic to return items
 9. Run test -> PASS
-10. Refactor if needed
+10. Refactor if needed; review and remove scaffolding tests that are now redundant
 11. Run project linters -> fix violations
 12. Run tests -> PASS (confirm lint fixes didn't break anything)
 ```

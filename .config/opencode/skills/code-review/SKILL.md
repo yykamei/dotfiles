@@ -132,6 +132,9 @@ Review the diff with these language-agnostic criteria:
 - **Clarity**: Is the code easy to understand?
 - **Consistency**: Does it follow existing patterns in the codebase?
 - **Testability**: Is the code testable? Are tests included?
+- **Test quality**: Are there leftover scaffolding tests from TDD that
+  should have been cleaned up? Flag as Warnings (see the IMPROVE phase
+  in the `tdd-workflow` skill for cleanup guidance).
 
 ### 3. Review Metadata Quality (PR Only)
 
@@ -175,6 +178,8 @@ Issues that should be addressed:
 - Missing error handling
 - Incomplete test coverage for critical paths
 - Violations of established patterns
+- Leftover scaffolding tests from TDD (existence-only checks, redundant
+  mock assertions, duplicates after refactoring)
 
 ### Suggestions (Nice to Have)
 
