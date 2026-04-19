@@ -30,7 +30,9 @@
     },
     "bash": {
       "git commit": "ask",
-      "git commit *": "ask"
+      "git commit *": "ask",
+      "git -C * commit": "ask",
+      "git -C * commit *": "ask"
     }
   },
   "mcp": {
