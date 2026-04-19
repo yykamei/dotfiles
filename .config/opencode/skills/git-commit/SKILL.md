@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: Git commit message guidelines for creating human-friendly commit messages.
+description: MUST be loaded before running `git commit` or `git commit --amend`. Defines commit message language detection, subject/body formatting, multi-line commits via `-F` (never `-m`), and post-commit verification with `git log -1 --format=%B`.
 ---
 
 # Git Commit Message Guidelines

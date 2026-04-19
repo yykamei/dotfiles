@@ -102,3 +102,11 @@ When creating a plan in Plan Mode for a coding task:
    - Break the work into commits following the Granularity criteria above,
      each also satisfying Commit Health.
    - State the target branch to push to (typically the current branch).
+
+## Related skills
+
+Before writing the commit message itself (including for `git commit --amend`),
+load the `git-commit` skill via the `skill` tool. This rule governs commit
+**granularity**; the `git-commit` skill governs commit **message content**
+(language, subject/body format, `-F`-based multi-line commits, post-commit
+verification). The two are complementary and BOTH apply when creating a commit.
