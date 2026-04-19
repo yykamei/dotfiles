@@ -19,7 +19,8 @@
       "/tmp/**": "allow",
       "/private/tmp/**": "allow",
       "~/.rbenv/versions/**": "allow",
-      "~/.cache/**": "allow"
+      "~/.cache/**": "allow",
+      "~/.config/opencode/**": "allow"
     },
     "edit": {
       "/tmp/**": "allow",
