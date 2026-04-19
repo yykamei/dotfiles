@@ -18,6 +18,28 @@ Strictly adhere to the following structure.
 [Body] (Why this change was necessary, detailed background, solution. Max 72 characters per line)
 ```
 
+## Execution Rules
+
+These rules govern HOW the commit message is delivered to git, not its
+content. They apply regardless of language or commit type.
+
+- **Never use `-m` for multi-line bodies**: The `-m` flag stores its
+  argument as a single line and will not wrap text automatically.
+  For any commit with a body, write the full message (subject + blank
+  line + body) to a file and pass it via `git commit -F <path>`.
+  Short fixup commits with only a subject line may use `-m`.
+  Also avoid stacking multiple `-m` flags for paragraphs; each `-m`
+  argument is still stored unwrapped.
+- **Verify after committing**: Immediately after `git commit`, run
+  `git log -1 --format=%B` and visually confirm that:
+  - Subject is on its own line, followed by a blank line.
+  - No body line exceeds 72 characters (36 for all-Japanese lines).
+  - Paragraph breaks are preserved as blank lines.
+  If any line exceeds the limit, amend with
+  `git commit --amend -F <path>` using the corrected file (only if
+  the commit has not been pushed; otherwise ask the user before
+  force-pushing, consistent with the Git Safety Protocol).
+
 ## Type Definitions (Conventional Commits compliant)
 
 Select the appropriate prefix based on the changes.
