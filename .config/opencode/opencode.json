@@ -7,6 +7,19 @@
       "model": "github-copilot/gpt-5.4-mini"
     }
   },
+  "provider": {
+    "github-copilot": {
+      "models": {
+        "gpt-5.4": {
+          "variants": {
+            "default": {
+              "textVerbosity": "low"
+            }
+          }
+        }
+      }
+    }
+  },
   "instructions": [
     "~/.config/opencode/AGENTS.md",
     "~/.config/opencode/rules/*.md"
