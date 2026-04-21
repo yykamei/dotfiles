@@ -1,23 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": ["@plannotator/opencode@latest"],
-  "model": "github-copilot/gpt-5.4",
+  "model": "github-copilot/claude-opus-4.7",
   "agent": {
     "explore": {
-      "model": "github-copilot/gpt-5.4-mini"
-    }
-  },
-  "provider": {
-    "github-copilot": {
-      "models": {
-        "gpt-5.4": {
-          "variants": {
-            "default": {
-              "textVerbosity": "low"
-            }
-          }
-        }
-      }
+      "model": "github-copilot/claude-sonnet-4.6"
     }
   },
   "instructions": [
