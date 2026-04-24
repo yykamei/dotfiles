@@ -15,7 +15,7 @@ Strictly adhere to the following structure.
 ```
 [Type]: [Subject] (Max 50 characters)
 
-[Body] (Why this change was necessary, detailed background, solution. Max 72 characters per line)
+[Body] (Why this change was necessary, detailed background, solution. Keep English body lines around 72 characters; for Japanese body text, preserve natural paragraphs and wrap only when a line becomes unusually long or hard to read in a typical terminal.)
 ```
 
 ## Execution Rules
@@ -33,9 +33,11 @@ content. They apply regardless of language or commit type.
 - **Verify after committing**: Immediately after `git commit`, run
   `git log -1 --format=%B` and visually confirm that:
   - Subject is on its own line, followed by a blank line.
-  - No body line exceeds 72 characters (36 for all-Japanese lines).
+  - English body lines stay around 72 characters.
+  - Japanese body text keeps natural paragraph flow and is not wrapped at a fixed narrow width.
+  - Mixed-language lines stay readable in common terminal widths.
   - Paragraph breaks are preserved as blank lines.
-  If any line exceeds the limit, amend with
+  If English lines become excessively long or Japanese paragraphs become hard to read, amend with
   `git commit --amend -F <path>` using the corrected file (only if
   the commit has not been pushed; otherwise ask the user before
   force-pushing, consistent with the Git Safety Protocol).
@@ -85,7 +87,7 @@ Select the appropriate prefix based on the changes.
 - **Japanese style**:
   - **Subject**: Use 体言止め (noun phrase ending). Write "ログイン機能を追加" instead of "ログイン機能を追加します".
   - **Body**: Use です・ます調. Write "Aを実装します" instead of "Aを実装する".
-- **Japanese line characters**: Japanese characters usually require double-width. If all characters are Japanese, 36 characters is the max per line.
+- **Japanese body wrapping**: Do not enforce 36-character wrapping. Preserve natural sentences and paragraph boundaries, and wrap Japanese or mixed-language lines only when they become unusually long or would overflow a typical 80-100 column terminal.
 
 ## Anti-patterns
 
@@ -112,6 +114,18 @@ this validation is applied only during new user creation. We plan to fix the
 existing invalid email addresses separately.
 ```
 
+### Good Japanese Example
+
+```
+docs: 日本語コミット本文の整形ルール調整
+
+OpenCode で利用するモデルによっては、日本語本文を極端に短い幅で折り返してしまいます。
+そのため、日本語本文は 36 文字固定で整形せず、段落を自然な形で保つ方針に変更します。
+
+件名の制約と英語本文の 72 桁目安は維持しつつ、日本語本文だけ可読性を優先します。
+そのうえで、行が長くなりすぎる場合にだけ自然な位置で折り返し、説明の途中で不自然に改行される状態を避けます。
+```
+
 ### Bad Example
 
 ```
@@ -119,4 +133,3 @@ fix: WIP bugfix
 
 (The content of the fix is unclear, and the reason for the fix is not written)
 ```
-
