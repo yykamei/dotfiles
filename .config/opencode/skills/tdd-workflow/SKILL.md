@@ -1,11 +1,41 @@
 ---
 name: tdd-workflow
-description: Test-Driven Development workflow guidelines for writing tests before implementation.
+description: Load when implementing or modifying logic that has meaningful test coverage value. Defines the RED → GREEN → IMPROVE → LINT cycle, mock/stub boundaries, scaffolding-test cleanup, and project-aware coverage targets.
 ---
 
 # Test-Driven Development Workflow
 
 Follow this mandatory workflow when writing tests and implementing features.
+
+## Scope — When to Apply This Skill
+
+Apply this workflow to **changes whose behavior is meaningfully
+testable**. The `core-philosophy` rule already says "not every change
+requires tests"; this section makes that boundary concrete.
+
+**In scope (TDD applies):**
+
+- Production code that implements decisions, transformations, or
+  state changes (parsers, business rules, API handlers, reducers,
+  algorithms)
+- Bug fixes for behavior that can be reproduced as a test case
+- Refactors of code already covered by tests — tests guard the
+  refactor
+
+**Out of scope (TDD does not apply, though basic verification is
+still expected):**
+
+- Shell aliases, environment exports, or other dotfile edits whose
+  "behavior" is just being present in a config file
+- Pure documentation changes, comments, formatting
+- Trivial wiring such as adding a constant export, registering a
+  pre-existing component, or renaming a symbol the type system
+  already validates
+- Editor / tool / CI configuration where the round-trip cost of a
+  test exceeds its value (verify by running the tool itself instead)
+
+When in doubt, ask: *"Could a future regression here go unnoticed
+without a test?"* If yes, this skill applies.
 
 ## The TDD Cycle
 
@@ -52,7 +82,11 @@ Mocks and stubs should be avoided when possible, but use them when:
 
 ## Best Practices
 
-1. **One assertion per test** - Each test should verify one specific behavior
+1. **One behavior per test** — Each test should verify one specific
+   behavior. Multiple assertions are fine when they all describe the
+   same behavior (e.g., asserting both the returned status code and
+   the response body of a single request); avoid bundling unrelated
+   behaviors into one test.
 2. **Descriptive test names** - Test names should describe what is being tested and expected outcome
 3. **Arrange-Act-Assert** - Structure tests with clear setup, action, and verification phases
 4. **Test edge cases** - Include tests for boundary conditions, empty inputs, and error scenarios
@@ -77,4 +111,9 @@ Mocks and stubs should be avoided when possible, but use them when:
 
 ## Coverage Target
 
-Aim for **80%+ code coverage**, but prioritize meaningful tests over coverage numbers.
+Coverage targets are **project policy first**. If the project defines a
+target (in `CONTRIBUTING.md`, a coverage configuration file, CI gates,
+or an explicit team decision), follow that. If no project target
+exists, use **80%** as a working default. Either way, prioritize
+meaningful tests over chasing the number — coverage of code that
+matters beats high coverage of trivial getters and wiring.
