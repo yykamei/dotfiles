@@ -42,6 +42,33 @@ content. They apply regardless of language or commit type.
   the commit has not been pushed; otherwise ask the user before
   force-pushing, consistent with the Git Safety Protocol).
 
+## Consolidating multiple commits into one
+
+Use this procedure when a PR branch must be reduced to a single commit
+before being opened (per the `commit-granularity` rule), or whenever
+several work-in-progress commits need to be folded into one.
+
+- **Preferred path -- soft reset to base**: Run `git reset --soft <base>`
+  (where `<base>` is the merge-base with the target branch, typically
+  `origin/main`), which preserves the working tree and index while
+  collapsing the previous commits. Then create the consolidated commit
+  with a single `git commit -F <path>` using a message file.
+- **Latest commit only -- amend**: When only the most recent commit
+  needs to be updated (e.g., to absorb a small fixup), use
+  `git commit --amend -F <path>`. Confirm the amend conditions in the
+  Git Safety Protocol first.
+- **Never use interactive flags**: Do not use `git rebase -i`,
+  `git add -i`, or any other `-i` based workflow. The shell available
+  here is non-interactive and cannot drive these UIs.
+- **Pushed branches require confirmation**: If the branch has already
+  been pushed, the consolidated commit can only land via a force push.
+  Ask the user before running `git push --force-with-lease`, and never
+  force push to `main` / `master` without explicit approval.
+- **Verify afterward**: After the consolidation commit lands, run
+  `git log <base>..HEAD --oneline` to confirm exactly one commit
+  remains, then run the standard `git log -1 --format=%B` verification
+  from the Execution Rules above.
+
 ## Type Definitions (Conventional Commits compliant)
 
 Select the appropriate prefix based on the changes.

@@ -57,11 +57,8 @@ whether a PR is opened:
 - Squash merge is NOT assumed. A PR branch MUST contain exactly one commit
   at the time the PR is opened.
 - If intermediate commits accumulated during development, integrate them
-  into a single commit before pushing and opening the PR. Use non-interactive
-  approaches such as `git reset --soft <base>` followed by a single
-  `git commit`, or `git commit --amend` when only the latest commit needs
-  to be updated. Do NOT use `git rebase -i` (interactive flags are not
-  supported by the non-interactive shell).
+  into a single commit before pushing and opening the PR. See the
+  `git-commit` skill for the concrete consolidation procedure.
 - If the PR branch has already been pushed, ask the user before force-pushing
   the consolidated commit.
 - If a diff grows too large for comfortable review, split it into multiple
