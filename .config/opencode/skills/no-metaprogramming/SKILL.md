@@ -24,6 +24,27 @@ requires for normal operation. Examples include:
 - Runtime monkey-patching or reopening classes
 - Advanced type-level computation that obscures intent
 
+## Scope
+
+This skill governs **production code**. Test code is out of scope:
+
+- The decision of *whether* to use a mock or stub is governed by the
+  `tdd-workflow` skill's "When to Use Mocks/Stubs" section, which
+  treats them as a last resort (external I/O, non-deterministic
+  output, slow or expensive dependencies). Default to real
+  collaborators wherever possible.
+- *When* a test double is genuinely justified by that rule, the fact
+  that the underlying testing library (`unittest.mock`, RSpec doubles,
+  `vi.mock` / `jest.mock` / `sinon`, `mockall`, etc.) implements the
+  double via attribute patching or method interception does **not**
+  count as metaprogramming for this skill's purposes. The testing
+  framework owns that mechanism and its lifecycle.
+
+In short: this skill does not relax the bar on using test doubles; it
+only avoids double-counting their internal implementation as
+forbidden metaprogramming. Keep them rare in test code, and keep them
+out of production code entirely.
+
 ## Permitted Exceptions
 
 Metaprogramming is acceptable **only** in these cases:
@@ -47,26 +68,6 @@ metaprogramming facility that is the conventional way to achieve the goal.
 | Ruby       | `attr_accessor`, `attr_reader`, `Struct.new`                   |
 | TypeScript | Decorators prescribed by the framework (e.g., NestJS, Angular) |
 | Rust       | `#[derive(...)]`, standard derive macros, `serde` attributes   |
-
-### 3. Test Doubles (Mocks, Stubs, Spies, Fakes)
-
-Test doubles inherently rely on metaprogramming facilities — patching
-attributes, replacing methods, intercepting calls — and that is fine.
-This rule does **not** apply to test code that uses standard testing
-libraries to install temporary doubles for the duration of a test.
-
-Examples that are explicitly permitted:
-
-- Python: `unittest.mock.patch`, `MagicMock`, `monkeypatch` fixtures
-  in pytest
-- Ruby: RSpec's `allow(...).to receive(...)`, `instance_double`
-- TypeScript / JavaScript: `vi.mock`, `jest.mock`, `sinon.stub`
-- Rust: `mockall`, `#[cfg(test)]`-gated trait implementations
-
-The constraints in this skill apply to **production code**. Restoring
-or replacing test doubles after each test is the responsibility of the
-testing framework and is not considered metaprogramming for the
-purposes of this rule.
 
 ### Conditions for Using an Exception
 
