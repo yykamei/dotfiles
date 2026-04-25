@@ -1,5 +1,10 @@
 # Self-Review After Code Changes
 
+## When this rule applies
+
+After completing in-scope code changes (see Scope below), and before
+proceeding to commit, PR creation, or any other subsequent step.
+
 ## Rule
 
 After completing any code implementation, you MUST conduct a self-review by

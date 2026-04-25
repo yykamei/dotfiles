@@ -1,5 +1,9 @@
 # Question Batching Guidelines
 
+## When this rule applies
+
+When using the `question` tool to ask the user one or more questions.
+
 ## Rule
 
 When asking the user questions using the `question` tool, batch related questions

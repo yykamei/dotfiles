@@ -1,5 +1,10 @@
 # Code Comment Guidelines
 
+## When this rule applies
+
+When writing or editing source code, or when reviewing code where the
+question of adding/removing comments arises.
+
 ## Principle: Code Should Speak for Itself
 
 Write code that is self-documenting. Variable names, function names, and code structure

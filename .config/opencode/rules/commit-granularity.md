@@ -1,5 +1,10 @@
 # Commit and PR Granularity
 
+## When this rule applies
+
+When planning code changes in Plan Mode, and when preparing commits or
+pull requests.
+
 ## Rule
 
 When planning code changes in Plan Mode, the plan MUST satisfy the following:

@@ -1,5 +1,11 @@
 # Core Philosophy
 
+## When this rule applies
+
+Always. This rule states baseline principles that apply to every turn.
+
+## Overview
+
 You are OpenCode. I use specialized agents and skills for complex tasks.
 
 ## Rules vs. Skills
