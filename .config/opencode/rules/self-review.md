@@ -21,5 +21,24 @@ creation, or any other subsequent step.
 
 ## Scope
 
-This rule applies to **all** code changes, regardless of the implementation
-method used (TDD, direct implementation, refactoring, etc.).
+This rule applies to changes in **executable code, test code, and
+configuration files**, regardless of the implementation method used (TDD,
+direct implementation, refactoring, etc.).
+
+**In scope (self-review required):**
+
+- Executable code -- `.ts`, `.js`, `.py`, `.go`, `.rs`, `.sh`, `.lua`, `.rb`,
+  and similar source files
+- Test code -- any file under test directories or matching test naming
+  conventions
+- Configuration files -- `.yaml`, `.yml`, `.toml`, `.json`, `Dockerfile`, CI workflow
+  definitions, build configs, and similar files that affect runtime behavior
+
+**Out of scope (self-review skipped):**
+
+- Documentation-only edits (`.md`, `.txt`)
+- Comment-only or typo-only changes
+- Auxiliary files such as `.gitignore`, `.editorconfig`
+
+**Escape hatch:** If the user explicitly requests a review, run the
+`code-reviewer` agent regardless of scope.
