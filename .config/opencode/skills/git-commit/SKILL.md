@@ -43,10 +43,10 @@ content. They apply regardless of language or commit type.
   - Japanese body text keeps natural paragraph flow and is not wrapped at a fixed narrow width.
   - Mixed-language lines stay readable in common terminal widths.
   - Paragraph breaks are preserved as blank lines.
-  If English lines become excessively long or Japanese paragraphs become hard to read, amend with
-  `git commit --amend -F <path>` using the corrected file (only if
-  the commit has not been pushed; otherwise ask the user before
-  force-pushing, consistent with the Git Safety Protocol).
+    If English lines become excessively long or Japanese paragraphs become hard to read, amend with
+    `git commit --amend -F <path>` using the corrected file (only if
+    the commit has not been pushed; otherwise ask the user before
+    force-pushing, consistent with the Git Safety Protocol).
 
 ## Consolidating multiple commits into one
 
@@ -100,7 +100,6 @@ Select the appropriate prefix based on the changes.
   Do not write what is obvious from the code; describe the intent and the scope of influence.
   Ensure the Body is written in natural prose that is easy for humans to understand, using punctuation appropriately.
   Besides, the body should be written in present tense, so you should write "implement A" instead of "implemented A".
-
 
 ## Commit message language rules
 

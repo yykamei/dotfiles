@@ -33,7 +33,7 @@ Follow this mandatory workflow when writing tests and implementing features.
   - Tests that only assert a dependency is or isn't called, when the
     same behavior is already covered by a higher-value test
   - Tests that became duplicates of other tests after refactoring
-  The `code-review` skill flags leftover scaffolding as Warnings.
+    The `code-review` skill flags leftover scaffolding as Warnings.
 - Run tests after each refactor to ensure they still pass
 
 ### 4. LINT - Run Linters

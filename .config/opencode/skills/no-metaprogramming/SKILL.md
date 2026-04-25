@@ -41,12 +41,12 @@ This does **not** apply to application code that merely uses a framework.
 When the language standard library or a widely-adopted library provides a
 metaprogramming facility that is the conventional way to achieve the goal.
 
-| Language   | Permitted                                                     |
-|------------|---------------------------------------------------------------|
-| Python     | `@dataclass`, `@property`, `abc.ABC`, `typing.Protocol`      |
-| Ruby       | `attr_accessor`, `attr_reader`, `Struct.new`                  |
-| TypeScript | Decorators prescribed by the framework (e.g., NestJS, Angular)|
-| Rust       | `#[derive(...)]`, standard derive macros, `serde` attributes  |
+| Language   | Permitted                                                      |
+| ---------- | -------------------------------------------------------------- |
+| Python     | `@dataclass`, `@property`, `abc.ABC`, `typing.Protocol`        |
+| Ruby       | `attr_accessor`, `attr_reader`, `Struct.new`                   |
+| TypeScript | Decorators prescribed by the framework (e.g., NestJS, Angular) |
+| Rust       | `#[derive(...)]`, standard derive macros, `serde` attributes   |
 
 ### Conditions for Using an Exception
 

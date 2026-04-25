@@ -9,7 +9,7 @@ Guidelines for conducting effective code reviews on pull requests, local diffs,
 and any code changes.
 
 > **Relationship to the `code-reviewer` agent**: The `self-review.md` rule
-> delegates post-implementation self-review to the `code-reviewer` *agent*,
+> delegates post-implementation self-review to the `code-reviewer` _agent_,
 > which internally follows this skill. Load this skill directly when you are
 > the one performing the review (e.g., reviewing a teammate's PR or running
 > a manual self-review without the agent).
@@ -210,6 +210,7 @@ Structure review feedback as follows:
 [List critical issues or "None"]
 
 ### [Issue Title]
+
 - **Location**: `file_path:line_number`
 - **Problem**: [Description]
 - **Impact**: [Why this matters]
