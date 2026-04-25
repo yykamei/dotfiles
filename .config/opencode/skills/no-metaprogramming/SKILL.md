@@ -48,6 +48,26 @@ metaprogramming facility that is the conventional way to achieve the goal.
 | TypeScript | Decorators prescribed by the framework (e.g., NestJS, Angular) |
 | Rust       | `#[derive(...)]`, standard derive macros, `serde` attributes   |
 
+### 3. Test Doubles (Mocks, Stubs, Spies, Fakes)
+
+Test doubles inherently rely on metaprogramming facilities — patching
+attributes, replacing methods, intercepting calls — and that is fine.
+This rule does **not** apply to test code that uses standard testing
+libraries to install temporary doubles for the duration of a test.
+
+Examples that are explicitly permitted:
+
+- Python: `unittest.mock.patch`, `MagicMock`, `monkeypatch` fixtures
+  in pytest
+- Ruby: RSpec's `allow(...).to receive(...)`, `instance_double`
+- TypeScript / JavaScript: `vi.mock`, `jest.mock`, `sinon.stub`
+- Rust: `mockall`, `#[cfg(test)]`-gated trait implementations
+
+The constraints in this skill apply to **production code**. Restoring
+or replacing test doubles after each test is the responsibility of the
+testing framework and is not considered metaprogramming for the
+purposes of this rule.
+
 ### Conditions for Using an Exception
 
 Even when an exception applies, you **must**:
