@@ -113,6 +113,16 @@ Select the appropriate prefix based on the changes.
   - If the repository has fewer than 10 commits, evaluate all available commits.
     If there are no commits yet, check whether `README.md` is primarily written
     in Japanese; if so, use **Japanese**. Otherwise, default to **English**.
+- **Mixed-history tie-breakers**: When the count is close (within one
+  message of a tie, e.g., 4 vs 6 in the last 10) the raw majority is
+  fragile and can flip on adjacent commits. In this case, fall back to
+  these signals in order and pick the first decisive one:
+  1. The language of the **most recent 3 non-merge, non-bot commits**.
+     If they unanimously use one language, follow them.
+  2. The primary language of `README.md` when one is detectable.
+  3. The default — **English**.
+  This avoids the message language flipping back and forth on a
+  repository whose history is genuinely bilingual.
 - **Formatting**: Regardless of the language, always follow the **Conventional Commits** format (feat, fix, etc.).
   - English: `feat: add login function`
   - Japanese: `feat: ログイン機能を追加`
