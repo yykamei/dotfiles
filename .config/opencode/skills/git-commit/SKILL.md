@@ -30,6 +30,12 @@ content. They apply regardless of language or commit type.
   Short fixup commits with only a subject line may use `-m`.
   Also avoid stacking multiple `-m` flags for paragraphs; each `-m`
   argument is still stored unwrapped.
+- **Temporary message file location**: When writing a message file for
+  `-F`, use a path under `/tmp/` such as `/tmp/COMMIT_EDITMSG.txt` (or
+  `/tmp/COMMIT_EDITMSG-<short-slug>.txt` when running multiple commits
+  in parallel). This keeps the file outside the repository so it cannot
+  be accidentally staged, and the OS clears `/tmp/` on reboot. Do not
+  place the message file inside the working tree.
 - **Verify after committing**: Immediately after `git commit`, run
   `git log -1 --format=%B` and visually confirm that:
   - Subject is on its own line, followed by a blank line.
@@ -119,7 +125,11 @@ Select the appropriate prefix based on the changes.
 ## Anti-patterns
 
 - Vague messages like "Update file", "Fix bug", or "WIP" are prohibited.
-- Avoid bullet points. Use conjunctions to connect sentences naturally.
+- A body composed only of bullet points is prohibited. Explain the
+  reasoning in prose so the "why" reads as natural sentences. Bullet
+  points may be used to enumerate items (e.g., a list of affected
+  modules or release-note-style entries) when they supplement, not
+  replace, the prose explanation.
 
 ## Examples
 
