@@ -1,12 +1,18 @@
 ---
 name: code-review
-description: Code review workflow guidelines for reviewing pull requests and code changes.
+description: MUST be loaded before reviewing a pull request or self-reviewing a local diff. Defines context gathering via `gh`/`git`, language-agnostic evaluation criteria, Critical/Warning/Suggestion classification, and the standard Markdown output format.
 ---
 
 # Code Review Workflow
 
 Guidelines for conducting effective code reviews on pull requests, local diffs,
 and any code changes.
+
+> **Relationship to the `code-reviewer` agent**: The `self-review.md` rule
+> delegates post-implementation self-review to the `code-reviewer` *agent*,
+> which internally follows this skill. Load this skill directly when you are
+> the one performing the review (e.g., reviewing a teammate's PR or running
+> a manual self-review without the agent).
 
 ## Determine Review Target
 
@@ -219,7 +225,9 @@ Structure review feedback as follows:
 
 ## Positive Highlights
 
-[Acknowledge good practices found in the code]
+[Optional: acknowledge good practices found in the code. Omit this
+section entirely for trivial diffs where there is nothing distinctive
+to highlight.]
 ```
 
 ## Review Principles
