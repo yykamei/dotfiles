@@ -1,6 +1,6 @@
 ---
 name: no-metaprogramming
-description: Avoid metaprogramming unless it falls into explicitly permitted exceptions.
+description: Defines metaprogramming restrictions and the explicitly permitted exceptions. Load when authoring or reviewing code that dynamically generates, modifies, or introspects code structure at compile time or runtime (e.g., dynamic class/method creation, `method_missing`/`__getattr__`, `send`/`getattr` by string name, macros, monkey-patching).
 ---
 
 # No Metaprogramming
