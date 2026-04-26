@@ -3,6 +3,15 @@
 > Loaded by the `css` skill. See `../SKILL.md` for the overview and the
 > decision checklist.
 
+## Contents
+
+- Padding — Internal Space of a Component
+- Margin — Do Not Apply to a Block
+- Component Spacing — Responsibility of the Parent Layout
+- Cross-Axis Stretching — Side Effect of Layout Containers
+- Fallback — When `gap` Is Not Available
+- Decision Checklist
+
 Spacing in a component architecture follows a clear division of
 responsibility:
 

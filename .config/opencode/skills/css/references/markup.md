@@ -3,6 +3,12 @@
 > Loaded by the `css` skill. See `../SKILL.md` for the overview and the
 > decision checklist.
 
+## Contents
+
+- Guidelines
+- Examples
+- Decision Checklist
+
 Do not add HTML elements solely to satisfy a CSS layout model. If a layout
 requires wrapper elements that carry no semantic meaning and no accessibility
 role, consider whether a different CSS approach can eliminate them.

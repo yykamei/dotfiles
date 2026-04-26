@@ -3,6 +3,14 @@
 > Loaded by the `css` skill. See `../SKILL.md` for the overview and the
 > decision checklist.
 
+## Contents
+
+- BEM Naming Convention
+- CSS Nesting Rules
+- Examples
+- Complete Component Example
+- Decision Checklist
+
 BEM (Block, Element, Modifier) is the foundation for all CSS class naming.
 CSS Nesting is a controlled tool — permitted only for specific use cases listed
 below.
