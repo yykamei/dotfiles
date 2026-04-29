@@ -15,7 +15,7 @@ Strictly adhere to the following structure.
 ```
 [Type]: [Subject] (Max 50 characters)
 
-[Body] (Why this change was necessary, detailed background, solution. Keep English body lines around 72 characters; for Japanese body text, preserve natural paragraphs and wrap only when a line becomes unusually long or hard to read in a typical terminal.)
+[Body] (Why this change was necessary, detailed background, solution. Keep English body lines around 72 characters. For Japanese body text, target around 35-45 full-width characters per line and do not exceed roughly 50 full-width characters; respect natural sentence and paragraph boundaries instead of forcing a fixed width.)
 ```
 
 ## Execution Rules
@@ -40,7 +40,11 @@ content. They apply regardless of language or commit type.
   `git log -1 --format=%B` and visually confirm that:
   - Subject is on its own line, followed by a blank line.
   - English body lines stay around 72 characters.
-  - Japanese body text keeps natural paragraph flow and is not wrapped at a fixed narrow width.
+  - Japanese body lines stay within roughly 50 full-width characters
+    (about 100 columns), with most lines around 35-45 full-width
+    characters. Lines noticeably wider than this should be re-wrapped.
+  - Japanese body text keeps natural paragraph flow and is not wrapped
+    at a fixed narrow width (e.g., 36 characters).
   - Mixed-language lines stay readable in common terminal widths.
   - Paragraph breaks are preserved as blank lines.
     If English lines become excessively long or Japanese paragraphs become hard to read, amend with
@@ -129,7 +133,15 @@ Select the appropriate prefix based on the changes.
 - **Japanese style**:
   - **Subject**: Use 体言止め (noun phrase ending). Write "ログイン機能を追加" instead of "ログイン機能を追加します".
   - **Body**: Use です・ます調. Write "Aを実装します" instead of "Aを実装する".
-- **Japanese body wrapping**: Do not enforce 36-character wrapping. Preserve natural sentences and paragraph boundaries, and wrap Japanese or mixed-language lines only when they become unusually long or would overflow a typical 80-100 column terminal.
+- **Japanese body wrapping**: Aim for around 35-45 full-width
+  characters per line and keep each line within roughly 50 full-width
+  characters as an upper bound. Because each full-width character
+  occupies 2 columns, 50 full-width characters already fills about 100
+  columns. Do not enforce a fixed narrow width such as 36 characters;
+  preserve natural sentence and paragraph boundaries, and break lines
+  at natural punctuation (。、) rather than mid-clause. If a line
+  noticeably exceeds the upper bound, re-wrap it at the nearest
+  natural break.
 
 ## Anti-patterns
 
@@ -162,14 +174,23 @@ existing invalid email addresses separately.
 
 ### Good Japanese Example
 
+各行を全角 35-45 文字程度で折り返し、上限の全角 50 文字を超えないように
+している点に注目してください。句点・読点で自然に区切ることで、ターミナル
+表示でも読みやすさが保たれます。
+
 ```
 docs: 日本語コミット本文の整形ルール調整
 
-OpenCode で利用するモデルによっては、日本語本文を極端に短い幅で折り返してしまいます。
-そのため、日本語本文は 36 文字固定で整形せず、段落を自然な形で保つ方針に変更します。
+OpenCode で利用するモデルによっては、日本語本文を極端に短い幅で折り返して
+しまうことがあります。そのため、日本語本文は 36 文字固定で整形するのを
+やめ、段落を自然な形で保つ方針に変更します。
 
-件名の制約と英語本文の 72 桁目安は維持しつつ、日本語本文だけ可読性を優先します。
-そのうえで、行が長くなりすぎる場合にだけ自然な位置で折り返し、説明の途中で不自然に改行される状態を避けます。
+件名の制約と英語本文の 72 桁目安は維持しつつ、日本語本文だけ可読性を
+優先します。各行は全角 35-45 文字を目安にし、上限の全角 50 文字を
+超えないようにします。
+
+行が長くなりすぎる場合にだけ自然な句点位置で折り返し、説明の途中で
+不自然に改行される状態を避けます。
 ```
 
 ### Bad Example
