@@ -5,6 +5,7 @@ description: |
   and testability. Classifies issues as Critical, Warning, or Suggestion.
   Use after completing code implementation for self-review.
 mode: subagent
+model: github-copilot/claude-opus-4.7
 tools:
   write: false
   edit: false
