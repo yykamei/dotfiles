@@ -33,25 +33,29 @@ Load the relevant reference when working on a specific concern:
 
 | Concern                                                              | File                                                       |
 | -------------------------------------------------------------------- | ---------------------------------------------------------- |
-| BEM naming, Block composition, allowed/disallowed nesting, examples  | [`references/architecture.md`](references/architecture.md) |
+| BEM naming, HTML class identity, Block composition, nesting examples | [`references/architecture.md`](references/architecture.md) |
 | Avoiding layout-only wrapper elements; Flex vs Grid decision         | [`references/markup.md`](references/markup.md)             |
 | padding / margin / gap responsibilities; cross-axis stretch pitfalls | [`references/spacing.md`](references/spacing.md)           |
 
 ## Quick Principles
 
-If you only remember four things:
+If you only remember five things:
 
 1. **BEM names are flat.** Modifiers (`.block--modifier`) and Elements
    (`.block__element`) are always top-level rules. CSS Nesting is allowed
    only for pseudo-classes, pseudo-elements, at-rule queries, and
    attribute selectors. See `references/architecture.md`.
-2. **Don't add `<div>`s for layout alone.** Prefer Grid over nested
+2. **One element has one BEM identity.** In HTML, assign either one Block
+   or one Element as the BEM identity. Multiple Modifiers are allowed only
+   when they belong to that same BEM identity. See
+   `references/architecture.md`.
+3. **Don't add `<div>`s for layout alone.** Prefer Grid over nested
    Flex containers when wrappers exist only to group rows or columns.
    See `references/markup.md`.
-3. **Padding belongs to the component; spacing between siblings belongs
+4. **Padding belongs to the component; spacing between siblings belongs
    to the parent (`gap`).** Margin on a reusable Block is an
    anti-pattern. See `references/spacing.md`.
-4. **Nested Blocks stay independent.** Do not rename a reusable child
+5. **Nested Blocks stay independent.** Do not rename a reusable child
    Block as a parent Element to avoid layout side effects. Fix the
    parent layout or use a child Modifier that is independent of any
    specific parent Block. See `references/architecture.md` and
@@ -63,6 +67,9 @@ Before writing or modifying CSS, ask:
 
 - Is this a `.css` file, or a Sass/CSS-in-JS/CSS-Modules file? If the
   latter, see Scope above before applying these rules.
+- Am I assigning more than one BEM identity (Block or Element) to the
+  same HTML element? Keep either one Block or one Element, plus only
+  Modifiers for that same identity. See `references/architecture.md`.
 - Am I about to nest a selector? Verify against the rules in
   `references/architecture.md`.
 - Am I about to add a `<div>` only for layout? Read `references/markup.md`.
