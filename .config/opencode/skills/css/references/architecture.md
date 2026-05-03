@@ -6,6 +6,7 @@
 ## Contents
 
 - BEM Naming Convention
+- Block Composition
 - CSS Nesting Rules
 - Examples
 - Complete Component Example
@@ -47,6 +48,80 @@ Bad:
 .search-form__submit-button {
 }
 ```
+
+## Block Composition
+
+A Block may be placed inside another Block. This is composition, not ownership:
+the nested Block remains an independent Block and must not be renamed as the
+parent Block's Element merely to satisfy the parent's layout.
+
+Use an Element only for a part that belongs to the parent Block and is not meant
+to be reused independently. If the child is a reusable component, keep its Block
+class and express reusable variants with Modifiers that are independent of any
+specific parent Block.
+
+Bad — duplicating a reusable Button as a parent Element:
+
+```html
+<div class="toolbar">
+  <button class="toolbar__button">Save</button>
+</div>
+```
+
+```css
+.toolbar__button {
+  /* duplicates .button just to work around .toolbar layout */
+}
+```
+
+Bad — a Modifier coupled to the parent context:
+
+```html
+<div class="toolbar">
+  <button class="button button--inToolbar">Save</button>
+</div>
+```
+
+```css
+.button--inToolbar {
+  align-self: flex-start;
+}
+```
+
+Good — keep the child as a Block and use a reusable variant:
+
+```html
+<div class="toolbar">
+  <button class="button button--noStretch">Save</button>
+</div>
+```
+
+```css
+.button--noStretch {
+  align-self: flex-start;
+}
+```
+
+This Modifier is independent of the specific parent Block name. It still assumes
+the Button is participating as a flex/grid child; it opts out of stretch in that
+layout context rather than declaring a universal content-based width. Here,
+"stretch" means cross-axis stretch: width in a column flex layout, height in a
+row flex layout, and the relevant axis in grid.
+
+If every child in the parent layout needs the same alignment, fix the parent
+layout instead of adding Modifiers to each child:
+
+```css
+.toolbar {
+  display: flex;
+  align-items: center;
+}
+```
+
+The parent may still own placement, ordering, tracks, and spacing between its
+children. It must not reach into a child Block's internal structure or force the
+child to become parent-specific. For flex/grid sizing details, see
+[`spacing.md`](spacing.md#cross-axis-stretching--side-effect-of-layout-containers).
 
 ## CSS Nesting Rules
 
@@ -333,6 +408,16 @@ The correct approach is to write flat, top-level rules:
 ```
 
 ## Decision Checklist
+
+Before naming a Block, Element, or Modifier, ask:
+
+1. Is this class for an independent, reusable component? → Use a **Block**.
+2. Is this class for a non-reusable part owned by the parent Block? → Use an
+   **Element**.
+3. Is this a reusable state, size, or presentation variant of a Block? → Use a
+   **Modifier** that is independent of any specific parent Block.
+4. Does the name include the parent context only to work around layout side
+   effects? → Reconsider the parent layout or define a reusable child Modifier.
 
 Before nesting, every answer must be "yes":
 

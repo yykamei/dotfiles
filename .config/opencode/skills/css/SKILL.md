@@ -33,13 +33,13 @@ Load the relevant reference when working on a specific concern:
 
 | Concern                                                              | File                                                       |
 | -------------------------------------------------------------------- | ---------------------------------------------------------- |
-| BEM naming, allowed/disallowed nesting, complete component example   | [`references/architecture.md`](references/architecture.md) |
+| BEM naming, Block composition, allowed/disallowed nesting, examples  | [`references/architecture.md`](references/architecture.md) |
 | Avoiding layout-only wrapper elements; Flex vs Grid decision         | [`references/markup.md`](references/markup.md)             |
 | padding / margin / gap responsibilities; cross-axis stretch pitfalls | [`references/spacing.md`](references/spacing.md)           |
 
 ## Quick Principles
 
-If you only remember three things:
+If you only remember four things:
 
 1. **BEM names are flat.** Modifiers (`.block--modifier`) and Elements
    (`.block__element`) are always top-level rules. CSS Nesting is allowed
@@ -51,6 +51,11 @@ If you only remember three things:
 3. **Padding belongs to the component; spacing between siblings belongs
    to the parent (`gap`).** Margin on a reusable Block is an
    anti-pattern. See `references/spacing.md`.
+4. **Nested Blocks stay independent.** Do not rename a reusable child
+   Block as a parent Element to avoid layout side effects. Fix the
+   parent layout or use a child Modifier that is independent of any
+   specific parent Block. See `references/architecture.md` and
+   `references/spacing.md`.
 
 ## Decision Aid
 
@@ -62,3 +67,6 @@ Before writing or modifying CSS, ask:
   `references/architecture.md`.
 - Am I about to add a `<div>` only for layout? Read `references/markup.md`.
 - Am I about to add `margin` to a Block? Read `references/spacing.md`.
+- Am I turning a reusable child Block into a parent Element to avoid
+  layout side effects? Keep it as a Block; fix the parent layout or use a
+  Modifier that is independent of any specific parent Block.

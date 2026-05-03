@@ -9,6 +9,7 @@
 - Margin — Do Not Apply to a Block
 - Component Spacing — Responsibility of the Parent Layout
 - Cross-Axis Stretching — Side Effect of Layout Containers
+- Nested Blocks — Avoid Implicit Parent Dependency
 - Fallback — When `gap` Is Not Available
 - Decision Checklist
 
@@ -177,7 +178,7 @@ Good — prevent height stretching in a horizontal row:
 }
 ```
 
-Good — the child opts out of stretching with `align-self`:
+Good — the child opts out with a reusable sizing variant:
 
 ```css
 .actions {
@@ -186,14 +187,94 @@ Good — the child opts out of stretching with `align-self`:
   gap: 8px;
 }
 
-.actions > .button {
+.button--noStretch {
   align-self: flex-start;
 }
 ```
 
+This works because the Button is a flex/grid child. The Modifier is independent
+of the specific parent Block name, not independent of layout context. It opts
+out of cross-axis stretch: width in a column flex layout, height in a row flex
+layout, and the relevant axis in grid.
+
 Before using `gap` with Flex or Grid, verify that the default cross-axis
 stretching is acceptable for every direct child. If not, set
 `align-items` on the parent or `align-self` on the specific child.
+
+## Nested Blocks — Avoid Implicit Parent Dependency
+
+A reusable Block can be a direct child of another Block. When that happens, the
+child participates in the parent's layout context, but it does not become the
+parent's Element.
+
+Do not create a parent Element only to avoid flex/grid side effects:
+
+```html
+<div class="actions">
+  <button class="actions__button">Save</button>
+</div>
+```
+
+Do not name the child Modifier after the parent context:
+
+```html
+<div class="actions">
+  <button class="button button--inActions">Save</button>
+</div>
+```
+
+Choose the smallest rule that preserves the Block boundary:
+
+1. If every child should share the same sizing or alignment, set the parent
+   layout default.
+2. If a reusable child Block supports a sizing variant, use a
+   Modifier on that child that is independent of any specific parent Block.
+3. If the adjustment is one-off placement in a specific layout, keep it in the
+   parent layout rule by position or slot, but do not restyle the child's
+   internals or rename the child as an Element.
+
+Good — parent layout owns the common alignment:
+
+```css
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+```
+
+Good — child Block declares a reusable sizing contract:
+
+```html
+<div class="actions">
+  <button class="button button--noStretch">Save</button>
+</div>
+```
+
+```css
+.button--noStretch {
+  align-self: flex-start;
+}
+```
+
+This Modifier is reusable across flex/grid parents that need the same sizing
+contract: the child opts out of cross-axis stretch. If the sizing must also
+apply in normal flow, use a separate content-width Modifier with a
+layout-context independent declaration such as `width: fit-content`.
+
+Good — parent owns one-off placement without changing the child Block's
+identity:
+
+```css
+.actions > :first-child {
+  align-self: flex-start;
+}
+```
+
+This exception is for layout participation only. Spacing between siblings still
+belongs to the parent, and a reusable Block should not carry margins just to fit
+one parent layout.
 
 ## Fallback — When `gap` Is Not Available
 
@@ -250,6 +331,12 @@ Before adding spacing to a component, answer these questions:
    Block may be acceptable as an exception, but prefer parent-controlled
    spacing.
 5. Does the layout container's default `align-items: stretch` produce
-   acceptable sizing for every direct child? → If not, set
-   **`align-items`** on the parent or **`align-self`** on specific
-   children.
+   acceptable sizing for every direct child? → If not, decide whether this is a
+   parent layout default (`align-items` / `justify-items` on the parent), a
+   reusable child Block variant (`align-self` via a Modifier), or one-off
+   placement (a parent rule targeting a position or slot).
+6. Am I turning a reusable child Block into a parent Element to avoid layout
+   side effects? → Keep it as a **Block**; fix the parent layout or use a
+   **Modifier** that is independent of any specific parent Block.
+7. Does the Modifier name include the parent context? → Rename it to describe
+   the child Block's reusable sizing or presentation contract.
