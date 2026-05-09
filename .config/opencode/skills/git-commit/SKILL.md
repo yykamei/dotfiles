@@ -36,6 +36,13 @@ content. They apply regardless of language or commit type.
   in parallel). This keeps the file outside the repository so it cannot
   be accidentally staged, and the OS clears `/tmp/` on reboot. Do not
   place the message file inside the working tree.
+- **Show the exact message before committing**: Before running
+  `git commit` or `git commit --amend`, output the exact commit message
+  that will be passed to git as a fenced code block in an OpenCode
+  message. For `-F`, show the file contents after the message file is
+  written and before the commit command runs. This gives the user a
+  chance to inspect the final subject, blank lines, wrapping, and body
+  prose before the commit is created.
 - **Verify after committing**: Immediately after `git commit`, run
   `git log -1 --format=%B` and visually confirm that:
   - Subject is on its own line, followed by a blank line.
