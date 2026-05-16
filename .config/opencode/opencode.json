@@ -5,10 +5,11 @@
   ],
   "model": "github-copilot/gpt-5.5",
   "agent": {
-    "explore": {
-      "model": "github-copilot/claude-sonnet-4.6",
-      "options": {},
-      "permission": {}
+    "plan": {
+      "model": "github-copilot/claude-opus-4.7"
+    },
+    "build": {
+      "model": "github-copilot/gpt-5.5"
     }
   },
   "instructions": [
