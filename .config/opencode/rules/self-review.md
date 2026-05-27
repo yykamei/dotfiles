@@ -37,13 +37,21 @@ direct implementation, refactoring, etc.).
 - Test code -- any file under test directories or matching test naming
   conventions
 - Configuration files -- `.yaml`, `.yml`, `.toml`, `.json`, `Dockerfile`, CI workflow
-  definitions, build configs, and similar files that affect runtime behavior
+  definitions, build configs, opencode configuration, agents, skills, plugins,
+  and similar files that affect runtime or agent behavior
 
 **Out of scope (self-review skipped):**
 
-- Documentation-only edits (`.md`, `.txt`)
+- Documentation-only edits (`.md`, `.txt`), unless the documentation is an
+  opencode rule, skill, agent, command, or other agent behavior definition
 - Comment-only or typo-only changes
 - Auxiliary files such as `.gitignore`, `.editorconfig`
 
 **Escape hatch:** If the user explicitly requests a review, run the
 `code-reviewer` agent regardless of scope.
+
+## Related rules
+
+When `plannotator-review.md` applies, run the Plannotator review after this
+self-review passes and before committing, amending, pushing, or opening a pull
+request.
