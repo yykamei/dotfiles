@@ -49,9 +49,3 @@ direct implementation, refactoring, etc.).
 
 **Escape hatch:** If the user explicitly requests a review, run the
 `code-reviewer` agent regardless of scope.
-
-## Related rules
-
-When `plannotator-review.md` applies, run the Plannotator review after this
-self-review passes and before committing, amending, pushing, or opening a pull
-request.
