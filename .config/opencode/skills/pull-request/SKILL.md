@@ -1,6 +1,6 @@
 ---
 name: pull-request
-description: MUST be loaded before opening a pull request with `gh pr create`. Defines language detection (delegated to git-commit), base-branch verification, PR title/body conventions, template/CONTRIBUTING checks, body submission via `--body-file`, label/reviewer policy, and the mandatory draft confirmation.
+description: MUST be loaded before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained descriptions, safe body editing, and the mandatory draft confirmation.
 ---
 
 # Pull Request Creation Workflow
@@ -68,26 +68,83 @@ title and body:
    - `PULL_REQUEST_TEMPLATE.md` (repository root)
 2. If a template exists, follow its structure, sections, and checklists when
    composing the PR body.
-3. If no template exists, compose the PR body with the following default
+3. When a template exists, still ensure the PR body includes the information
+   required below. Put missing details in the most natural existing section,
+   or append additional sections at the end. Do not remove or rewrite template
+   checklists, guidance, or repository-specific fields.
+4. If no template exists, compose the PR body with the following default
    structure. Keep the section headers in English regardless of the determined
    language:
 
    ```
    ## Summary
-   [1-3 sentence summary of what changed and why]
+   [1-3 sentence summary of what changed]
+
+   ## Purpose
+   [The outcome or goal this PR achieves]
 
    ## Background
-   [Why this change is needed -- the problem or context]
+   [The prior situation, problem, or product/technical reason]
 
    ## Changes
-   [What was changed and how]
+   [What this PR intentionally changes, and how]
+
+   ## Out of Scope
+   [Related work this PR intentionally does not change, or "None"]
+
+   ## Related
+   [Links to related PBI/issues/PRs, or "None"]
+
+   ## Rollout Role
+   [For phased rollouts, what role this PR plays in the whole release; omit if not applicable]
 
    ## Testing
    [How to verify the change, or "N/A" if not applicable]
 
-   ## Related Issues
-   [Links to related issues/tickets, or "None"]
+   ## Post-Release Verification
+   [What should be checked after release, or "N/A" if not applicable]
+
+   ## Operational Notes
+   [Operational cautions, monitoring, rollback notes, or "None"]
    ```
+
+### Step 3.5: Make the PR Description Self-Contained
+
+The PR body must stand on its own for a developer who has not read any
+planning document, previous session transcript, or local notes. A reviewer
+should be able to understand the intent, background, scope, and relevant
+sequence by reading this PR alone.
+
+Do not explain the PR only with plan-local references such as:
+
+- `PR1`, `PR2`, `PR3`, or similar numbering from a plan.
+- `previous PR`, `next PR`, `first PR`, or similar order-only references.
+- `part 2 of 3`, `stack 2/3`, or similar sequence-only descriptions.
+- `phase 2`, `the earlier step`, or section numbers that only exist in a
+  planning document.
+
+If you need to mention another PR, include all of the following:
+
+- The PR URL, preferably in `https://github.com/owner/repo/pull/N` form.
+- A 1-2 sentence explanation of what that PR completed, or is expected to
+  complete.
+- A clear statement of how this PR depends on, follows from, or supports that
+  related PR.
+
+Example:
+
+```markdown
+## Related
+
+- https://github.com/example/app/pull/123 added the `users.deleted_at` column
+  and shipped the migration. This PR uses that column to hide deleted users
+  from the admin API response.
+```
+
+When the work is part of a phased rollout, the body must describe this PR's
+role in domain terms, not only by sequence number. For example, write
+"This PR wires the already-created database column into the read API" rather
+than "This is PR2 after PR1".
 
 ### Step 4: Check CONTRIBUTING Guide and Code of Conduct
 
@@ -167,3 +224,36 @@ opening the PR.
   workflows.
 - After the PR is open, mention to the user that labels and reviewers
   were left unset, so they can attach what they want.
+
+### Step 8: Editing an Existing PR Body
+
+These rules apply to any existing PR body edit, including `gh pr edit --body`
+and `gh pr edit --body-file`.
+
+Before editing, always retrieve the latest remote body:
+
+```bash
+gh pr view <PR> --json body -q .body > /tmp/PR_BODY-current.md
+```
+
+Then:
+
+1. Use the latest remote body as the base for your edit.
+2. If you have a previous local draft or intended body, compare it with the
+   latest remote body before editing so you can detect intervening changes.
+3. Preserve additions from users, reviewers, automation, or other agents,
+   including checklist state, review notes, follow-up questions, operational
+   cautions, and verification results.
+4. Update only the sections that need to change. Keep unrelated sections in
+   their latest remote form.
+5. Do not replace the whole body with an empty body, stale local draft, or
+   older body version.
+6. Submit the edited body through `--body-file`, following Step 6. For example:
+
+   ```bash
+   gh pr edit <PR> --body-file /tmp/PR_BODY-current.md
+   ```
+
+Do not skip the latest-body retrieval even if you created the PR moments ago.
+The cost of checking is lower than the cost of overwriting someone else's
+checklist item, note, or verification result.
