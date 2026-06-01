@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: MUST be loaded before running `git commit` or `git commit --amend`. Defines commit message language detection, subject/body formatting, multi-line commits via `-F` (never `-m`), and post-commit verification with `git log -1 --format=%B`.
+description: MUST be loaded before running `git commit` or `git commit --amend`. Defines commit message language detection, self-contained commit messages, subject/body formatting, multi-line commits via `-F` (never `-m`), and post-commit verification with `git log -1 --format=%B`.
 ---
 
 # Git Commit Message Guidelines
@@ -111,6 +111,49 @@ Select the appropriate prefix based on the changes.
   Do not write what is obvious from the code; describe the intent and the scope of influence.
   Ensure the Body is written in natural prose that is easy for humans to understand, using punctuation appropriately.
   Besides, the body should be written in present tense, so you should write "implement A" instead of "implemented A".
+
+## Make the Commit Message Self-Contained
+
+The commit message must stand on its own for a developer who has not read any
+planning document, previous session transcript, or local notes. A future reader
+should be able to understand the intent, background, scope, and relevant
+relationship to other work by reading `git log` alone.
+
+Do not explain the commit only with plan-local or session-local references such
+as:
+
+- `PR1`, `commit 2`, `step 2`, or similar numbering from a plan.
+- `previous commit`, `next commit`, `first commit`, or similar order-only
+  references.
+- `part 2 of 3`, `stack 2/3`, or similar sequence-only descriptions.
+- `phase 2`, `the earlier step`, or section numbers that only exist in a
+  planning document.
+- `as discussed`, `as agreed`, or similar references that require reading a
+  previous conversation.
+
+If you need to mention another existing commit, include all of the following:
+
+- The short SHA, preferably with the commit subject.
+- A 1-2 sentence explanation of what that commit completed, or is expected to
+  complete.
+- A clear statement of how this commit depends on, follows from, or supports
+  that related commit.
+
+Example:
+
+```
+fix: hide deleted users from admin responses
+
+Commit `a1b2c3d` (`feat: add deleted_at to users`) added the column and shipped
+the migration needed to represent soft-deleted users. This commit uses that
+column in the admin read path so deleted users no longer appear in API
+responses.
+```
+
+When the work is part of a phased rollout, describe this commit's role in domain
+terms, not only by sequence number. For example, write "This commit wires the
+already-created database column into the read API" rather than "This is phase 2
+after the first commit".
 
 ## Commit message language rules
 
