@@ -4,14 +4,6 @@
     "@plannotator/opencode@latest"
   ],
   "model": "github-copilot/gpt-5.5",
-  "agent": {
-    "plan": {
-      "model": "github-copilot/claude-opus-4.8"
-    },
-    "build": {
-      "model": "github-copilot/gpt-5.5"
-    }
-  },
   "instructions": [
     "~/.config/opencode/AGENTS.md",
     "~/.config/opencode/rules/*.md"
