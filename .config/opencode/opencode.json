@@ -3,7 +3,8 @@
   "plugin": [
     "@plannotator/opencode@latest"
   ],
-  "model": "github-copilot/gpt-5.5",
+  "autoupdate": false,
+  "model": "google/gemini-3.5-flash",
   "instructions": [
     "~/.config/opencode/AGENTS.md",
     "~/.config/opencode/rules/*.md"

@@ -120,15 +120,6 @@ else
 fi
 alias blu='bundle lock --conservative --update'
 
-# OpenCode: Disable autoupdate on macOS and set per-device model.
-if [ `uname -s` = 'Darwin' ]; then
-  if [ "`scutil --get LocalHostName`" = 'yykameis-MacBook-Air' ]; then
-    export OPENCODE_CONFIG_CONTENT='{"autoupdate": false, "model": "google/gemini-3.5-flash"}'
-  else
-    export OPENCODE_CONFIG_CONTENT='{"autoupdate": false}'
-  fi
-fi
-
 # Color
 eval `dircolors -b`
 
