@@ -38,7 +38,7 @@ content. They apply regardless of language or commit type.
   place the message file inside the working tree.
 - **Show the exact message before committing**: Before running
   `git commit` or `git commit --amend`, output the exact commit message
-  that will be passed to git as a fenced code block in an OpenCode
+  that will be passed to git as a fenced code block in an assistant
   message. For `-F`, show the file contents after the message file is
   written and before the commit command runs. This gives the user a
   chance to inspect the final subject, blank lines, wrapping, and body

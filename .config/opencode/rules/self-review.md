@@ -15,9 +15,9 @@ creation, or any other subsequent step.
 
 1. **Finish implementation** -- Complete all code changes (including TDD cycles
    if using the `tdd-workflow` skill)
-2. **Delegate to the `code-reviewer` agent** -- Use the Task tool to launch the
-   `code-reviewer` agent. The agent will gather the diff, review it, and return
-   a structured review report
+2. **Delegate to the `code-reviewer` agent** -- Launch the `code-reviewer`
+   agent. The agent will gather the diff, review it, and return a structured
+   review report
 3. **Handle Critical Issues** -- If the agent reports any Critical Issues, fix
    them in the main session and re-run the self-review by launching the agent
    again
