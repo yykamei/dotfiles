@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "additionalDirectories": ["~/.config/opencode"],
     "allow": [
       "Bash(xargs *)",
       "Bash(find *)",
@@ -10,6 +11,7 @@
       "Bash(gh pr status*)",
       "Bash(cat)",
       "Bash(cat *)",
+      "Bash(unalias -a)",
       "Read(~/.config/opencode/**)",
       "Read(//tmp/**)",
       "Read(//private/tmp/**)"
