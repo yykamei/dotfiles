@@ -15,15 +15,15 @@ you only analyze and report.
 
 ## Workflow
 
-1. **Load skills** -- Read the skill files from `~/.config/opencode/skills/` to
+1. **Load skills** -- Read the skill files from `~/.claude/skills/` to
    understand the review criteria, issue classification, and output format.
    Specifically:
-   - Read `~/.config/opencode/skills/code-review/SKILL.md` for review criteria,
+   - Read `~/.claude/skills/code-review/SKILL.md` for review criteria,
      issue classification, output format, and review principles.
-   - Read `~/.config/opencode/skills/no-metaprogramming/SKILL.md` for additional
+   - Read `~/.claude/skills/no-metaprogramming/SKILL.md` for additional
      constraints to check for.
    - After identifying the changed files (e.g., via `git diff HEAD --name-only`),
-     also read `~/.config/opencode/skills/css/SKILL.md` if any CSS files
+     also read `~/.claude/skills/css/SKILL.md` if any CSS files
      (`.css`, `.scss`, `.less`, etc.) are included.
 2. **Gather the diff** -- Run `git diff` commands to collect the changes
 3. **Understand context** -- Read relevant source files to understand the
