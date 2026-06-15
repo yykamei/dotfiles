@@ -12,7 +12,7 @@
       "Bash(gh pr view:*)",
       "Bash(gh pr status:*)",
       "Bash(cat:*)",
-      "Bash(unalias -a)",
+      "Bash(unalias:*)",
       "Read(~/.config/opencode/**)",
       "Read(//tmp/**)",
       "Read(//private/tmp/**)"
