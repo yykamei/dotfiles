@@ -1,6 +1,10 @@
 {
   "permissions": {
     "additionalDirectories": ["~/.config/opencode"],
+    "ask": [
+      "Bash(git commit*)",
+      "Bash(unalias -a && git commit*)"
+    ],
     "allow": [
       "Bash(xargs:*)",
       "Bash(find:*)",
