@@ -17,6 +17,7 @@
       "Bash(cat:*)",
       "Bash(echo:*)",
       "Bash(tee:*)",
+      "Bash(tail:*)",
       "Bash(gh pr:*)",
       "Bash(gh issue:*)",
       "Bash(gh repo list:*)",
