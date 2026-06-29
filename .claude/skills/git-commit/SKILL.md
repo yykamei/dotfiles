@@ -58,6 +58,9 @@ content. They apply regardless of language or commit type.
     `git commit --amend -F <path>` using the corrected file (only if
     the commit has not been pushed; otherwise ask the user before
     force-pushing, consistent with the Git Safety Protocol).
+- **Delete the message file after committing**: After verification passes,
+  immediately delete the temporary message file with `rm <path>`. This prevents
+  stale content from being accidentally reused in a future session.
 
 ## Consolidating multiple commits into one
 
