@@ -8,11 +8,10 @@ description: MUST be loaded before reviewing a pull request or self-reviewing a 
 Guidelines for conducting effective code reviews on pull requests, local diffs,
 and any code changes.
 
-> **Relationship to the `code-reviewer` agent**: The Self-Review rule (in CLAUDE.md)
-> delegates post-implementation self-review to the `code-reviewer` _agent_,
-> which internally follows this skill. Load this skill directly when you are
-> the one performing the review (e.g., reviewing a teammate's PR or running
-> a manual self-review without the agent).
+> **How this skill is used**: Load this skill directly in the main session
+> whenever you perform a review -- the post-implementation self-review required
+> by the Self-Review rule (in CLAUDE.md), reviewing a teammate's PR, or any
+> manual review of a local diff.
 
 ## Determine Review Target
 
@@ -240,10 +239,10 @@ to highlight.]
 5. **Educate**: Explain why something is problematic
 6. **Acknowledge good work**: Highlight well-written code
 
-## Delegation
+## Specialized Reviews
 
-For specialized reviews, delegate to appropriate agents:
+For concerns beyond general code review:
 
-- **Security concerns**: Delegate to `security-reviewer` agent
+- **Security concerns**: Load the `security-review` skill and review in the main session
 - **Architecture decisions**: Consider consulting domain experts
 - **Performance critical code**: May need profiling or benchmarks

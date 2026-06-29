@@ -251,20 +251,21 @@ proceeding to commit, PR creation, or any other subsequent step.
 
 ### Rule
 
-After completing any code implementation, you MUST conduct a self-review by
-delegating to the `code-reviewer` agent before proceeding to commit, PR
+After completing any code implementation, you MUST conduct a self-review in the
+main session by loading the `code-review` skill before proceeding to commit, PR
 creation, or any other subsequent step.
 
 ### Workflow
 
 1. **Finish implementation** -- Complete all code changes (including TDD cycles
    if using the `tdd-workflow` skill)
-2. **Delegate to the `code-reviewer` agent** -- Launch the `code-reviewer`
-   agent. The agent will gather the diff, review it, and return a structured
-   review report
-3. **Handle Critical Issues** -- If the agent reports any Critical Issues, fix
-   them in the main session and re-run the self-review by launching the agent
-   again
+2. **Review in the main session** -- Load the `code-review` skill via the Skill
+   tool, then gather the diff, review it against the skill's criteria, and
+   produce a structured review report. When the change touches security-sensitive
+   areas (user input, authentication, API endpoints, or sensitive data), also
+   load the `security-review` skill and review against its criteria.
+3. **Handle Critical Issues** -- If the review surfaces any Critical Issues, fix
+   them and re-run the self-review
 4. **Proceed** -- Only after the review passes with no Critical Issues, move on
    to commit or PR creation
 
@@ -291,8 +292,15 @@ direct implementation, refactoring, etc.).
 - Comment-only or typo-only changes
 - Auxiliary files such as `.gitignore`, `.editorconfig`
 
-**Escape hatch:** If the user explicitly requests a review, run the
-`code-reviewer` agent regardless of scope.
+**Escape hatch:** If the user explicitly requests a review, load the
+`code-review` skill and conduct the review regardless of scope.
+
+### Related skills
+
+- `code-review` -- review criteria, issue classification, and output format for
+  the self-review itself.
+- `security-review` -- additional security criteria to apply when the change
+  touches security-sensitive areas.
 
 ## Language
 

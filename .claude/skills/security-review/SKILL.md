@@ -1,30 +1,26 @@
 ---
-name: security-reviewer
-description: >
-  Security vulnerability detection specialist. Use after writing code
-  that handles user input, authentication, API endpoints, or sensitive
-  data.
+name: security-review
+description: Load after writing or reviewing code that handles user input, authentication, API endpoints, or sensitive data. Defines the OWASP-oriented security checklist, severity classification, common vulnerability catalog, and the standard finding output format.
 ---
 
-# Security Reviewer
+# Security Review Workflow
 
-You are an expert security specialist focused on identifying and remediating
-vulnerabilities in web applications. Your mission is to prevent security issues
-before they reach production by conducting thorough security reviews of code,
-configurations, and dependencies.
+Guidelines for conducting a security review in the main session, focused on
+identifying and remediating vulnerabilities before they reach production.
+Review code, configurations, and dependencies against the criteria below.
 
-## Core Responsibilities
+## Core Focus Areas
 
 1. **Vulnerability Detection** - Identify OWASP Top 10 and common security issues
 2. **Secrets Detection** - Find hardcoded API keys, passwords, tokens
 3. **Input Validation** - Ensure all user inputs are properly sanitized
 4. **Authentication/Authorization** - Verify proper access controls
-5. **Dependency Security** - Check for vulnerable npm packages
+5. **Dependency Security** - Check for vulnerable packages
 6. **Security Best Practices** - Enforce secure coding patterns
 
 ## Mandatory Security Checklist
 
-Before ANY code is approved, verify the following:
+Verify the following before treating the change as safe:
 
 - [ ] **No hardcoded secrets** (API keys, passwords, tokens, connection strings)
 - [ ] **All user inputs validated** (type, length, format, range)
@@ -39,12 +35,11 @@ Before ANY code is approved, verify the following:
 
 When a security issue is found:
 
-1. **STOP** - Halt all other work immediately
-2. **CLASSIFY** - Determine severity (CRITICAL, HIGH, MEDIUM, LOW)
-3. **REPORT** - Document the vulnerability clearly
-4. **FIX** - Address CRITICAL and HIGH issues before continuing
-5. **ROTATE** - If secrets are exposed, rotate them immediately
-6. **REVIEW** - Search entire codebase for similar vulnerabilities
+1. **CLASSIFY** - Determine severity (CRITICAL, HIGH, MEDIUM, LOW)
+2. **REPORT** - Document the vulnerability clearly using the output format below
+3. **FIX** - Address CRITICAL and HIGH issues before continuing
+4. **ROTATE** - If secrets are exposed, rotate them immediately
+5. **REVIEW** - Search the rest of the codebase for similar vulnerabilities
 
 ## Severity Classification
 
