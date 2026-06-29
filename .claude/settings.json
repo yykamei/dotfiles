@@ -2,48 +2,29 @@
   "permissions": {
     "additionalDirectories": ["~/.config/opencode"],
     "ask": [
-      "Bash(git commit*)",
-      "Bash(unalias -a && git commit*)"
+      "Bash(git *commit*)"
     ],
     "allow": [
+      "Bash(cd:*)",
       "Bash(xargs:*)",
       "Bash(find:*)",
       "Bash(ls:*)",
       "Bash(grep:*)",
       "Bash(head:*)",
-      "Bash(git add:*)",
+      "Bash(git * status:*)",
+      "Bash(git * log:*)",
+      "Bash(git * add:*)",
       "Bash(gh pr list:*)",
       "Bash(gh pr view:*)",
       "Bash(gh pr status:*)",
+      "Bash(gh run download:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
       "Bash(cat:*)",
-      "Bash(unalias:*)",
       "Read(~/.config/opencode/**)",
+      "Read(~/.claude/**)",
       "Read(//tmp/**)",
       "Read(//private/tmp/**)"
-    ]
-  },
-  "hooks": {
-    "PermissionRequest": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -r '.tool_input.command' | grep -qE '^(unalias -a && )?find ' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PermissionRequest\",\"permissionDecision\":\"allow\",\"permissionDecisionReason\":\"find command auto-allowed\"}}' || true"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq '. as $input | {\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"updatedInput\": {\"command\": (\"unalias -a && \" + $input.tool_input.command)}}}'"
-          }
-        ]
-      }
     ]
   }
 }
