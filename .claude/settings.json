@@ -12,12 +12,7 @@
       "Bash(grep:*)",
       "Bash(rg:*)",
       "Bash(head:*)",
-      "Bash(git * status:*)",
-      "Bash(git * log:*)",
-      "Bash(git * show:*)",
-      "Bash(git * branch:*)",
-      "Bash(git * add:*)",
-      "Bash(git * checkout:*)",
+      "Bash(git:*)",
       "Bash(gh pr list:*)",
       "Bash(gh pr view:*)",
       "Bash(gh pr status:*)",
@@ -27,11 +22,15 @@
       "Bash(gh run list:*)",
       "Bash(gh run view:*)",
       "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(tee:*)",
       "Read(~/.config/opencode/**)",
       "Read(~/.plannotator/**)",
       "Read(~/.claude/**)",
       "Read(//tmp/**)",
-      "Read(//private/tmp/**)"
+      "Read(//private/tmp/**)",
+      "Write(//tmp/**)",
+      "Write(//private/tmp/**)"
     ]
   }
 }
