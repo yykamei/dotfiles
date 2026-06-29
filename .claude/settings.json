@@ -2,7 +2,7 @@
   "permissions": {
     "additionalDirectories": ["~/.config/opencode"],
     "ask": [
-      "Bash(git *commit*)"
+      "Bash(git*commit*)"
     ],
     "allow": [
       "Bash(cd:*)",
@@ -17,14 +17,11 @@
       "Bash(cat:*)",
       "Bash(echo:*)",
       "Bash(tee:*)",
-      "Bash(gh pr list:*)",
-      "Bash(gh pr view:*)",
-      "Bash(gh pr status:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh issue:*)",
       "Bash(gh repo list:*)",
       "Bash(gh repo view:*)",
-      "Bash(gh run download:*)",
-      "Bash(gh run list:*)",
-      "Bash(gh run view:*)",
+      "Bash(gh run:*)",
       "Read(~/.config/opencode/**)",
       "Read(~/.plannotator/**)",
       "Read(~/.claude/**)",
