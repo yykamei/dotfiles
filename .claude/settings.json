@@ -1,9 +1,5 @@
 {
   "permissions": {
-    "additionalDirectories": ["~/.config/opencode"],
-    "ask": [
-      "Bash(git*commit*)"
-    ],
     "allow": [
       "Bash(cat:*)",
       "Bash(cd:*)",
@@ -28,6 +24,16 @@
       "Read(//private/tmp/**)",
       "Write(//tmp/**)",
       "Write(//private/tmp/**)"
+    ],
+    "ask": [
+      "Bash(git*commit*)"
+    ],
+    "additionalDirectories": [
+      "~/.config/opencode"
     ]
+  },
+  "model": "sonnet",
+  "enabledPlugins": {
+    "datadog@claude-plugins-official": true
   }
 }
