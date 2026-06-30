@@ -23,7 +23,9 @@
       "Read(//tmp/**)",
       "Read(//private/tmp/**)",
       "Write(//tmp/**)",
-      "Write(//private/tmp/**)"
+      "Write(//private/tmp/**)",
+      "mcp__sentry__*",
+      "mcp__plugin_datadog_mcp__*"
     ],
     "ask": [
       "Bash(git*commit*)"
