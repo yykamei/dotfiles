@@ -4,7 +4,7 @@
     "@plannotator/opencode@latest"
   ],
   "autoupdate": false,
-  "model": "google/gemini-3.5-flash",
+  "model": "opencode-go/deepseek-v4-flash",
   "instructions": [
     "~/.config/opencode/AGENTS.md",
     "~/.config/opencode/rules/*.md"
