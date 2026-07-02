@@ -32,24 +32,5 @@
       "git -C * commit": "ask",
       "git -C * commit *": "ask"
     }
-  },
-  "mcp": {
-    "datadog": {
-      "type": "remote",
-      "url": "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
-    },
-    "sentry": {
-      "type": "remote",
-      "url": "https://mcp.sentry.dev/mcp",
-      "oauth": {}
-    },
-    "figma": {
-      "type": "remote",
-      "url": "https://mcp.figma.com/mcp",
-      "oauth": {
-        "clientId": "{env:FIGMA_MCP_CLIENT_ID}",
-        "clientSecret": "{env:FIGMA_MCP_CLIENT_SECRET}"
-      }
-    }
   }
 }
