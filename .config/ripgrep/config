@@ -1,0 +1,16 @@
+# Search dotfiles/hidden files globally. `.git` must be excluded
+# because --hidden otherwise descends into it.
+--hidden
+--glob=!.git/
+--glob=!.ssh/
+--glob=!.gnupg/
+--glob=!.aws/
+--glob=!**/.env
+--glob=!**/.env.*
+--glob=!**/.netrc
+--glob=!**/.npmrc
+--glob=!**/credentials
+--glob=!**/*.pem
+--glob=!**/*.key
+--glob=!**/id_rsa
+--glob=!**/id_ed25519
