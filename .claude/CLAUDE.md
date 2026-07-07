@@ -220,6 +220,43 @@ load the `git-commit` skill via the Skill tool. This rule governs commit
 (language, subject/body format, `-F`-based multi-line commits, post-commit
 verification). The two are complementary and BOTH apply when creating a commit.
 
+## Plan Mode Output Conciseness
+
+### When this rule applies
+
+Whenever Plan Mode is active — this covers every output produced during
+planning: the plan file itself, in-progress narration between tool calls, and
+the summary shown when calling ExitPlanMode.
+
+### Principle: Concise but Sufficient
+
+Be brief without dropping information needed for decision or execution. The
+following MUST always be present: what changes, why, which files are affected,
+how to verify, and commit/PR boundaries. Cutting any of these to save words is
+NOT conciseness — it is an incomplete plan. Everything else (decorative
+prose, repetition, restated background) should be cut.
+
+### Plan File Guidelines
+
+- Keep the Context section to a few sentences. Do not re-explain background
+  the user already knows.
+- Do not enumerate alternatives that were not chosen. If the reason for the
+  chosen approach is essential to the decision, state it in one line.
+- Do not paste full code. Summarize the change; include only key diffs or
+  signatures when they are load-bearing.
+- Prefer bullet points over prose. Do not multiply headings beyond what the
+  structure requires.
+
+### In-Progress Narration Guidelines
+
+- Describe each step in one or two sentences.
+- Do not restate tool results or file contents in the narration; state only
+  the conclusion drawn from them.
+
+### ExitPlanMode Summary Guidelines
+
+- Do not repeat the plan file's content. State only the key points.
+
 ## Question Batching Guidelines
 
 ### When this rule applies
