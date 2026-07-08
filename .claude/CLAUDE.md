@@ -257,6 +257,42 @@ prose, repetition, restated background) should be cut.
 
 - Do not repeat the plan file's content. State only the key points.
 
+## Mandatory Skill Rules in Plan Output
+
+### When this rule applies
+
+Whenever a plan for a coding task is produced in Plan Mode — both the plan
+file and the ExitPlanMode summary.
+
+### Background
+
+Plans created in Plan Mode may be handed to a different AI agent for
+implementation. That agent cannot invoke the Skill tool, so the plan itself
+must carry the workflow rules explicitly.
+
+### Rule
+
+Every plan MUST contain a section titled **"Rules for the Implementer"** that
+lists the following skills as mandatory rules. For each skill, state the
+definition file path and when it applies, and instruct the implementer to
+read the `SKILL.md` and follow it before performing the corresponding action:
+
+- **`tdd-workflow`** (`~/.claude/skills/tdd-workflow/SKILL.md`) — follow the
+  RED → GREEN → IMPROVE → LINT cycle when implementing or modifying testable
+  logic.
+- **`code-review`** (`~/.claude/skills/code-review/SKILL.md`) — self-review
+  the diff against its criteria after implementation and before committing;
+  fix any Critical Issues and re-review.
+- **`git-commit`** (`~/.claude/skills/git-commit/SKILL.md`) — follow it for
+  every `git commit` (including `--amend`): message language, subject/body
+  format, `-F`-based multi-line commits, post-commit verification.
+- **`pull-request`** (`~/.claude/skills/pull-request/SKILL.md`) — follow it
+  before `gh pr create` or `gh pr edit --body` when the plan involves a PR.
+
+Referencing the skills by name alone is NOT sufficient; the file paths and
+trigger conditions above MUST appear in the plan so that an agent without
+skill support can still comply.
+
 ## Question Batching Guidelines
 
 ### When this rule applies
