@@ -35,9 +35,17 @@
       "/tmp"
     ]
   },
-  "model": "sonnet",
   "enabledPlugins": {
     "datadog@claude-plugins-official": true,
-    "figma@claude-plugins-official": true
+    "figma@claude-plugins-official": true,
+    "plannotator@plannotator": true
+  },
+  "extraKnownMarketplaces": {
+    "plannotator": {
+      "source": {
+        "source": "github",
+        "repo": "backnotprop/plannotator"
+      }
+    }
   }
 }
