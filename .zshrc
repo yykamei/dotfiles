@@ -12,17 +12,6 @@ export THWACK_EXEC=vim
 export GPG_TTY=$(tty)
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
 
-# Homebrew
-if [ -f /opt/homebrew/bin/brew ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-if which brew 1> /dev/null 2> /dev/null; then
-    PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
-    PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
-    PATH="$HOMEBREW_PREFIX/opt/make/libexec/gnubin:$PATH"
-    PATH="$(brew --prefix python)/libexec/bin:$PATH"
-fi
-
 # PATH settings
 PATH=/usr/local/bin:/usr/local/sbin
 if [ -d /sbin ]; then
@@ -46,6 +35,15 @@ PATH=$PATH:$ANDROID_HOME/tools/bin
 PATH=$PATH:$ANDROID_HOME/platform-tools
 PATH=$PATH:/bin:/usr/bin:/usr/sbin
 
+# Homebrew
+if [ -f /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+if which brew 1> /dev/null 2> /dev/null; then
+    PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+    PATH="$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin:$PATH"
+    PATH="$HOMEBREW_PREFIX/opt/make/libexec/gnubin:$PATH"
+fi
 export PATH
 
 # Locale settings
