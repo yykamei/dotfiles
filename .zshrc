@@ -137,6 +137,10 @@ which starship 1> /dev/null 2> /dev/null && eval "$(starship init zsh)"
 # rbenv
 which rbenv 1> /dev/null 2> /dev/null && eval "$(rbenv init -)"
 
+# uv
+which uv 1> /dev/null 2> /dev/null && eval "$(uv generate-shell-completion zsh)"
+which uvx 1> /dev/null 2> /dev/null && eval "$(uvx --generate-shell-completion zsh)"
+
 if [ `uname -s` = 'Linux' ]; then
     # XXX: following scripts should be run by zlogin.
     agent="/dev/shm/.`whoami`-ssh"
