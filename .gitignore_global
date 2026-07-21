@@ -1,4 +1,4 @@
-*.sw[npo]
+*.sw[mnpo]
 .idea
 .DS_Store
 
