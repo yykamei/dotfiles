@@ -1,0 +1,3 @@
+[submodule ".config/opencode/vendor/hallmark"]
+	path = .config/opencode/vendor/hallmark
+	url = https://github.com/Nutlope/hallmark.git

@@ -9,6 +9,11 @@
     "~/.config/opencode/AGENTS.md",
     "~/.config/opencode/rules/*.md"
   ],
+  "skills": {
+    "paths": [
+      "~/.config/opencode/vendor/hallmark/skills"
+    ]
+  },
   "permission": {
     "read": {
       "*": "allow"
