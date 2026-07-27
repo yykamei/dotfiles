@@ -15,7 +15,8 @@ Strictly adhere to the following structure.
 ```
 [Type]: [Subject] (Max 50 characters)
 
-[Body] (Why this change was necessary, detailed background, solution. Keep English body lines around 72 characters. For Japanese body text, target around 35-45 full-width characters per line and do not exceed roughly 50 full-width characters; respect natural sentence and paragraph boundaries instead of forcing a fixed width.)
+[Body] (Why this change was necessary, detailed background, solution.
+For line-wrapping rules, see "Commit message language rules" below.)
 ```
 
 ## Execution Rules
@@ -46,18 +47,13 @@ content. They apply regardless of language or commit type.
 - **Verify after committing**: Immediately after `git commit`, run
   `git log -1 --format=%B` and visually confirm that:
   - Subject is on its own line, followed by a blank line.
-  - English body lines stay around 72 characters.
-  - Japanese body lines stay within roughly 50 full-width characters
-    (about 100 columns), with most lines around 35-45 full-width
-    characters. Lines noticeably wider than this should be re-wrapped.
-  - Japanese body text keeps natural paragraph flow and is not wrapped
-    at a fixed narrow width (e.g., 36 characters).
-  - Mixed-language lines stay readable in common terminal widths.
   - Paragraph breaks are preserved as blank lines.
-    If English lines become excessively long or Japanese paragraphs become hard to read, amend with
+  - The body follows the wrapping rules in "Commit message language
+    rules" below.
+    If the wrapping is off or paragraphs become hard to read, amend with
     `git commit --amend -F <path>` using the corrected file (only if
     the commit has not been pushed; otherwise ask the user before
-    force-pushing, consistent with the Git Safety Protocol).
+    force-pushing).
 - **Delete the message file after committing**: After verification passes,
   immediately delete the temporary message file with `rm <path>`. This prevents
   stale content from being accidentally reused in a future session.
@@ -75,8 +71,8 @@ several work-in-progress commits need to be folded into one.
   with a single `git commit -F <path>` using a message file.
 - **Latest commit only -- amend**: When only the most recent commit
   needs to be updated (e.g., to absorb a small fixup), use
-  `git commit --amend -F <path>`. Confirm the amend conditions in the
-  Git Safety Protocol first.
+  `git commit --amend -F <path>`. Amend only commits that have not been
+  pushed; otherwise follow the force-push confirmation rule below.
 - **Never use interactive flags**: Do not use `git rebase -i`,
   `git add -i`, or any other `-i` based workflow. The shell available
   here is non-interactive and cannot drive these UIs.
@@ -186,15 +182,18 @@ after the first commit".
 - **Japanese style**:
   - **Subject**: Use 体言止め (noun phrase ending). Write "ログイン機能を追加" instead of "ログイン機能を追加します".
   - **Body**: Use です・ます調. Write "Aを実装します" instead of "Aを実装する".
-- **Japanese body wrapping**: Aim for around 35-45 full-width
-  characters per line and keep each line within roughly 50 full-width
-  characters as an upper bound. Because each full-width character
-  occupies 2 columns, 50 full-width characters already fills about 100
-  columns. Do not enforce a fixed narrow width such as 36 characters;
-  preserve natural sentence and paragraph boundaries, and break lines
-  at natural punctuation (。、) rather than mid-clause. If a line
-  noticeably exceeds the upper bound, re-wrap it at the nearest
-  natural break.
+- **Body wrapping (authoritative)**:
+  - English body lines: keep around 72 characters.
+  - Japanese body lines: aim for around 35-45 full-width characters per
+    line and keep each line within roughly 50 full-width characters as an
+    upper bound. Because each full-width character occupies 2 columns,
+    50 full-width characters already fills about 100 columns. Do not
+    enforce a fixed narrow width such as 36 characters; preserve natural
+    sentence and paragraph boundaries, and break lines at natural
+    punctuation (。、) rather than mid-clause. If a line noticeably
+    exceeds the upper bound, re-wrap it at the nearest natural break.
+  - Keep mixed-language lines readable in common terminal widths, and
+    preserve paragraph breaks as blank lines.
 
 ## Anti-patterns
 

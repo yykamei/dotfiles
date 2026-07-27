@@ -115,13 +115,10 @@ planning document, previous session transcript, or local notes. A reviewer
 should be able to understand the intent, background, scope, and relevant
 sequence by reading this PR alone.
 
-Do not explain the PR only with plan-local references such as:
-
-- `PR1`, `PR2`, `PR3`, or similar numbering from a plan.
-- `previous PR`, `next PR`, `first PR`, or similar order-only references.
-- `part 2 of 3`, `stack 2/3`, or similar sequence-only descriptions.
-- `phase 2`, `the earlier step`, or section numbers that only exist in a
-  planning document.
+The same self-containment rules as the `git-commit` skill's "Make the Commit
+Message Self-Contained" section apply: do not explain the PR only with
+plan-local or order-only references such as `PR2`, `previous PR`,
+`part 2 of 3`, or `phase 2`.
 
 If you need to mention another PR, include all of the following:
 
