@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: MUST be loaded before reviewing a pull request or self-reviewing a local diff. Defines context gathering via `gh`/`git`, language-agnostic evaluation criteria, Critical/Warning/Suggestion classification, and the standard Markdown output format.
+description: Load before reviewing a pull request or self-reviewing a local diff. Defines context gathering via `gh`/`git`, language-agnostic evaluation criteria, Critical/Warning/Suggestion classification, and the standard Markdown output format.
 ---
 
 # Code Review Workflow

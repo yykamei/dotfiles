@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: MUST be loaded before running `git commit` or `git commit --amend`. Defines commit message language detection, self-contained commit messages, subject/body formatting, multi-line commits via `-F` (never `-m`), and post-commit verification with `git log -1 --format=%B`.
+description: Load before running `git commit` or `git commit --amend`. Defines commit message language detection, self-contained commit messages, subject/body formatting, multi-line commits via `-F` (never `-m`), and post-commit verification with `git log -1 --format=%B`.
 ---
 
 # Git Commit Message Guidelines
