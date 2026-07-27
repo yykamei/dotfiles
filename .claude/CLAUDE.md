@@ -29,7 +29,11 @@ Always. This rule states baseline principles that apply to every turn.
   itself lives outside this rule
 - **Test-Driven**: When changing testable logic, follow the `tdd-workflow`
   skill. Not every change requires tests (e.g., shell aliases, dotfile edits)
-- **Security-First**: Never compromise on security
+- **Security-First**: Treat input crossing a system boundary (user input,
+  external APIs, file contents) as untrusted and validate it there, and
+  keep secrets out of code, logs, and commit history. For changes touching
+  security-sensitive areas, the `security-review` skill applies (see
+  Self-Review After Code Changes).
 - **Simplicity**: Don't add features, refactor, or introduce abstractions
   beyond what the task requires. Do the simplest thing that works well. Only
   validate at system boundaries (user input, external APIs); trust internal
@@ -43,7 +47,9 @@ Always. This rule states baseline principles that apply to every turn.
 - **Observation Honesty**: State inferences as inferences, never as facts.
   When an event happens outside your observation window (user prompts,
   approval dialogs, other terminals), say "I cannot observe X" rather than
-  guessing.
+  guessing. Before claiming progress or completion, check each claim
+  against tool results from this session; report a step as done only after
+  its outcome was actually observed.
 
 ## Code Comment Guidelines
 
@@ -123,7 +129,8 @@ whether a PR is opened:
 
 ### Commit Health
 
-Every commit MUST satisfy:
+Every commit MUST satisfy the following, so that any commit can be checked
+out, bisected, or reverted without landing on a broken state:
 
 - **Build passes**: No compile errors, type errors, or lint failures.
 - **Tests pass**: No broken intermediate states. When following TDD, the
