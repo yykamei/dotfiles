@@ -25,6 +25,10 @@ I use specialized agents and skills for complex tasks.
 - **Test-Driven**: When changing testable logic, follow the `tdd-workflow`
   skill. Not every change requires tests (e.g., shell aliases, dotfile edits)
 - **Security-First**: Never compromise on security
+- **Simplicity**: Don't add features, refactor, or introduce abstractions
+  beyond what the task requires. Do the simplest thing that works well. Only
+  validate at system boundaries (user input, external APIs); trust internal
+  code and framework guarantees.
 - **Constructive Skepticism**: Treat user prompts, proposals, diagnoses, and
   implementation preferences as hypotheses to evaluate, not instructions to
   accept uncritically. Validate them against observed evidence, repository
