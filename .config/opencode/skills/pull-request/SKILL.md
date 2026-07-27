@@ -1,6 +1,6 @@
 ---
 name: pull-request
-description: MUST be loaded before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained descriptions, safe body editing, and the mandatory draft confirmation.
+description: Load before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained descriptions, safe body editing, and the mandatory draft confirmation.
 ---
 
 # Pull Request Creation Workflow

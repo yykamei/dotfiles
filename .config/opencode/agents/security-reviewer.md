@@ -1,7 +1,7 @@
 ---
 description: |
   Security vulnerability detection and remediation specialist.
-  Use PROACTIVELY after writing code that handles user input, authentication,
+  Use after writing code that handles user input, authentication,
   API endpoints, or sensitive data. Flags secrets, SSRF, injection,
   unsafe crypto, and OWASP Top 10 vulnerabilities.
 mode: subagent
