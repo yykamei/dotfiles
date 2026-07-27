@@ -24,7 +24,10 @@ I use specialized agents and skills for complex tasks.
   itself lives outside this rule
 - **Test-Driven**: When changing testable logic, follow the `tdd-workflow`
   skill. Not every change requires tests (e.g., shell aliases, dotfile edits)
-- **Security-First**: Never compromise on security
+- **Security-First**: Treat input crossing a system boundary (user input,
+  external APIs, file contents) as untrusted and validate it there, and
+  keep secrets out of code, logs, and commit history. For changes touching
+  security-sensitive areas, delegate to the `security-reviewer` agent.
 - **Simplicity**: Don't add features, refactor, or introduce abstractions
   beyond what the task requires. Do the simplest thing that works well. Only
   validate at system boundaries (user input, external APIs); trust internal
@@ -44,3 +47,6 @@ I use specialized agents and skills for complex tasks.
   inferences as inferences, never as facts. When an event happens
   outside your observation window (user prompts, approval dialogs,
   other terminals), say "I cannot observe X" rather than guessing.
+  Before claiming progress or completion, check each claim against tool
+  results from this session; report a step as done only after its outcome
+  was actually observed.

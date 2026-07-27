@@ -66,7 +66,8 @@ whether a PR is opened:
 
 ## Commit Health
 
-Every commit MUST satisfy:
+Every commit MUST satisfy the following, so that any commit can be checked
+out, bisected, or reverted without landing on a broken state:
 
 - **Build passes**: No compile errors, type errors, or lint failures.
 - **Tests pass**: No broken intermediate states. Include both the test and its
