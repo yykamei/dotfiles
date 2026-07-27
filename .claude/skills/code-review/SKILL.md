@@ -13,109 +13,18 @@ and any code changes.
 > by the Self-Review rule (in CLAUDE.md), reviewing a teammate's PR, or any
 > manual review of a local diff.
 
-## Determine Review Target
-
-Before starting a review, determine whether you are reviewing a **pull request**
-or a **local diff** (e.g., self-review before committing). The information
-gathering steps differ, but the review process, issue classification, and output
-format are shared.
-
----
-
 ## Gathering Context
 
-### For Pull Requests
+Determine whether you are reviewing a **pull request** or a **local diff**
+(e.g., self-review before committing), then gather the following before
+reviewing. The review process, issue classification, and output format are
+shared between the two.
 
-Use these GitHub CLI commands to gather context before reviewing:
-
-#### View PR Details
-
-```bash
-# View PR description, title, labels, and metadata
-gh pr view <PR_NUMBER>
-
-# View PR in specific format
-gh pr view <PR_NUMBER> --json title,body,labels,author,baseRefName,headRefName
-```
-
-#### View Code Changes
-
-```bash
-# View the diff of changes
-gh pr diff <PR_NUMBER>
-
-# View diff with specific options
-gh pr diff <PR_NUMBER> --color=always
-```
-
-#### View Commits
-
-```bash
-# List commits in the PR
-gh pr view <PR_NUMBER> --json commits --jq '.commits[].messageHeadline'
-
-# View detailed commit information via API
-gh api repos/{owner}/{repo}/pulls/<PR_NUMBER>/commits
-```
-
-#### Check CI Status
-
-```bash
-# View CI check status
-gh pr checks <PR_NUMBER>
-```
-
-#### View PR Comments
-
-```bash
-# View review comments
-gh api repos/{owner}/{repo}/pulls/<PR_NUMBER>/comments
-
-# View issue-style comments
-gh api repos/{owner}/{repo}/issues/<PR_NUMBER>/comments
-```
-
-### For Local Diffs (Self-Review)
-
-Use these git commands to gather changes before reviewing:
-
-#### View Changed Files
-
-```bash
-# List files with uncommitted changes (staged + unstaged)
-git diff HEAD --name-only
-
-# List only staged files
-git diff --staged --name-only
-
-# List only unstaged files
-git diff --name-only
-```
-
-#### View the Diff
-
-```bash
-# View all uncommitted changes (staged + unstaged)
-git diff HEAD
-
-# View only staged changes
-git diff --staged
-
-# View only unstaged changes
-git diff
-```
-
-#### View Recent Commits (if reviewing commits not yet pushed)
-
-```bash
-# View commits ahead of the remote
-git log @{u}..HEAD --oneline
-
-# View diff of commits not yet pushed
-git diff @{u}..HEAD
-```
-
----
+- **For PRs** (via `gh`): the PR description, title, and labels; the full
+  diff; the commit list; CI check status; and existing review/issue comments.
+- **For local diffs** (via `git`): all uncommitted changes (staged and
+  unstaged), plus any commits not yet pushed when they are part of the review
+  target.
 
 ## Review Process
 
@@ -232,12 +141,8 @@ to highlight.]
 
 ## Review Principles
 
-1. **Be constructive**: Offer solutions, not just criticism
-2. **Be specific**: Point to exact locations and provide examples
-3. **Be respectful**: Remember there's a person behind the code
-4. **Prioritize**: Focus on important issues first
-5. **Educate**: Explain why something is problematic
-6. **Acknowledge good work**: Highlight well-written code
+Point to exact locations, offer concrete fixes rather than bare criticism,
+and prioritize the findings that matter most.
 
 ## Specialized Reviews
 

@@ -115,13 +115,10 @@ planning document, previous session transcript, or local notes. A reviewer
 should be able to understand the intent, background, scope, and relevant
 sequence by reading this PR alone.
 
-Do not explain the PR only with plan-local references such as:
-
-- `PR1`, `PR2`, `PR3`, or similar numbering from a plan.
-- `previous PR`, `next PR`, `first PR`, or similar order-only references.
-- `part 2 of 3`, `stack 2/3`, or similar sequence-only descriptions.
-- `phase 2`, `the earlier step`, or section numbers that only exist in a
-  planning document.
+The same self-containment rules as the `git-commit` skill's "Make the Commit
+Message Self-Contained" section apply: do not explain the PR only with
+plan-local or order-only references such as `PR2`, `previous PR`,
+`part 2 of 3`, or `phase 2`.
 
 If you need to mention another PR, include all of the following:
 
@@ -167,47 +164,14 @@ to open the PR as a draft.
 
 ### Step 6: Submit the PR Body Reliably
 
-Multi-line PR bodies should not be passed as a single `--body` string.
-Use one of the following two patterns so newlines, blank lines, and
-Markdown structure are preserved exactly.
-
-#### Preferred — `--body-file`
-
-Write the body to a file and pass the path to `gh`:
-
-```bash
-# Write the body
-cat > /tmp/PR_BODY.md <<'EOF'
-## Summary
-…
-
-## Background
-…
-EOF
-
-gh pr create --title "…" --body-file /tmp/PR_BODY.md
-```
-
-Use a path under `/tmp/` (e.g., `/tmp/PR_BODY.md` or
-`/tmp/PR_BODY-<slug>.md` when running multiple PRs in parallel) so the
-file stays outside the working tree and cannot be accidentally
-committed.
-
-#### Acceptable — Inline HEREDOC
-
-When writing a temporary file is undesirable, an inline HEREDOC works
-too:
-
-```bash
-gh pr create --title "…" --body "$(cat <<'EOF'
-## Summary
-…
-EOF
-)"
-```
-
-Always quote the HEREDOC delimiter (`'EOF'`) to prevent shell
-expansion of backticks and `$` inside the body.
+Do not pass a multi-line PR body as a single `--body` string. Write the body
+to a file under `/tmp/` (e.g., `/tmp/PR_BODY.md`, with a slug suffix when
+running multiple PRs in parallel) and pass it via `--body-file`, so newlines,
+blank lines, and Markdown structure are preserved exactly and the file stays
+outside the working tree. An inline HEREDOC in `--body "$(cat <<'EOF' … EOF)"`
+form is acceptable when writing a file is undesirable; always quote the
+delimiter (`'EOF'`) to prevent shell expansion of backticks and `$` inside
+the body.
 
 ### Step 7: Labels, Reviewers, and Assignees
 
@@ -230,13 +194,9 @@ opening the PR.
 These rules apply to any existing PR body edit, including `gh pr edit --body`
 and `gh pr edit --body-file`.
 
-Before editing, always retrieve the latest remote body:
-
-```bash
-gh pr view <PR> --json body -q .body > /tmp/PR_BODY-current.md
-```
-
-Then:
+Before editing, always retrieve the latest remote body
+(`gh pr view <PR> --json body -q .body`), even if you created the PR moments
+ago. Then:
 
 1. Use the latest remote body as the base for your edit.
 2. If you have a previous local draft or intended body, compare it with the
@@ -248,12 +208,7 @@ Then:
    their latest remote form.
 5. Do not replace the whole body with an empty body, stale local draft, or
    older body version.
-6. Submit the edited body through `--body-file`, following Step 6. For example:
+6. Submit the edited body through `--body-file`, following Step 6.
 
-   ```bash
-   gh pr edit <PR> --body-file /tmp/PR_BODY-current.md
-   ```
-
-Do not skip the latest-body retrieval even if you created the PR moments ago.
-The cost of checking is lower than the cost of overwriting someone else's
-checklist item, note, or verification result.
+The cost of retrieving the latest body is lower than the cost of overwriting
+someone else's checklist item, note, or verification result.

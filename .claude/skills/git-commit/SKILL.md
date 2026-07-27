@@ -5,8 +5,8 @@ description: MUST be loaded before running `git commit` or `git commit --amend`.
 
 # Git Commit Message Guidelines
 
-Act as an experienced software engineer.
-Based on the provided `git diff` or `git diff --cached`, create a commit message following the rules below.
+Based on the provided `git diff` or `git diff --cached`, create a commit
+message following the rules below.
 
 ## Basic Format
 
@@ -15,7 +15,8 @@ Strictly adhere to the following structure.
 ```
 [Type]: [Subject] (Max 50 characters)
 
-[Body] (Why this change was necessary, detailed background, solution. Keep English body lines around 72 characters. For Japanese body text, target around 35-45 full-width characters per line and do not exceed roughly 50 full-width characters; respect natural sentence and paragraph boundaries instead of forcing a fixed width.)
+[Body] (Why this change was necessary, detailed background, solution.
+For line-wrapping rules, see "Commit message language rules" below.)
 ```
 
 ## Execution Rules
@@ -23,44 +24,30 @@ Strictly adhere to the following structure.
 These rules govern HOW the commit message is delivered to git, not its
 content. They apply regardless of language or commit type.
 
-- **Never use `-m` for multi-line bodies**: The `-m` flag stores its
-  argument as a single line and will not wrap text automatically.
-  For any commit with a body, write the full message (subject + blank
-  line + body) to a file and pass it via `git commit -F <path>`.
-  Short fixup commits with only a subject line may use `-m`.
-  Also avoid stacking multiple `-m` flags for paragraphs; each `-m`
-  argument is still stored unwrapped.
-- **Temporary message file location**: When writing a message file for
-  `-F`, use a path under `/tmp/` such as `/tmp/COMMIT_EDITMSG.txt` (or
-  `/tmp/COMMIT_EDITMSG-<short-slug>.txt` when running multiple commits
-  in parallel). This keeps the file outside the repository so it cannot
-  be accidentally staged, and the OS clears `/tmp/` on reboot. Do not
-  place the message file inside the working tree.
-- **Show the exact message before committing**: Before running
-  `git commit` or `git commit --amend`, output the exact commit message
-  that will be passed to git as a fenced code block in an assistant
-  message. For `-F`, show the file contents after the message file is
-  written and before the commit command runs. This gives the user a
-  chance to inspect the final subject, blank lines, wrapping, and body
-  prose before the commit is created.
+- **Never use `-m` for multi-line bodies**: `-m` stores its argument
+  unwrapped, and stacking multiple `-m` flags does not help. For any commit
+  with a body, write the full message to a file and pass it via
+  `git commit -F <path>`. Short fixup commits with only a subject line may
+  use `-m`.
+- **Temporary message file location**: Write the `-F` message file under
+  `/tmp/` (e.g., `/tmp/COMMIT_EDITMSG.txt`, with a short slug suffix when
+  running multiple commits in parallel). This keeps the file outside the
+  working tree so it cannot be accidentally staged. Do not place the message
+  file inside the repository.
+- **Show the exact message before committing**: Before running `git commit`
+  or `git commit --amend`, output the exact commit message as a fenced code
+  block in an assistant message, so the user can inspect the final subject,
+  wrapping, and body prose before the commit is created.
 - **Verify after committing**: Immediately after `git commit`, run
-  `git log -1 --format=%B` and visually confirm that:
-  - Subject is on its own line, followed by a blank line.
-  - English body lines stay around 72 characters.
-  - Japanese body lines stay within roughly 50 full-width characters
-    (about 100 columns), with most lines around 35-45 full-width
-    characters. Lines noticeably wider than this should be re-wrapped.
-  - Japanese body text keeps natural paragraph flow and is not wrapped
-    at a fixed narrow width (e.g., 36 characters).
-  - Mixed-language lines stay readable in common terminal widths.
-  - Paragraph breaks are preserved as blank lines.
-    If English lines become excessively long or Japanese paragraphs become hard to read, amend with
-    `git commit --amend -F <path>` using the corrected file (only if
-    the commit has not been pushed; otherwise ask the user before
-    force-pushing, consistent with the Git Safety Protocol).
+  `git log -1 --format=%B` and confirm the subject is on its own line
+  followed by a blank line, paragraph breaks are preserved, and the body
+  follows the wrapping rules in "Commit message language rules". If not,
+  amend with `git commit --amend -F <path>` using a corrected file (only if
+  the commit has not been pushed; otherwise ask the user before
+  force-pushing).
 - **Delete the message file after committing**: After verification passes,
-  immediately delete the temporary message file with `rm <path>`. This prevents
-  stale content from being accidentally reused in a future session.
+  delete the temporary message file with `rm <path>` so stale content is not
+  reused in a future session.
 
 ## Consolidating multiple commits into one
 
@@ -70,23 +57,18 @@ several work-in-progress commits need to be folded into one.
 
 - **Preferred path -- soft reset to base**: Run `git reset --soft <base>`
   (where `<base>` is the merge-base with the target branch, typically
-  `origin/main`), which preserves the working tree and index while
-  collapsing the previous commits. Then create the consolidated commit
-  with a single `git commit -F <path>` using a message file.
-- **Latest commit only -- amend**: When only the most recent commit
-  needs to be updated (e.g., to absorb a small fixup), use
-  `git commit --amend -F <path>`. Confirm the amend conditions in the
-  Git Safety Protocol first.
-- **Never use interactive flags**: Do not use `git rebase -i`,
-  `git add -i`, or any other `-i` based workflow. The shell available
-  here is non-interactive and cannot drive these UIs.
-- **Pushed branches require confirmation**: If the branch has already
-  been pushed, the consolidated commit can only land via a force push.
-  Ask the user before running `git push --force-with-lease`, and never
-  force push to `main` / `master` without explicit approval.
-- **Verify afterward**: After the consolidation commit lands, run
-  `git log <base>..HEAD --oneline` to confirm exactly one commit
-  remains, then run the standard `git log -1 --format=%B` verification
+  `origin/main`), then create the consolidated commit with a single
+  `git commit -F <path>`.
+- **Latest commit only -- amend**: When only the most recent commit needs to
+  absorb a small fixup, use `git commit --amend -F <path>`.
+- **Never use interactive flags**: Do not use `git rebase -i`, `git add -i`,
+  or any other `-i` based workflow; the shell here is non-interactive.
+- **Pushed branches require confirmation**: A consolidated commit on an
+  already-pushed branch can only land via a force push. Ask the user before
+  running `git push --force-with-lease`, and never force push to `main` /
+  `master` without explicit approval.
+- **Verify afterward**: Run `git log <base>..HEAD --oneline` to confirm
+  exactly one commit remains, then run the standard post-commit verification
   from the Execution Rules above.
 
 ## Type Definitions (Conventional Commits compliant)
@@ -112,8 +94,8 @@ Select the appropriate prefix based on the changes.
 - **Body**:
   Focus on "Why" rather than "What".
   Do not write what is obvious from the code; describe the intent and the scope of influence.
-  Ensure the Body is written in natural prose that is easy for humans to understand, using punctuation appropriately.
-  Besides, the body should be written in present tense, so you should write "implement A" instead of "implemented A".
+  Write in natural, present-tense prose ("implement A", not "implemented A"),
+  using punctuation appropriately.
 
 ## Make the Commit Message Self-Contained
 
@@ -186,15 +168,15 @@ after the first commit".
 - **Japanese style**:
   - **Subject**: Use 体言止め (noun phrase ending). Write "ログイン機能を追加" instead of "ログイン機能を追加します".
   - **Body**: Use です・ます調. Write "Aを実装します" instead of "Aを実装する".
-- **Japanese body wrapping**: Aim for around 35-45 full-width
-  characters per line and keep each line within roughly 50 full-width
-  characters as an upper bound. Because each full-width character
-  occupies 2 columns, 50 full-width characters already fills about 100
-  columns. Do not enforce a fixed narrow width such as 36 characters;
-  preserve natural sentence and paragraph boundaries, and break lines
-  at natural punctuation (。、) rather than mid-clause. If a line
-  noticeably exceeds the upper bound, re-wrap it at the nearest
-  natural break.
+- **Body wrapping (authoritative)**:
+  - English body lines: keep around 72 characters.
+  - Japanese body lines: aim for around 35-45 full-width characters per line
+    and keep each line within roughly 50 full-width characters as an upper
+    bound (about 100 columns). Do not enforce a fixed narrow width such as
+    36 characters; preserve natural sentence and paragraph boundaries, and
+    break lines at natural punctuation (。、) rather than mid-clause.
+  - Keep mixed-language lines readable in common terminal widths, and
+    preserve paragraph breaks as blank lines.
 
 ## Anti-patterns
 
@@ -206,24 +188,6 @@ after the first commit".
   replace, the prose explanation.
 
 ## Examples
-
-### Good Example
-
-```
-feat: Add validation to the user registration screen
-
-We are seeing an increase in inquiries about undelivered emails. Upon
-investigation, we found that some users are entering email addresses in formats
-not accepted by SMTP servers. In short, we were failing to prevent invalid
-email formats at the input stage.
-
-Therefore, we are introducing email format validation to prevent the
-registration of invalid data.
-
-Note that since some existing records already contain invalid email addresses,
-this validation is applied only during new user creation. We plan to fix the
-existing invalid email addresses separately.
-```
 
 ### Good Japanese Example
 
