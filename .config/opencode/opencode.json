@@ -6,7 +6,6 @@
   "autoupdate": false,
   "model": "opencode-go/glm-5.2",
   "instructions": [
-    "~/.config/opencode/AGENTS.md",
     "~/.config/opencode/rules/*.md"
   ],
   "skills": {
