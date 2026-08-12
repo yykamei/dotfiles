@@ -4,7 +4,7 @@
     "@plannotator/opencode@latest"
   ],
   "autoupdate": false,
-  "model": "opencode-go/glm-5.2",
+  "model": "opencode-go/deepseek-v4-flash",
   "instructions": [
     "~/.config/opencode/rules/*.md"
   ],
