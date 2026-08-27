@@ -22,8 +22,8 @@
       "Read(~/.claude/**)",
       "Read(//tmp/**)",
       "Read(//private/tmp/**)",
-      "Write(//tmp/**)",
-      "Write(//private/tmp/**)",
+      "Edit(//tmp/**)",
+      "Edit(//private/tmp/**)",
       "mcp__sentry__*",
       "mcp__plugin_datadog_mcp__*"
     ],
@@ -46,7 +46,8 @@
       "source": {
         "source": "github",
         "repo": "backnotprop/plannotator"
-      }
+      },
+      "autoUpdate": true
     }
   }
 }
