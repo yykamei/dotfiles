@@ -55,12 +55,32 @@ Always. This rule states baseline principles that apply to every turn.
 
 ### When this rule applies
 
-When writing or editing source code.
+When writing or editing source code, or when reviewing code where the
+question of adding/removing comments arises.
 
 ### Rule
 
-Code should speak for itself; names and structure convey design intent.
-Only write comments that explain:
+**Comments signal missing abstraction.** If you feel the need to explain
+something in a comment, critically consider refactoring so that the
+explanation becomes code. Keep the comment only when it is genuinely more
+advantageous after that consideration (why-not decisions, external
+constraints, historical background). If the judgment is difficult, explain
+the situation to the user and ask them to decide.
+
+**Top-level definitions MUST have interface comments.** Every top-level
+implementation definition — OOP classes, mixin modules, and similar reusable
+abstractions — MUST be documented with its purpose, how it should be used,
+and a concrete usage example. "Top-level" means a definition at file/module
+scope, as opposed to nested or local declarations. These interface comments
+are not the missing-abstraction smell — they document the abstraction's
+contract (purpose/usage), not its implementation.
+
+Do NOT add comments to every function, class, or block by default — the
+interface comments above are the exception.
+
+Avoid the **Comments Repeat Code** Red Flag (John Ousterhout, *A Philosophy
+of Software Design*): never write comments that merely restate what the
+code does. Only write comments that explain:
 
 - **Why not?** — why an alternative approach was NOT chosen
 - **Background context** — the business rule, constraint, or historical
@@ -68,9 +88,7 @@ Only write comments that explain:
 - **Non-obvious trade-offs** — performance, security, or compatibility
   considerations that influenced the implementation
 - **Workarounds** — temporary fixes with references to issues or tickets
-
-If a comment would merely explain what the code does, refactor the code to
-be more readable instead.
+- **Purpose and usage of top-level definitions** (see above)
 
 ## Commit and PR Granularity
 
