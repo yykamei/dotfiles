@@ -96,6 +96,11 @@ Select the appropriate prefix based on the changes.
   Do not write what is obvious from the code; describe the intent and the scope of influence.
   Write in natural, present-tense prose ("implement A", not "implemented A"),
   using punctuation appropriately.
+  Do not report verification. Do not describe how the change was verified
+  (e.g., "ran the tests", "confirmed behavior with ..."). Passing tests is a
+  precondition for committing, so such statements add no information and even
+  imply the commit may not pass. Include verification details only when the
+  user explicitly asks for them.
 
 ## Make the Commit Message Self-Contained
 
@@ -186,6 +191,12 @@ after the first commit".
   points may be used to enumerate items (e.g., a list of affected
   modules or release-note-style entries) when they supplement, not
   replace, the prose explanation.
+- Verification reports are prohibited: do not report how the change was
+  verified (e.g., "ran the tests", "verified by running X", "this guarantees
+  the behavior"); they add no value for future readers and imply the commit
+  may not pass its tests. Include them only when the user explicitly asks.
+  This does not prohibit describing the change itself, such as the tests added
+  in a `test:` commit — only reporting the verification act/result is banned.
 
 ## Examples
 
