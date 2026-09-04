@@ -35,14 +35,14 @@ The outer container uses `flex-direction: column`, and each row is itself a Flex
 container — all to achieve a consistent three-column card layout:
 
 ```html
-<div class="cardGrid">
-  <div class="cardGrid__row">
+<div class="card-grid">
+  <div class="card-grid-row">
     <!-- layout-only wrapper -->
     <div class="card">…</div>
     <div class="card">…</div>
     <div class="card">…</div>
   </div>
-  <div class="cardGrid__row">
+  <div class="card-grid-row">
     <!-- layout-only wrapper -->
     <div class="card">…</div>
     <div class="card">…</div>
@@ -52,13 +52,13 @@ container — all to achieve a consistent three-column card layout:
 ```
 
 ```css
-.cardGrid {
+.card-grid {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.cardGrid__row {
+.card-grid-row {
   display: flex;
   gap: 16px;
 }
@@ -73,7 +73,7 @@ container — all to achieve a consistent three-column card layout:
 Grid eliminates the row wrappers entirely:
 
 ```html
-<div class="cardGrid">
+<div class="card-grid">
   <div class="card">…</div>
   <div class="card">…</div>
   <div class="card">…</div>
@@ -84,7 +84,7 @@ Grid eliminates the row wrappers entirely:
 ```
 
 ```css
-.cardGrid {
+.card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -97,28 +97,33 @@ A horizontal navigation is genuinely one-dimensional. Flexbox is the natural
 fit; no extra wrappers are needed:
 
 ```html
-<nav class="navBar">
-  <a class="navBar__link" href="/">Home</a>
-  <a class="navBar__link" href="/about">About</a>
-  <a class="navBar__link" href="/contact">Contact</a>
+<nav class="nav-bar">
+  <a class="nav-link" href="/">Home</a>
+  <a class="nav-link" href="/about">About</a>
+  <a class="nav-link" href="/contact">Contact</a>
 </nav>
 ```
 
 ```css
-.navBar {
+.nav-bar {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 ```
 
+When a component adapts to where it is placed rather than to the viewport,
+prefer container queries over extra wrappers or viewport breakpoints — see
+[`responsive-tokens.md`](responsive-tokens.md#container-queries-over-media-queries-for-components).
+
 ## Decision Checklist
 
-Before adding an HTML element, every answer must be "yes":
+Before adding an HTML element, consider:
 
 1. Does this element carry semantic meaning or an accessibility role?
 2. Does this element aid assistive technology (e.g., landmark, grouping)?
 3. Is there no CSS-only alternative that achieves the same layout?
 
-If any answer is "no", look for a CSS-only alternative (e.g., switching from
-nested Flex containers to Grid) before adding the element.
+If the element serves layout alone, look for a CSS-only alternative
+(e.g., switching from nested Flex containers to Grid, or using container
+queries) before adding it.

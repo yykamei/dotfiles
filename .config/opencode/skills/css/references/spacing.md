@@ -6,10 +6,10 @@
 ## Contents
 
 - Padding — Internal Space of a Component
-- Margin — Do Not Apply to a Block
+- Margin — Avoid on Reusable Components
 - Component Spacing — Responsibility of the Parent Layout
 - Cross-Axis Stretching — Side Effect of Layout Containers
-- Nested Blocks — Avoid Implicit Parent Dependency
+- Nested Components — Avoid Implicit Parent Dependency
 - Fallback — When `gap` Is Not Available
 - Decision Checklist
 
@@ -25,8 +25,8 @@ responsibility:
 ## Padding — Internal Space of a Component
 
 Padding is the space a component needs to be visually complete on its own. A
-Block declares its own padding because that space is part of the component's
-visual identity, independent of where it is placed.
+component declares its own padding because that space is part of the
+component's visual identity, independent of where it is placed.
 
 ```css
 .card {
@@ -38,14 +38,14 @@ visual identity, independent of where it is placed.
 }
 ```
 
-## Margin — Do Not Apply to a Block
+## Margin — Avoid on Reusable Components
 
-Applying margin to an independent Block is an anti-pattern in principle. When a
-Block carries its own margin, it becomes coupled to a specific layout context
-and loses its reusable nature — the same Block placed in a different container
-would bring unwanted spacing.
+Applying margin to an independent component is an anti-pattern in principle.
+When a component carries its own margin, it becomes coupled to a specific
+layout context and loses its reusable nature — the same component placed
+in a different container would bring unwanted spacing.
 
-Bad — margin on the Block itself:
+Bad — margin on the component itself:
 
 ```css
 .card {
@@ -61,7 +61,7 @@ Good — the parent layout controls spacing (see next section):
   padding: 16px;
 }
 
-.cardList {
+.card-list {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -70,8 +70,8 @@ Good — the parent layout controls spacing (see next section):
 
 ### Exception
 
-For page-specific Blocks that are not intended for reuse (e.g., a one-off hero
-section), margin may be acceptable when the overhead of an additional layout
+For page-specific components that are not intended for reuse (e.g., a one-off
+hero section), margin may be acceptable when the overhead of an additional layout
 wrapper outweighs the benefit. Even in these cases, prefer parent-controlled
 spacing when practical.
 
@@ -96,7 +96,7 @@ Bad — children manage their own external spacing:
 Good — the parent layout owns the spacing:
 
 ```css
-.cardList {
+.card-list {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -107,12 +107,10 @@ Good — the parent layout owns the spacing:
 }
 ```
 
-> **Note on the architecture examples**: `architecture.md` shows
-> `.card + .card { margin-top: 16px; }` as a "flat top-level"
-> alternative to a nested sibling combinator. That example demonstrates
-> _nesting rules_, not spacing best practice. From a spacing
-> perspective, replacing the adjacent-sibling margin with a parent
-> `gap` is preferred.
+> **Note on sibling spacing**: `architecture.md` shows `.card + .card`
+> with `margin-block-start` as an acceptable one-off relationship. That
+> pattern is fine without a parent layout; when a parent owns the stack,
+> replacing it with parent `gap` is preferred.
 
 ## Cross-Axis Stretching — Side Effect of Layout Containers
 
@@ -187,51 +185,54 @@ Good — the child opts out with a reusable sizing variant:
   gap: 8px;
 }
 
-.button--noStretch {
+.button.no-stretch {
   align-self: flex-start;
 }
 ```
 
-This works because the Button is a flex/grid child. The Modifier is independent
-of the specific parent Block name, not independent of layout context. It opts
-out of cross-axis stretch: width in a column flex layout, height in a row flex
-layout, and the relevant axis in grid.
+This works because the button is a flex/grid child. The variant class is
+independent of the specific parent component name, not independent of
+layout context. It opts out of cross-axis stretch: width in a column flex
+layout, height in a row flex layout, and the relevant axis in grid.
 
 Before using `gap` with Flex or Grid, verify that the default cross-axis
 stretching is acceptable for every direct child. If not, set
 `align-items` on the parent or `align-self` on the specific child.
 
-## Nested Blocks — Avoid Implicit Parent Dependency
+## Nested Components — Avoid Implicit Parent Dependency
 
-A reusable Block can be a direct child of another Block. When that happens, the
-child participates in the parent's layout context, but it does not become the
-parent's Element.
+A reusable component can be a direct child of another component. When that
+happens, the child participates in the parent's layout context without
+becoming part of the parent component itself.
 
-Do not create a parent Element only to avoid flex/grid side effects:
-
-```html
-<div class="actions">
-  <button class="actions__button">Save</button>
-</div>
-```
-
-Do not name the child Modifier after the parent context:
+Do not rename the child with a parent-specific class only to avoid
+flex/grid side effects:
 
 ```html
 <div class="actions">
-  <button class="button button--inActions">Save</button>
+  <button class="actions-button">Save</button>
 </div>
 ```
 
-Choose the smallest rule that preserves the Block boundary:
+Bad — variant coupled to the parent context; the name cannot move with
+the component:
+
+```html
+<div class="actions">
+  <button class="button button-in-actions">Save</button>
+</div>
+```
+
+Choose the smallest rule that preserves the component boundary:
 
 1. If every child should share the same sizing or alignment, set the parent
    layout default.
-2. If a reusable child Block supports a sizing variant, use a
-   Modifier on that child that is independent of any specific parent Block.
+2. If a reusable child component supports a sizing variant, use a
+   variant class on that child that is independent of any specific parent
+   component.
 3. If the adjustment is one-off placement in a specific layout, keep it in the
    parent layout rule by position or slot, but do not restyle the child's
-   internals or rename the child as an Element.
+   internals or rename the child with a parent-specific class.
 
 Good — parent layout owns the common alignment:
 
@@ -244,27 +245,27 @@ Good — parent layout owns the common alignment:
 }
 ```
 
-Good — child Block declares a reusable sizing contract:
+Good — child component declares a reusable sizing contract:
 
 ```html
 <div class="actions">
-  <button class="button button--noStretch">Save</button>
+  <button class="button no-stretch">Save</button>
 </div>
 ```
 
 ```css
-.button--noStretch {
+.button.no-stretch {
   align-self: flex-start;
 }
 ```
 
-This Modifier is reusable across flex/grid parents that need the same sizing
-contract: the child opts out of cross-axis stretch. If the sizing must also
-apply in normal flow, use a separate content-width Modifier with a
-layout-context independent declaration such as `width: fit-content`.
+This variant class is reusable across flex/grid parents that need the same
+sizing contract: the child opts out of cross-axis stretch. If the sizing
+must also apply in normal flow, use a separate content-width variant class
+with a layout-context independent declaration such as `width: fit-content`.
 
-Good — parent owns one-off placement without changing the child Block's
-identity:
+Good — parent owns one-off placement without changing the child
+component's identity:
 
 ```css
 .actions > :first-child {
@@ -273,8 +274,8 @@ identity:
 ```
 
 This exception is for layout participation only. Spacing between siblings still
-belongs to the parent, and a reusable Block should not carry margins just to fit
-one parent layout.
+belongs to the parent, and a reusable component should not carry margins just
+to fit one parent layout.
 
 ## Fallback — When `gap` Is Not Available
 
@@ -282,12 +283,12 @@ one parent layout.
 `display: block` (normal flow), or when non-uniform spacing is needed between
 specific children, alternative approaches are necessary.
 
-### Normal Flow (Block Layout)
+### Normal Flow (block layout)
 
 When the parent is a block-level container and converting it to Flex or Grid is
 not justified, the parent can apply margin to its children via a direct-child
 selector. The key principle remains: the _parent_ dictates the spacing, not the
-child Block itself.
+child component itself.
 
 ```css
 .prose > * + * {
@@ -299,7 +300,7 @@ child Block itself.
 
 When certain children need different spacing from the uniform `gap`, the parent
 layout can target specific children. Avoid pushing this responsibility into the
-child Block.
+child component.
 
 ```css
 .sidebar {
@@ -308,35 +309,36 @@ child Block.
   gap: 16px;
 }
 
-.sidebar > .sidebar__section--featured {
+.sidebar > .featured-section {
   margin-block-end: 8px; /* 8px extra beyond the 16px gap */
 }
 ```
 
 In this pattern, `.sidebar` (the layout parent) retains control of spacing.
-The child Block `.sidebar__section` does not declare margin on itself.
+The child component `.featured-section` does not declare margin on itself.
 
 ## Decision Checklist
 
 Before adding spacing to a component, answer these questions:
 
 1. Is this spacing _inside_ the component's visual boundary? → Use
-   **padding** on the Block.
+   **padding** on the component.
 2. Is this spacing _between_ sibling components? → Use **`gap`** on the
    parent layout container.
 3. Is `gap` unavailable (block flow) or insufficient (non-uniform spacing)?
    → Apply margin via the **parent** using child selectors, not on the
-   Block itself.
-4. Is the Block truly page-specific and never reused? → Margin on the
-   Block may be acceptable as an exception, but prefer parent-controlled
-   spacing.
+   component itself.
+4. Is the component truly page-specific and never reused? → Margin on the
+   component may be acceptable as an exception, but prefer
+   parent-controlled spacing.
 5. Does the layout container's default `align-items: stretch` produce
    acceptable sizing for every direct child? → If not, decide whether this is a
    parent layout default (`align-items` / `justify-items` on the parent), a
-   reusable child Block variant (`align-self` via a Modifier), or one-off
-   placement (a parent rule targeting a position or slot).
-6. Am I turning a reusable child Block into a parent Element to avoid layout
-   side effects? → Keep it as a **Block**; fix the parent layout or use a
-   **Modifier** that is independent of any specific parent Block.
-7. Does the Modifier name include the parent context? → Rename it to describe
-   the child Block's reusable sizing or presentation contract.
+   reusable child component variant (`align-self` via a variant class),
+   or one-off placement (a parent rule targeting a position or slot).
+6. Am I renaming a reusable child component with a parent-specific class
+   to avoid layout side effects? → Keep its own class; fix the parent
+   layout or use a variant class that is independent of any specific
+   parent component.
+7. Does the variant name include the parent context? → Rename it to describe
+   the child component's reusable sizing or presentation trait.
