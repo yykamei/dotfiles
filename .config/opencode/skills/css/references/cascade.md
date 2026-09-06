@@ -1,17 +1,144 @@
-# Cascade Control (`@layer`, `:is()` / `:where()`, `@scope`)
+# Cascade Control (`@scope`, `@layer`, `:is()` / `:where()`)
 
 > Loaded by the `css` skill. See `../SKILL.md` for the overview and the
 > decision checklist.
 
 ## Contents
 
+- `@scope`
 - Cascade Layers
 - `:is()` and `:where()`
-- `@scope`
 - Decision Guide
 
-Specificity and priority are managed explicitly. Naming conventions help
-readability; they do not control which rule wins.
+Specificity and priority are managed explicitly with `@scope`, `@layer`,
+and `:where()` — not with naming conventions. Class names aid readability;
+they do not control which rule wins.
+
+## `@scope`
+
+`@scope` is the primary containment tool. It limits rules to a DOM
+subtree, keeps their specificity low, and adds a proximity rule to the
+cascade. It replaces what BEM-style part naming used to solve — style
+leakage, name collisions, specificity inflation — while the markup needs
+fewer classes.
+
+```css
+@scope (.card) {
+  :scope {
+    /* the scope root itself */
+    padding: var(--space-4);
+    background: var(--color-surface);
+  }
+
+  /* parts — plain element selectors, no part classes needed */
+  h3 {
+    font-weight: 600;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+}
+```
+
+### Donut scopes — the `to (...)` limit
+
+An optional `to (limit)` clause defines the lower boundary. The upper
+bound is inclusive; the lower bound is exclusive:
+
+```css
+@scope (.article-body) to (figure) {
+  img {
+    border-radius: 4px;
+  }
+}
+```
+
+Images inside nested `figure` elements are excluded. Use the limit
+whenever the component hosts other components — it guarantees the
+component's element selectors never restyle a child component's
+internals (the limit must match the child component's boundary element).
+Attach `> *` to the limit to push the exclusive boundary one level down:
+`to (figure > *)` puts the `figure` elements themselves back in scope,
+while their children become the new limit. Similarly, `> *` on the root
+makes the upper bound exclusive. Root and limit may both be selector
+lists: `@scope (.light, .dark) to (figure)`.
+
+### Specificity inside `@scope`
+
+Bare selectors and `&` inside the block behave as if `:where(:scope)`
+were prepended — the scope root contributes **zero** specificity:
+
+| Selector inside `@scope (.card)` | Specificity | Matches               |
+| -------------------------------- | ----------- | --------------------- |
+| `img` / `& img`                  | 0-0-1       | descendant images     |
+| `&.featured`                     | 0-1-0       | root with `.featured` |
+| `:scope`                         | 0-1-0       | the root              |
+| `:scope img`                     | 0-1-1       | descendant images     |
+
+A scoped `img` rule (0-0-1) is easier to override than a flat
+`.card-title` (0-1-0) — containment does not cost specificity. Use
+`:scope` to style the root itself, or to raise precedence deliberately.
+Where possible prefer bare selectors: engine handling of `&` inside
+`@scope` has varied across releases.
+
+### Scoping proximity
+
+When two scoped rules with equal specificity target the same element, the
+rule whose scope root is **closer in the DOM** wins. Proximity is
+evaluated after importance, layers, and specificity, but before source
+order:
+
+```css
+@scope (.light) {
+  p {
+    color: black;
+  }
+}
+
+@scope (.dark) {
+  p {
+    color: white;
+  }
+}
+```
+
+A `p` inside `.dark` inside `.light` renders white — one hop from the
+`.dark` root, two from `.light`. Nested themes resolve correctly without
+specificity tricks, regardless of source order.
+
+### Inline `<style>` blocks
+
+`@scope` inside a `<style>` element omits the prelude and scopes to the
+`<style>` element's parent — handy for self-contained HTML components:
+
+```html
+<section class="article-body">
+  <style>
+    @scope to (figure) {
+      img {
+        border-radius: 4px;
+      }
+    }
+  </style>
+  …
+</section>
+```
+
+### Inheritance caveat
+
+`@scope` limits selector matching, not inheritance. Inherited properties
+(`color`, `font-family`, …) flow past the scope limit into nested
+subtrees.
+
+### Support note
+
+`@scope` is Baseline Newly Available (March 2026; Chrome 118+, Safari
+17.4+, Firefox 146+). This skill targets current browsers. Older
+browsers ignore an entire `@scope` block, and `@supports` cannot
+reliably detect at-rules cross-browser.
 
 ## Cascade Layers
 
@@ -112,87 +239,21 @@ easily-overridable defaults.
 Prefer `:where()` for cross-cutting defaults so component rules override
 them without specificity tricks.
 
-## `@scope`
-
-`@scope` limits rules to a DOM subtree and adds proximity to the cascade:
-when two scoped rules with equal specificity target the same element, the
-closer scope root wins. Proximity is evaluated after importance, layers,
-and specificity, but before source order.
-
-```css
-@scope (.card) {
-  :scope {
-    background: white;
-    border-radius: 8px;
-  }
-
-  .card-title {
-    font-weight: 600;
-  }
-
-  .card-media {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-  }
-}
-```
-
-An optional lower boundary stops styles from leaking into nested
-components:
-
-```css
-@scope (.article-body) to (figure) {
-  img {
-    border-radius: 4px;
-  }
-}
-```
-
-Images inside nested `figure` elements are excluded.
-
-### Prefer `@scope` over nesting when proximity matters
-
-Nested descendant selectors resolve by specificity; `@scope` resolves by
-closeness. For nestable themes, `@scope` gives the expected result where
-nesting does not:
-
-```css
-@scope (.dark) {
-  .invert {
-    color-scheme: light;
-  }
-}
-
-@scope (.light) {
-  .invert {
-    color-scheme: dark;
-  }
-}
-```
-
-The `.invert` closest to its theme root wins, regardless of source order.
-
-### Support note
-
-`@scope` is Baseline Newly Available (Chrome 118+, Safari 17.4+, Firefox
-146+). Older browsers ignore the whole `@scope` block, so pair essential
-rules with a plain-selector fallback when legacy support matters.
-`@supports` cannot reliably detect at-rules cross-browser; write the
-fallback as ordinary CSS alongside the scoped block.
-
 ## Decision Guide
 
-| Situation                                        | Tool                                    |
-| ------------------------------------------------ | --------------------------------------- |
-| Control which stylesheet group wins              | `@layer` ordering                       |
-| Keep resets and defaults easy to override        | `:where()`                              |
-| Prevent styles leaking into child components     | `@scope` with a `to (...)` boundary     |
-| Nested themes without specificity tricks         | `@scope` proximity                      |
-| Co-locate responsive and base styles              | Native nesting + `@media` / `@container` |
-| Override layered styles without `!important`     | A later layer, not specificity          |
+| Situation                                        | Tool                                     |
+| ------------------------------------------------ | ---------------------------------------- |
+| Contain a component's styles                     | `@scope (root)`                          |
+| Style a component's parts                        | Element selectors inside `@scope` first — part classes only when justified (see `architecture.md`) |
+| Keep styles out of nested child components       | `@scope ... to (limit)` donut boundary   |
+| Nested themes without specificity tricks         | `@scope` proximity                       |
+| Control which stylesheet group wins              | `@layer` ordering                        |
+| Keep resets and defaults easy to override        | `:where()`                               |
+| Co-locate responsive and base styles             | Native nesting + `@media` / `@container` |
+| Override layered styles without `!important`     | A later layer, not specificity           |
 | Protect critical resets                          | `!important` in the first-declared layer |
 
-Avoid: leaving styles unlayered in a layered codebase, using
+Avoid: inventing part classes where an element selector inside `@scope`
+suffices, leaving styles unlayered in a layered codebase, using
 `!important` to win specificity battles, or nesting deeper than 2 levels
 when `@scope` expresses the boundary better.

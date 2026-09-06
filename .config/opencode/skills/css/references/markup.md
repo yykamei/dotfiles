@@ -6,6 +6,7 @@
 ## Contents
 
 - Guidelines
+- Minimal Classes
 - Examples
 - Decision Checklist
 
@@ -26,6 +27,39 @@ role, consider whether a different CSS approach can eliminate them.
 3. **Test each `<div>` for purpose.** Before adding an element, ask: _"Does this
    element exist for semantics or accessibility, or only for layout?"_ If the
    answer is only layout, look for a CSS-only alternative first.
+
+## Minimal Classes
+
+A `class` attribute is a naming decision and a coupling point — add one
+only when it earns its keep. With `@scope` (see
+[`cascade.md`](cascade.md)), most elements need no class at all: style
+them through their semantic position inside a scoped block.
+
+Reserve `class` for:
+
+- the scope root (`class="card"`),
+- variants (`class="alert danger"`),
+- runtime states with no platform attribute (`.is-active`, `.is-sticky`;
+  when the state exists as an attribute, select the attribute instead),
+- hooks required by JavaScript or tests,
+- reusable layout traits (`class="no-stretch"`).
+
+Prefer the platform's own state attributes over invented classes:
+
+```html
+<!-- State already lives in the markup — style it, don't rename it -->
+<a href="/" aria-current="page">Home</a>
+<button aria-expanded="true" aria-controls="menu">Menu</button>
+<button disabled>Save</button>
+```
+
+```css
+@scope (.nav-bar) {
+  a[aria-current="page"] {
+    font-weight: bold;
+  }
+}
+```
 
 ## Examples
 
@@ -94,21 +128,29 @@ Grid eliminates the row wrappers entirely:
 ### Good — Flexbox for a one-dimensional layout
 
 A horizontal navigation is genuinely one-dimensional. Flexbox is the natural
-fit; no extra wrappers are needed:
+fit, and `@scope` means the links need no part classes — the scope and the
+platform's attributes say everything:
 
 ```html
 <nav class="nav-bar">
-  <a class="nav-link" href="/">Home</a>
-  <a class="nav-link" href="/about">About</a>
-  <a class="nav-link" href="/contact">Contact</a>
+  <a href="/" aria-current="page">Home</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
 </nav>
 ```
 
 ```css
-.nav-bar {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+@scope (.nav-bar) {
+  :scope {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 ```
 
@@ -127,3 +169,12 @@ Before adding an HTML element, consider:
 If the element serves layout alone, look for a CSS-only alternative
 (e.g., switching from nested Flex containers to Grid, or using container
 queries) before adding it.
+
+Before adding a `class` attribute, consider:
+
+1. Could an element selector inside a `@scope` block reach this element
+   instead?
+2. Is the state already available as an attribute (`aria-current`,
+   `aria-expanded`, `disabled`, `hidden`)?
+3. Is this a scope root, variant, state, script hook, or reusable
+   trait? If not, it does not need a name.

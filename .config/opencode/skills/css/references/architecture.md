@@ -1,53 +1,158 @@
-# CSS Architecture (Components + Nesting)
+# CSS Architecture (Scope, Classes, Composition)
 
 > Loaded by the `css` skill. See `../SKILL.md` for the overview and the
 > decision checklist.
 
 ## Contents
 
-- Class Names
+- What Gets a Class
+- Component Boundaries with `@scope`
 - Component Composition
 - CSS Nesting Rules
 - Examples
 - Complete Component Example
 - Decision Checklist
 
-This skill prescribes no naming convention. Use descriptive class names,
-keep components independent when they nest inside each other, and manage
-specificity explicitly with cascade layers and `:where()` (see
-[`cascade.md`](cascade.md)). Native CSS nesting groups related styles —
-keep it shallow.
+`@scope` provides containment, so a component needs far fewer class names
+than BEM-era conventions imply. A class is an API: name it only when it
+marks a boundary (scope root), a variant, a state, or a hook — style
+everything else with element selectors inside the scope. Manage
+specificity with `@layer` and `:where()`, not with naming discipline
+(see [`cascade.md`](cascade.md)).
 
-## Class Names
+## What Gets a Class
 
 Pick one naming style per project and stay consistent. Kebab-case
-(`.search-form`, `.nav-link`) is recommended for plain CSS because there
-is no build-time scoping to disambiguate names.
+(`.search-form`, `.no-stretch`) is recommended. A class must be one of:
 
-- **Components** get their own class: `.card`, `.button`, `.nav-bar`.
-- **Parts** get a descriptive flat name: `.card-title`, `.nav-link`.
-  Avoid chained names that mirror the DOM tree (`.card-header-title`) —
-  split the component or use composition instead.
-- **Variants** (state, size, emphasis) are extra classes combined with the
-  base class in HTML: `class="alert alert-danger"`. For states that toggle
-  at runtime or with placement — active, expanded, sticky — `.is-*`
-  classes (`.is-active`, `.is-sticky`) or attribute selectors
-  (`[aria-expanded="true"]`) read better than inventing a new variant
-  name per state.
-- Keep names searchable and reusable. A name coupled to one parent
-  (`.button-in-toolbar`) cannot move with the component — prefer a name
-  describing the reusable trait (`.no-stretch`).
+1. **Scope root** — the component's boundary: `.card`, `.alert`,
+   `.nav-bar`.
+2. **Variant** — size, emphasis, or theme, combined with the base class
+   in HTML: `class="alert danger"`. Keep the variant selector
+   single-class for low specificity; pairing happens in HTML, not in the
+   selector.
+3. **State** — runtime booleans as `.is-*` (`.is-active`, `.is-sticky`)
+   or, preferably, the platform's own state attributes:
+   `[aria-expanded="true"]`, `[aria-current="page"]`, `[disabled]`. If
+   the platform already carries the state, do not duplicate it in a
+   class.
+4. **Script hook** — a stable handle for JavaScript or tests.
+5. **Reusable layout trait** — independent of any parent context:
+   `.no-stretch`.
 
-Variant selectors stay single-class for low specificity; pairing with the
-base happens in HTML, not in the selector. Reach for a compound selector
-(`.nav-link.is-active`) only when the style must never apply without its
-base.
+**Parts do not get classes.** Inside the scope, the element itself is
+identifying enough:
 
 ```html
-<button class="button">Save</button>
-<div class="alert alert-danger">…</div>
-<a class="nav-link is-active" href="/">Home</a>
+<!-- Before: every part named -->
+<article class="card">
+  <img class="card-media" src="…" alt="" />
+  <h3 class="card-title">Card title</h3>
+  <p>…</p>
+</article>
+
+<!-- After: only the boundary carries a class -->
+<article class="card">
+  <img src="…" alt="" />
+  <h3>Card title</h3>
+  <p>…</p>
+</article>
 ```
+
+```css
+@scope (.card) {
+  :scope {
+    padding: var(--space-4);
+    background: var(--color-surface);
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  h3 {
+    font-weight: 600;
+  }
+}
+```
+
+Add a part class only when:
+
+- element selectors would be ambiguous — e.g. two `<span>` elements with
+  different roles in the same subtree;
+- the part must be styled from outside the scope;
+- JavaScript must target the part directly.
+
+Even then, keep the name unprefixed (`.price`, never `.card-price`): the
+context comes from the scope, and the prefix carries no information.
+
+Prohibited: chained names that mirror the DOM (`.card-header-title`) and
+parent-coupled names (`.button-in-toolbar`). A chain that deep signals a
+component to split; a parent-coupled name cannot move with the
+component.
+
+The reusable layout trait (category 5) attaches to the component's own
+class, independent of any parent:
+
+```html
+<div class="toolbar">
+  <button class="button no-stretch">Save</button>
+</div>
+```
+
+## Component Boundaries with `@scope`
+
+One `@scope` block per component, wrapped in the `components` layer.
+Variants of the root are compound selectors inside the same block:
+
+```css
+@layer components {
+  @scope (.alert) {
+    :scope {
+      padding: 16px;
+      border: 1px solid currentColor;
+    }
+
+    &.danger {
+      color: var(--color-danger);
+    }
+
+    &.success {
+      color: var(--color-success);
+    }
+
+    > svg {
+      margin-inline-end: 8px;
+    }
+  }
+}
+```
+
+```html
+<div class="alert danger">…</div>
+```
+
+Bare selectors inside `@scope` add zero root specificity (`> svg` is
+0-0-1), and `&` behaves the same — see
+[`cascade.md`](cascade.md#specificity-inside-scope) for the specificity
+table.
+
+When the component hosts other components (article bodies, prose, cards
+with embedded media), declare the lower bound so its selectors never
+reach into the children's internals:
+
+```css
+@scope (.article-body) to (figure) {
+  img {
+    border-radius: 4px;
+  }
+}
+```
+
+Without `to (figure)`, that `img` rule would also restyle images inside
+any embedded `<figure>`.
 
 ## Component Composition
 
@@ -56,7 +161,7 @@ not ownership: the nested component stays independent and must not be
 renamed with a parent-specific class merely to satisfy the parent's
 layout.
 
-Avoid duplicating a reusable button under a parent-specific name:
+Bad — duplicating a reusable button under a parent-specific name:
 
 ```html
 <div class="toolbar">
@@ -70,7 +175,7 @@ Avoid duplicating a reusable button under a parent-specific name:
 }
 ```
 
-Prefer keeping the child as its own component with a reusable variant:
+Good — the child keeps its own boundary plus a reusable trait:
 
 ```html
 <div class="toolbar">
@@ -99,35 +204,37 @@ parent layout instead of adding variants to each child:
 ```
 
 The parent may own placement, ordering, tracks, and spacing between its
-children. It should not reach into a child component's internals. For
-flex/grid sizing details, see
+children. It should not reach into a child component's internals — the
+donut limit (`to (...)`) on the parent's scope guarantees its element
+selectors stop at the child's boundary, provided the limit matches the
+child component's boundary element (see [`cascade.md`](cascade.md)).
+For flex/grid sizing details, see
 [`spacing.md`](spacing.md#cross-axis-stretching--side-effect-of-layout-containers).
 
 ## CSS Nesting Rules
 
-Native nesting is Baseline widely available. Use it to group a component's
-own styles; every nested rule still participates in the cascade with
-`:is()`-equivalent specificity (see Specificity note below).
+Native nesting is Baseline widely available. With the component boundary
+drawn by `@scope`, nesting's job shrinks to states, pseudo-elements, and
+at-rules — both inside a scope block and on standalone root rules.
 
 ### Recommended
-
-Nesting is recommended for:
 
 1. **Pseudo-classes** — `&:hover`, `&:focus-visible`, `&:first-child`,
    `&:has(...)`, including compounds such as `&:hover::after`.
 2. **Pseudo-elements** — `&::before`, `&::after`, `&::placeholder`.
-3. **At-rule queries** — `@media`, `@container`, `@supports` nested inside
-   a rule. An at-rule may contain further nested selectors.
-4. **Attribute selectors** — `&[aria-expanded="true"]`, `&[disabled]`.
-5. **Shallow child / descendant selectors** — one level of `.child`,
-   `& > .child`, or `& .child` for the component's own direct parts,
-   written with class selectors. Sibling selectors (`& + .sibling`,
-   `& ~ .sibling`) are acceptable for one-off relationships such as
-   stacked siblings; prefer parent `gap` for spacing (see `spacing.md`).
+3. **At-rule queries** — `@media`, `@container`, `@supports` nested
+   inside a rule or a scope block. An at-rule may contain further nested
+   selectors.
+4. **Attribute/state selectors** — `&[aria-expanded="true"]`,
+   `&:disabled`.
+5. **Shallow structural selectors** — inside a scope block, one level of
+   `img`, `> p`, `h3` for the component's own parts. Use `&` only to
+   combine, e.g. `&.danger` on the root.
 
-Depth guideline: **1 level, 2 at most**. A third level is a signal to
-split the component, flatten the selectors, or move the boundary to
-`@scope` (see [`cascade.md`](cascade.md)).
+Depth guideline: **parts inside a scope sit at one level by default**;
+nest a second level only for pseudo-classes or at-rules on a part. A
+third level is a signal to split the component or reconsider the
+boundary.
 
 ### Not allowed
 
@@ -142,14 +249,39 @@ Only the following stays prohibited:
 
 ### Specificity note
 
-A nested rule desugars roughly to `:is(<parent>) <child>`, so it carries
-the specificity of its most specific parent selector. In particular, avoid
-nesting inside a comma-separated parent list that mixes IDs and classes —
-every nested rule inherits ID-level specificity. Keep parent selector lists
-uniform, or split them into separate blocks. When a default must stay easy
-to override, write it with `:where()` (see [`cascade.md`](cascade.md)).
+Inside `@scope`, bare selectors and `&` contribute zero root specificity
+— `img` stays 0-0-1 (see
+[`cascade.md`](cascade.md#specificity-inside-scope)). Outside `@scope`, a
+nested rule desugars roughly to `:is(<parent>) <child>` and carries the
+specificity of its most specific parent selector. Avoid nesting inside a
+comma-separated parent list that mixes IDs and classes — every nested
+rule inherits ID-level specificity. Keep parent selector lists uniform,
+or split them into separate blocks. When a default must stay easy to
+override, write it with `:where()` (see [`cascade.md`](cascade.md)).
 
 ## Examples
+
+### Naming a part class vs. using the scope
+
+Ask for a class only when the scope cannot say it. Two `<span>` elements
+with different roles are ambiguous for element selectors — that is the
+moment a class earns its name:
+
+```html
+<div class="plan">
+  <p><span class="price">$9</span> <span>per month</span></p>
+</div>
+```
+
+```css
+@scope (.plan) {
+  .price {
+    font-weight: 700;
+  }
+}
+```
+
+Note the name is still unprefixed — `.price`, not `.plan-price`.
 
 ### Concatenation still does not work
 
@@ -159,9 +291,7 @@ substitution mechanism.
 Bad — suffix concatenation:
 
 ```css
-.alert {
-  padding: 16px;
-
+@scope (.alert) {
   /* Does NOT produce .alert-danger in pure CSS */
   &-danger {
     color: red;
@@ -169,71 +299,58 @@ Bad — suffix concatenation:
 }
 ```
 
-Good — full class names, nested or flat:
+Good — full variant names:
 
 ```css
-.alert {
-  padding: 16px;
-  border: 1px solid currentColor;
-}
+@scope (.alert) {
+  :scope {
+    padding: 16px;
+    border: 1px solid currentColor;
+  }
 
-.alert-danger {
-  color: red;
-}
+  &.danger {
+    color: red;
+  }
 
-.alert-success {
-  color: green;
-}
+  &.success {
+    color: green;
+  }
 
-.alert-icon {
-  margin-inline-end: 8px;
-}
-```
-
-Nesting the full part name inside its component is also fine and often
-reads better for small components:
-
-```css
-.alert {
-  padding: 16px;
-
-  .alert-icon {
+  > svg {
     margin-inline-end: 8px;
   }
 }
 ```
 
-### Shallow child nesting
+### Shallow structural selectors
 
 Good — one level for the component's own parts:
 
 ```css
-.card {
-  padding: 16px;
-
-  .card-body {
-    padding: 16px;
+@scope (.card) {
+  h3 {
+    font-weight: 600;
   }
 
-  & > .card-media {
+  > img {
     border-radius: 8px;
   }
 }
 ```
 
-A bare `.card-body` matches any descendant, including one inside a nested
-`.card`. When only direct children are meant, prefer `& > .card-body`;
-when a whole subtree with a boundary is meant, prefer
+A descendant selector (`h3`) matches at any depth inside the scope; the
+child combinator (`> img`) restricts to direct children. When the
+component hosts other components, bound the subtree with
 `@scope (.card) to (...)` — see [`cascade.md`](cascade.md).
 
-Avoid — deeper than two levels; split or flatten instead:
+Avoid — deep nesting; split or flatten instead:
 
 ```css
 .page {
   .card {
     .card-body {
       .card-title {
-        /* too deep — hard to read, hard to override */
+        /* too deep — and the chain mirrors the DOM */
       }
     }
   }
@@ -245,12 +362,10 @@ Avoid — deeper than two levels; split or flatten instead:
 Acceptable for one-off relationships:
 
 ```css
-.card {
-  & + .card {
-    /* acceptable when no parent layout owns the stack;
-       otherwise prefer gap on the parent — see spacing.md */
-    margin-block-start: 16px;
-  }
+.card + .card {
+  /* acceptable when no parent layout owns the stack;
+     otherwise prefer gap on the parent — see spacing.md */
+  margin-block-start: 16px;
 }
 ```
 
@@ -259,25 +374,26 @@ Acceptable for one-off relationships:
 Good:
 
 ```css
-.button {
-  background: blue;
-  color: white;
+@scope (.button) {
+  :scope {
+    background: blue;
+    color: white;
+  }
 
-  &:hover {
+  :scope:hover {
     background: darkblue;
   }
 
-  &:focus-visible {
+  :scope:focus-visible {
     outline: 2px solid orange;
   }
 
-  &::after {
+  :scope::after {
     content: "";
     display: block;
   }
 
-  /* Compound pseudo-selector */
-  &:hover::after {
+  :scope:hover::after {
     opacity: 1;
   }
 }
@@ -289,150 +405,125 @@ Good:
 }
 ```
 
-### Attribute selector nesting
-
-Good:
-
-```css
-.dropdown {
-  display: none;
-
-  &[aria-expanded="true"] {
-    display: block;
-  }
-
-  &[disabled] {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-}
-```
-
 ### At-rule nesting
 
 Good:
 
 ```css
-.container {
-  padding: 16px;
+@scope (.container) {
+  :scope {
+    padding: 16px;
+  }
 
   @media (width >= 768px) {
-    padding: 32px;
+    :scope {
+      padding: 32px;
+    }
 
-    /* At-rules may contain further nested selectors */
-    .container-title {
+    h3 {
       font-size: 1.25rem;
     }
   }
 
   @container (inline-size >= 400px) {
-    padding: 24px;
+    :scope {
+      padding: 24px;
+    }
   }
 
   @supports (display: grid) {
-    display: grid;
+    :scope {
+      display: grid;
+    }
   }
 }
 ```
 
 ## Complete Component Example
 
-Small parts may nest one level while larger sub-components stay flat —
-both are acceptable; the example mixes them deliberately to show the two
-equivalent styles:
+Parts, states, and variants are all expressed by the scope, element
+selectors, attributes, and the single `.is-sticky` variant — no part
+classes:
 
 ```css
 @layer components {
-  .nav-bar {
-    display: flex;
-    align-items: center;
-    padding: 8px 16px;
-
-    /* Shallow child: the component's own part */
-    .nav-logo {
-      flex-shrink: 0;
+  @scope (.nav-bar) {
+    :scope {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: 8px 16px;
     }
 
-    /* Variant combined with the base class in HTML */
     &.is-sticky {
       position: sticky;
       inset-block-start: 0;
     }
 
-    /* Parent-aware state */
-    &:has(.nav-menu[aria-expanded="true"]) {
-      background: rgb(0 0 0 / 0.9);
-    }
-
-    /* At-rule query */
     @media (width >= 1024px) {
-      padding: 16px 32px;
-    }
-  }
-
-  .nav-menu {
-    display: none;
-
-    &[aria-expanded="true"] {
-      display: flex;
+      :scope {
+        padding: 16px 32px;
+      }
     }
 
-    @media (width >= 1024px) {
-      display: flex;
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &[aria-current="page"] {
+        font-weight: bold;
+      }
+
+      &::after {
+        content: "";
+        display: block;
+        height: 2px;
+        background: currentColor;
+        scale: 0 1;
+        transition: scale 0.2s ease;
+      }
+
+      &:hover::after {
+        scale: 1 1;
+      }
     }
-  }
-
-  .nav-link {
-    color: inherit;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-
-    &::after {
-      content: "";
-      display: block;
-      height: 2px;
-      background: currentColor;
-      scale: 0 1;
-      transition: scale 0.2s ease;
-    }
-
-    &:hover::after {
-      scale: 1 1;
-    }
-  }
-
-  .nav-link.is-active {
-    font-weight: bold;
   }
 }
 ```
 
+```html
+<nav class="nav-bar is-sticky">
+  <a href="/" aria-current="page">Home</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
+</nav>
+```
+
 ## Decision Checklist
 
-Before naming a class, ask:
+Before adding a class, ask:
 
-1. Is this class for an independent, reusable component? → Give it its
-   own name (`.card`).
-2. Is this class for a part owned by the component? → Use a descriptive
-   flat name (`.card-title`, not a chained `.card-header-title`).
-3. Is this a state, size, or emphasis variant? → Use an extra class
-   combined with the base (`.alert alert-danger`); runtime boolean states
-   read better as `.is-*` or attribute selectors.
-4. Does the name include the parent context only to work around layout?
-   → Fix the parent layout or rename toward a reusable trait.
+1. Is this the component's boundary? → Make it the `@scope` root class.
+2. Is this a variant, state, script hook, or reusable layout trait? →
+   Class it (state preferably via the platform's attributes, not a new
+   class).
+3. Is this a part? → Style it with an element selector inside the scope;
+   add a class only when element selectors would be ambiguous, the part
+   is styled from outside, or JavaScript targets it.
+4. Does the name include parent context (`.toolbar-button`,
+   `.card-header-title`)? → Drop the prefix — the scope is the context —
+   or split the component if the chain mirrors the DOM.
 
 Before nesting, ask:
 
-1. Is it concatenation (`&-suffix`)? → Never nest it in pure CSS; write
-   the full class name instead.
-2. Is the depth 1–2 levels for states, direct children, or variants? → If
-   deeper, split the component or flatten.
-3. Is the resulting selector still easy to read, search for, and
-   override? → If specificity (`:is()` effect) or overmatching is a
-   concern, flatten or use `:where()` / `@scope`.
+1. Is it concatenation (`&-suffix`)? → Never; write the full name.
+2. Is the depth beyond pseudo-classes/at-rules on a part? → Split the
+   component or flatten.
+3. Does the selector style another component's internals? → Move the
+   boundary: `@scope (parent) to (child)`.
 4. Should proximity rather than specificity decide the winner (e.g.
-   nested themes)? → Prefer `@scope` — see
-   [`cascade.md`](cascade.md).
+   nested themes)? → `@scope` — see [`cascade.md`](cascade.md).

@@ -1,6 +1,6 @@
 ---
 name: css
-description: Load when authoring or editing plain CSS files (`.css`). Provides component organization, shallow CSS Nesting guidance, cascade layers / scope, minimal markup, spacing, container queries, and design tokens. Detailed material lives in `references/`.
+description: Load when authoring or editing plain CSS files (`.css`). Scope-first component styling with `@scope`, cascade layers, shallow nesting, minimal markup and classes, spacing, container queries, and design tokens. Detailed material lives in `references/`.
 ---
 
 # CSS
@@ -9,11 +9,14 @@ Principles and guidelines for writing modern plain CSS. The detailed rules
 and worked examples live in reference files; this top-level document is a
 launchpad and a quick decision aid.
 
-Native nesting, cascade layers, container queries, and custom properties
-are Baseline widely available; `@scope` is Baseline Newly Available — pair
-essential scoped rules with a plain-selector fallback (see
-`references/cascade.md`). Prefer them over naming discipline or
-preprocessor tricks to solve specificity and scoping problems.
+This skill targets current browsers. `@scope`, native nesting, cascade
+layers, container queries, and custom properties are Baseline features —
+prefer them over the naming conventions and preprocessor tricks older
+methodologies (BEM and its relatives) used to solve specificity and
+containment. `@scope` replaces class-naming discipline: draw the
+component boundary with `@scope`, style its parts with element selectors
+inside the block, and invent a class only where it earns its name (see
+`references/architecture.md` and `references/cascade.md`).
 
 ## Scope
 
@@ -37,37 +40,45 @@ Load the relevant reference when working on a specific concern:
 
 | Concern                                                             | File                                                                     |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| Component organization, composition, nesting with depth limits      | [`references/architecture.md`](references/architecture.md)               |
-| Cascade layers, `:is()` / `:where()`, `@scope`                      | [`references/cascade.md`](references/cascade.md)                         |
+| Scope roots, minimal classes, composition, nesting with depth limits | [`references/architecture.md`](references/architecture.md)               |
+| `@scope`, cascade layers, `:is()` / `:where()`                       | [`references/cascade.md`](references/cascade.md)                         |
 | Container queries, design tokens, `:has()`, logical properties      | [`references/responsive-tokens.md`](references/responsive-tokens.md)     |
-| Avoiding layout-only wrapper elements; Flex vs Grid decision        | [`references/markup.md`](references/markup.md)                           |
+| Avoiding layout-only wrappers and unnecessary classes               | [`references/markup.md`](references/markup.md)                           |
 | padding / margin / gap responsibilities; cross-axis stretch pitfalls | [`references/spacing.md`](references/spacing.md)                         |
 
 ## Quick Principles
 
-If you only remember six things:
+If you only remember seven things:
 
-1. **Nest shallowly, not deeply.** Group a component's states, direct
-   children, and variants with native nesting up to 1–2 levels. Avoid 3+
-   levels; split the component instead. Never use `&` concatenation
-   (`&-suffix`) in pure CSS — it does not work. See
+1. **Draw the component boundary with `@scope`.** Style parts with
+   element selectors inside the block — `@scope (.card) { h3 { … }
+   img { … } }`. Bare selectors inside `@scope` contribute zero root
+   specificity, so they stay easy to override. Don't name a part class
+   where an element selector will do. See `references/cascade.md`.
+2. **Reserve `class` for what earns a name.** Scope roots, variants
+   (`.alert.danger`), states (`.is-*`, or preferably the platform's own
+   attributes: `[aria-expanded="true"]`, `[aria-current="page"]`,
+   `[disabled]`), script hooks, and reusable layout traits
+   (`.no-stretch`). Never prefix a part name with its component name —
+   the scope already provides the context. See
    `references/architecture.md`.
-2. **Components stay independent.** A component nested inside another
-   component keeps its own class; fix the parent layout or use a
-   reusable variant instead of renaming the child with a
-   parent-specific class. See `references/architecture.md` and
+3. **Components stay independent.** A component nested inside another
+   component keeps its own boundary; fix the parent layout or use a
+   reusable trait instead of renaming the child. When a parent hosts
+   other components, bound its selectors with a donut limit
+   (`@scope (.parent) to (...)`). See `references/architecture.md` and
    `references/spacing.md`.
-3. **Don't add `<div>`s for layout alone.** Prefer Grid over nested
+4. **Don't add `<div>`s for layout alone.** Prefer Grid over nested
    Flex containers when wrappers exist only to group rows or columns.
    See `references/markup.md`.
-4. **Padding belongs to the component; spacing between siblings belongs
-   to the parent (`gap`).** Margin on a reusable component is discouraged.
-   See `references/spacing.md`.
-5. **Declare layer order once.** Put `@layer reset, base, components,
+5. **Padding belongs to the component; spacing between siblings belongs
+   to the parent (`gap`).** Margin on a reusable component is
+   discouraged. See `references/spacing.md`.
+6. **Declare layer order once.** Put `@layer reset, base, components,
    utilities;` at the entry point and keep all styles layered. Unlayered
    styles beat layered ones — use that only intentionally. See
    `references/cascade.md`.
-6. **Responsive components respond to their container.** Prefer
+7. **Responsive components respond to their container.** Prefer
    `@container` over `@media` for reusable components; keep values in
    design tokens (custom properties). See
    `references/responsive-tokens.md`.
@@ -78,16 +89,26 @@ Before writing or modifying CSS, ask:
 
 - Is this a `.css` file, or a Sass/CSS-in-JS/CSS-Modules file? If the
   latter, see Scope above before applying this skill.
-- Am I about to nest? Keep it to 1–2 levels for states, direct children,
-  or variants. Consider whether `@scope` fits better when proximity
-  matters. See `references/architecture.md` and `references/cascade.md`.
-- Am I fighting specificity? Reach for `@layer` ordering or `:where()`
-  before adding specificity or `!important`. See `references/cascade.md`.
-- Am I about to add a `<div>` only for layout? Read `references/markup.md`.
+- Am I about to define a component? → One `@scope (root)` block; style
+  parts with element selectors; add classes only for the root,
+  variants, states, and hooks. See `references/architecture.md` and
+  `references/cascade.md`.
+- Am I about to name a part class (`.card-title`, `.nav-link`)? → Try
+  an element selector inside the scope first; a part class is justified
+  only when selectors would be ambiguous, the part is styled from
+  outside, or JavaScript needs a hook. See `references/architecture.md`.
+- Will this component host other components? → Add a `to (...)` donut
+  limit so its selectors never restyle the children's internals. See
+  `references/cascade.md`.
+- Am I fighting specificity? Reach for `@layer` ordering, scoped bare
+  selectors, or `:where()` before adding specificity or `!important`.
+  See `references/cascade.md`.
+- Am I about to add a `<div>` only for layout, or a `class` only for
+  styling? Read `references/markup.md`.
 - Am I about to add `margin` to a reusable component? Read
   `references/spacing.md`.
-- Is this breakpoint about the viewport or the component's container? For
-  reusable components, prefer `@container`. See
+- Is this breakpoint about the viewport or the component's container?
+  For reusable components, prefer `@container`. See
   `references/responsive-tokens.md`.
-- Is this value (color, spacing, type) reused? Put it in a token (custom
-  property). See `references/responsive-tokens.md`.
+- Is this value (color, spacing, type) reused? Put it in a token
+  (custom property). See `references/responsive-tokens.md`.

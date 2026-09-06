@@ -24,20 +24,22 @@ placed in a sidebar and in a main column should adapt to each placement.
   container-name: card;
 }
 
-.card {
-  display: grid;
-  gap: 12px;
-}
-
 /* A container cannot query itself — the query targets descendants
    of the named container. */
-@container card (inline-size >= 420px) {
-  .card {
-    grid-template-columns: 160px 1fr;
+@scope (.card) {
+  :scope {
+    display: grid;
+    gap: 12px;
   }
 
-  .card-title {
-    font-size: 1.25rem;
+  @container card (inline-size >= 420px) {
+    :scope {
+      grid-template-columns: 160px 1fr;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+    }
   }
 }
 ```
@@ -58,9 +60,11 @@ Prefer range syntax for readability:
   }
 }
 
-@container card (400px <= inline-size <= 800px) {
-  .card-title {
-    font-size: 1.125rem;
+@scope (.card) {
+  @container card (400px <= inline-size <= 800px) {
+    h3 {
+      font-size: 1.125rem;
+    }
   }
 }
 ```
@@ -69,8 +73,10 @@ Container-relative units (`cqi`, `cqb`, `cqw`, `cqh`, `cqmin`, `cqmax`)
 size details against the container instead of the viewport:
 
 ```css
-.card-title {
-  font-size: clamp(1rem, 4cqi + 0.5rem, 1.5rem);
+@scope (.card) {
+  h3 {
+    font-size: clamp(1rem, 4cqi + 0.5rem, 1.5rem);
+  }
 }
 ```
 
@@ -89,11 +95,13 @@ tokens — CSS custom properties declared once, consumed everywhere:
   --font-body: "Inter", system-ui, sans-serif;
 }
 
-.card {
-  background: var(--color-surface);
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
-  font-family: var(--font-body);
+@scope (.card) {
+  :scope {
+    background: var(--color-surface);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+  }
 }
 ```
 
@@ -112,14 +120,16 @@ rebind them per placement or state.
   so layouts adapt to writing modes automatically.
 
 ```css
-.alert {
-  padding-block: 12px;
-  padding-inline: var(--space-4);
-  background: color-mix(in oklch, var(--color-surface) 80%, transparent);
-}
+@scope (.alert) {
+  :scope {
+    padding-block: 12px;
+    padding-inline: var(--space-4);
+    background: color-mix(in oklch, var(--color-surface) 80%, transparent);
+  }
 
-.alert-title {
-  font-size: clamp(1rem, 2cqi + 0.75rem, 1.25rem);
+  h2 {
+    font-size: clamp(1rem, 2cqi + 0.75rem, 1.25rem);
+  }
 }
 ```
 
@@ -130,7 +140,7 @@ it inside the component it affects:
 
 ```css
 .nav-bar {
-  &:has(.nav-menu[aria-expanded="true"]) {
+  &:has([aria-expanded="true"]) {
     background: rgb(0 0 0 / 0.9);
   }
 }
@@ -144,7 +154,11 @@ it inside the component it affects:
 
 Pseudo-elements inside `:has()` are invalid — keep arguments to selectors
 the component already owns. Avoid nesting `:has()` inside `:has()`; it is
-valid but expensive and hard to read.
+valid but expensive and hard to read. Bare arguments like
+`[aria-expanded="true"]` match any descendant — narrow them with an
+element type (`button[aria-expanded="true"]`) or the child combinator
+(`& > button[aria-expanded="true"]`) when the component hosts other
+components.
 
 ## Decision Checklist
 
