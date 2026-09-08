@@ -1,6 +1,6 @@
 ---
 name: pull-request
-description: Load before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained descriptions, safe body editing, and the mandatory draft confirmation.
+description: Load before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained descriptions, safe body editing, and the visibility-based draft policy (draft for private repositories, never draft for open source).
 ---
 
 # Pull Request Creation Workflow
@@ -154,13 +154,23 @@ than "This is PR2 after PR1".
 3. If the CONTRIBUTING guide conflicts with other rules (e.g., the git-commit
    skill), the CONTRIBUTING guide takes precedence.
 
-### Step 5: Confirm Draft Status
+### Step 5: Draft Policy (Visibility-Based)
 
-Before opening the PR, you MUST use the `question` tool to ask the user whether
-to open the PR as a draft.
+Do not ask the user whether to open the PR as a draft. Determine the
+draft status from the repository's visibility instead.
 
-- If draft is selected: use `gh pr create --draft`.
-- If not draft: use `gh pr create` as usual.
+1. Run `gh repo view --json visibility -q .visibility`.
+2. If the result is `PUBLIC` (open source):
+   - NEVER use `gh pr create --draft`. Some open-source repositories
+     forbid draft pull requests, and creating one can fail or be rejected.
+   - Open the PR with a plain `gh pr create` only after the self-review
+     rule has completed with no Critical Issues and you have full
+     confidence in the change. If any uncertainty remains, stop before
+     `gh pr create` and report the concerns to the user — do not open a
+     draft as a workaround.
+3. If the result is `PRIVATE` or `INTERNAL`:
+   - Always open the PR as a draft with `gh pr create --draft`.
+   - Do not mark it ready for review unless the user explicitly asks.
 
 ### Step 6: Submit the PR Body Reliably
 

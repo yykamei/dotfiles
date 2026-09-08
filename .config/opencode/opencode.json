@@ -29,12 +29,6 @@
       "/private/tmp/**": "allow",
       "~/.rbenv/versions/**": "deny",
       "~/.cache/**": "allow"
-    },
-    "bash": {
-      "git commit": "ask",
-      "git commit *": "ask",
-      "git -C * commit": "ask",
-      "git -C * commit *": "ask"
     }
   }
 }

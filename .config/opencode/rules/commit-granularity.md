@@ -7,35 +7,42 @@ pull requests.
 
 ## Rule
 
-When planning code changes in Plan Mode, the plan MUST satisfy the following:
+Every change ends in a pull request. Do NOT ask the user whether a pull
+request is needed, and never push commits directly to the default branch
+(`main` / `master`). Both the PR requirement and the branch prohibition
+are waived only when the user explicitly instructs otherwise in the
+current request (e.g., "push directly to main"). Without such an
+instruction, always finish with:
 
-- First, ask the user whether a pull request is needed for this task.
-- If a PR is needed: follow the **1 PR = 1 commit** principle below.
-- If a PR is NOT needed (e.g., personal repositories like dotfiles): push the
-  commit(s) directly to the current branch and skip the PR workflow.
-- Every commit MUST be independently deployable without regressions or breakage.
-- The **granularity principles** below apply equally to PRs and to commits.
+1. A topic branch (never commit directly on the default branch).
+2. Commit(s) satisfying the Granularity and Commit Health criteria below,
+   consolidated to exactly one commit before the PR is opened.
+3. A PR opened by following the `pull-request` skill, applying the
+   Draft Policy below.
 
-## Deciding Whether a PR Is Needed
+Every commit MUST be independently deployable without regressions or
+breakage. The **granularity principles** below apply equally to PRs and
+to commits.
 
-At the beginning of plan creation in Plan Mode, use the `question` tool to
-confirm with the user whether this task requires a pull request.
+## Draft Policy
 
-Consider the following signals when framing the question:
+Determine the repository's visibility with
+`gh repo view --json visibility -q .visibility`:
 
-- Repository nature (personal vs shared/team)
-- Whether human review is expected
-- Branch protection rules
-- CI / deployment flow
-
-If the user decides a PR is not needed, plan the work to be pushed directly to
-the current branch and skip the `pull-request` skill / `gh pr create` workflow.
+- **PUBLIC (open source)**: NEVER open the PR as a draft. Some
+  open-source repositories forbid draft pull requests, and creating one
+  can fail or be rejected. Open the PR only after the self-review rule
+  has completed with no Critical Issues and you have full confidence in
+  the change. If any doubt remains, do NOT open the PR; report the
+  remaining concerns to the user instead of falling back to a draft.
+- **PRIVATE / INTERNAL**: ALWAYS open the PR as a draft
+  (`gh pr create --draft`). Mark it ready for review only when the user
+  explicitly asks.
 
 ## Granularity
 
 Because **1 PR = 1 commit**, the granularity criteria for a PR and for a
-single commit are identical. The following apply to both, regardless of
-whether a PR is opened:
+single commit are identical. The following apply to both:
 
 - **1 logical change per unit.** A commit (and therefore a PR) represents
   exactly one logical change. Do not mix unrelated concerns.
@@ -52,7 +59,7 @@ whether a PR is opened:
   isolation would not produce a coherent, deployable state, the commit is
   either too large (mixes concerns) or too small (incomplete change).
 
-### Additional rules when a PR is needed
+### Additional rules for PR branches
 
 - Squash merge is NOT assumed. A PR branch MUST contain exactly one commit
   at the time the PR is opened.
@@ -79,9 +86,8 @@ out, bisected, or reverted without landing on a broken state:
 
 ## Changes That Require Isolation
 
-The following types of changes MUST be isolated into their own dedicated unit
-(PR when a PR is used, commit otherwise), separate from the code that depends
-on them:
+The following types of changes MUST be isolated into their own dedicated
+PR, separate from the code that depends on them:
 
 - **DB migrations**
 - **Configuration schema changes**
@@ -94,17 +100,13 @@ each deployment.
 
 When creating a plan in Plan Mode for a coding task:
 
-1. **First**, ask the user whether a PR is needed (see above).
-2. If a PR is needed:
-   - Break the work into steps where each step is one PR = one commit,
-     following the Granularity criteria above.
-   - Explicitly state the PR boundary and its single purpose in the plan.
-   - If the task involves schema or migration changes, plan them as a
-     preceding, independent PR.
-3. If a PR is not needed:
-   - Break the work into commits following the Granularity criteria above,
-     each also satisfying Commit Health.
-   - State the target branch to push to (typically the current branch).
+1. Break the work into steps where each step is one PR = one commit,
+   following the Granularity criteria above.
+2. Explicitly state the PR boundary and its single purpose in the plan,
+   plus the topic branch to push and whether the PR will be a draft
+   (per the Draft Policy above).
+3. If the task involves schema or migration changes, plan them as a
+   preceding, independent PR.
 
 ## Related skills
 

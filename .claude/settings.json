@@ -27,9 +27,6 @@
       "mcp__sentry__*",
       "mcp__plugin_datadog_mcp__*"
     ],
-    "ask": [
-      "Bash(git*commit*)"
-    ],
     "defaultMode": "auto",
     "additionalDirectories": [
       "~/.config/opencode",
