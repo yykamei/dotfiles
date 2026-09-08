@@ -1,6 +1,6 @@
 ---
 name: pull-request
-description: Load before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained descriptions, safe body editing, and the visibility-based draft policy (draft for private repositories, never draft for open source).
+description: Load before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained and concise descriptions, safe body editing, and the visibility-based draft policy (draft for private repositories, never draft for open source).
 ---
 
 # Pull Request Creation Workflow
@@ -78,34 +78,34 @@ title and body:
 
    ```
    ## Summary
-   [1-3 sentence summary of what changed]
+   [1-3 sentences: what changed]
 
    ## Purpose
-   [The outcome or goal this PR achieves]
+   [1-2 sentences: the outcome or goal this PR achieves]
 
    ## Background
-   [The prior situation, problem, or product/technical reason]
+   [1-3 sentences: the prior situation, problem, or product/technical reason]
 
    ## Changes
-   [What this PR intentionally changes, and how]
+   [1-3 sentences or bullets: what this PR intentionally changes, and how]
 
    ## Out of Scope
-   [Related work this PR intentionally does not change, or "None"]
+   [1-2 sentences or bullets: deliberate non-goals, or "None"]
 
    ## Related
    [Links to related PBI/issues/PRs, or "None"]
 
    ## Rollout Role
-   [For phased rollouts, what role this PR plays in the whole release; omit if not applicable]
+   [1-2 sentences: this PR's role in the release; omit if not applicable]
 
    ## Testing
-   [How to verify the change, or "N/A" if not applicable]
+   [1-2 sentences: how to verify the change, or "N/A" if not applicable]
 
    ## Post-Release Verification
-   [What should be checked after release, or "N/A" if not applicable]
+   [1-2 sentences: what to check after release, or "N/A" if not applicable]
 
    ## Operational Notes
-   [Operational cautions, monitoring, rollback notes, or "None"]
+   [1-2 sentences: cautions, monitoring, rollback, or "None"]
    ```
 
 ### Step 3.5: Make the PR Description Self-Contained
@@ -142,6 +142,25 @@ When the work is part of a phased rollout, the body must describe this PR's
 role in domain terms, not only by sequence number. For example, write
 "This PR wires the already-created database column into the read API" rather
 than "This is PR2 after PR1".
+
+### Step 3.6: Keep the Body Concise
+
+Concise means tighter wording, not less context. Keep every section that
+carries background; compress the sentences instead.
+
+- Each section: 1-3 sentences (or up to ~5 bullets when genuinely
+  enumerating items). One idea per sentence; cut filler and vague
+  qualifiers; prefer concrete names and numbers.
+- Give each section a distinct job and never repeat content across
+  sections: Summary = a one-breath overview of what changed; Background
+  = why it is needed (problem/cause); Changes = per logical unit, what
+  is intentionally changed and how; Out of Scope = deliberate non-goals.
+  If two sections would say the same thing, write it in the more natural
+  one and leave the other at "None" where the structure allows.
+- Total body: aim within about 30 lines so a reviewer can read it in
+  one pass.
+- When conciseness would force you to drop background, keep the
+  background and exceed the target instead — cut wording, never context.
 
 ### Step 4: Check CONTRIBUTING Guide and Code of Conduct
 

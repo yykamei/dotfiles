@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: Load before running `git commit` or `git commit --amend`. Defines commit message language detection, self-contained commit messages, subject/body formatting, multi-line commits via `-F` (never `-m`), and post-commit verification with `git log -1 --format=%B`.
+description: Load before running `git commit` or `git commit --amend`. Defines commit message language detection, self-contained and concise commit messages, subject/body formatting and length targets, multi-line commits via `-F` (never `-m`), and post-commit verification with `git log -1 --format=%B`.
 ---
 
 # Git Commit Message Guidelines
@@ -15,8 +15,9 @@ Strictly adhere to the following structure.
 ```
 [Type]: [Subject] (Max 50 characters)
 
-[Body] (Why this change was necessary, detailed background, solution.
-For line-wrapping rules, see "Commit message language rules" below.)
+[Body] (Why this change was necessary, background, solution — concisely.
+For length targets and line-wrapping rules, see "Keep the Body Concise"
+and "Commit message language rules" below.)
 ```
 
 ## Execution Rules
@@ -108,6 +109,7 @@ Select the appropriate prefix based on the changes.
 - **Body**:
   Focus on "Why" rather than "What".
   Do not write what is obvious from the code; describe the intent and the scope of influence.
+  Keep the body concise — short enough to read at a glance (see "Keep the Body Concise").
   Ensure the Body is written in natural prose that is easy for humans to understand, using punctuation appropriately.
   Besides, the body should be written in present tense, so you should write "implement A" instead of "implemented A".
   Do not report verification. Do not describe how the change was verified
@@ -158,6 +160,33 @@ When the work is part of a phased rollout, describe this commit's role in domain
 terms, not only by sequence number. For example, write "This commit wires the
 already-created database column into the read API" rather than "This is phase 2
 after the first commit".
+
+## Keep the Body Concise
+
+Background is mandatory; brevity must come from tighter wording, never
+from dropping the explanation. The body must cover, and only cover:
+
+1. Why the change was needed (the problem and, when non-obvious, its cause).
+2. What this commit does about it.
+3. Impact, constraints, or scope that a future reader cannot infer from
+   the diff.
+
+Make it concise:
+
+- One idea per sentence. Prefer two short sentences over one nested one.
+- Do not restate the subject line without adding new information (its
+  purpose or effect), and do not paraphrase the diff.
+- Cut filler ("basically", "it should be noted that", "in order to") and
+  vague qualifiers ("various", "several"); prefer concrete names and
+  numbers.
+- Length targets (blank lines included): English 3-8 wrapped lines at 72
+  columns; Japanese 3-10 lines at 35-45 full-width characters per line.
+  A shorter body is fine when the trio above is genuinely covered; never
+  pad to reach the minimum.
+- When the content does not fit, shorten the wording first. If fitting
+  the target would force you to cut background, keep the background and
+  exceed the target instead.
+- Do not convert the prose into bullets to shorten it (see Anti-patterns).
 
 ## Commit message language rules
 
@@ -222,17 +251,12 @@ after the first commit".
 ```
 feat: Add validation to the user registration screen
 
-We are seeing an increase in inquiries about undelivered emails. Upon
-investigation, we found that some users are entering email addresses in formats
-not accepted by SMTP servers. In short, we were failing to prevent invalid
-email formats at the input stage.
+Support inquiries about undelivered mail trace back to email addresses
+that SMTP servers reject, yet the registration form accepts. This adds
+format validation at registration to block such input.
 
-Therefore, we are introducing email format validation to prevent the
-registration of invalid data.
-
-Note that since some existing records already contain invalid email addresses,
-this validation is applied only during new user creation. We plan to fix the
-existing invalid email addresses separately.
+Existing records with invalid addresses stay untouched; a separate fix
+for them is planned.
 ```
 
 ### Good Japanese Example
@@ -254,6 +278,26 @@ OpenCode で利用するモデルによっては、日本語本文を極端に�
 
 行が長くなりすぎる場合にだけ自然な句点位置で折り返し、説明の途中で
 不自然に改行される状態を避けます。
+```
+
+### Bad Example (verbose)
+
+The background is present, but the body repeats the subject, paraphrases
+the diff, and pads with filler — long to read despite being informative:
+
+```
+feat: Add validation to the user registration screen
+
+Basically, we are seeing an increase in inquiries about undelivered emails.
+It should be noted that upon investigation, we found that some users are
+entering email addresses in formats that are not accepted by SMTP servers.
+In short, we were failing to prevent invalid email formats at the input
+stage. In order to address this issue, we are introducing email format
+validation to the user registration screen in order to prevent the
+registration of invalid data. It should also be noted that, although some
+existing records already contain invalid email addresses, this validation
+is applied only during new user creation, and we plan to fix the existing
+invalid email addresses separately at some point in the future.
 ```
 
 ### Bad Example
