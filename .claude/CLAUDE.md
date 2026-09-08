@@ -99,25 +99,38 @@ pull requests.
 
 ### Rule
 
-At the beginning of plan creation in Plan Mode, use the AskUserQuestion tool
-to ask the user whether a pull request is needed for this task. Relevant
-signals: repository nature (personal vs shared/team), whether human review is
-expected, branch protection rules, and CI/deployment flow.
+Every change ends in a pull request. Do NOT ask the user whether a pull
+request is needed, and never push commits directly to the default branch
+(`main` / `master`). Both the PR requirement and the branch prohibition
+are waived only when the user explicitly instructs otherwise in the
+current request (e.g., "push directly to main"). Without such an
+instruction, always finish with:
 
-- **If a PR is needed**: follow the **1 PR = 1 commit** principle. Break the
-  plan into steps where each step is one PR with an explicitly stated single
-  purpose. Plan schema or migration changes as a preceding, independent PR
-  (see Changes That Require Isolation).
-- **If a PR is NOT needed** (e.g., personal repositories like dotfiles): plan
-  commits per the Granularity criteria below, each satisfying Commit Health,
-  and state the target branch to push to (typically the current branch). Skip
-  the `pull-request` skill / `gh pr create` workflow.
+1. A topic branch (never commit directly on the default branch).
+2. Commit(s) satisfying the Granularity and Commit Health criteria below,
+   consolidated to exactly one commit before the PR is opened.
+3. A PR opened by following the `pull-request` skill, applying the
+   Draft Policy below.
+
+### Draft Policy
+
+Determine the repository's visibility with
+`gh repo view --json visibility -q .visibility`:
+
+- **PUBLIC (open source)**: NEVER open the PR as a draft. Some
+  open-source repositories forbid draft pull requests, and creating one
+  can fail or be rejected. Open the PR only after the self-review rule
+  has completed with no Critical Issues and you have full confidence in
+  the change. If any doubt remains, do NOT open the PR; report the
+  remaining concerns to the user instead of falling back to a draft.
+- **PRIVATE / INTERNAL**: ALWAYS open the PR as a draft
+  (`gh pr create --draft`). Mark it ready for review only when the user
+  explicitly asks.
 
 ### Granularity
 
 Because **1 PR = 1 commit**, the granularity criteria for a PR and for a
-single commit are identical. The following apply to both, regardless of
-whether a PR is opened:
+single commit are identical. The following apply to both:
 
 - **1 logical change per unit.** Do not mix unrelated concerns.
 - **Refactoring vs. feature addition are separate commits.** Changes that
@@ -133,7 +146,7 @@ whether a PR is opened:
   isolation would not produce a coherent, deployable state, the commit is
   either too large (mixes concerns) or too small (incomplete change).
 
-#### Additional rules when a PR is needed
+#### Additional rules for PR branches
 
 - Squash merge is NOT assumed. A PR branch MUST contain exactly one commit
   at the time the PR is opened.
@@ -161,9 +174,8 @@ out, bisected, or reverted without landing on a broken state:
 
 DB migrations, configuration schema changes, and API schema changes
 (OpenAPI, GraphQL schema, protobuf, etc.) MUST be isolated into their own
-dedicated unit (PR when a PR is used, commit otherwise), separate from the
-code that depends on them. This keeps deploy ordering flexible and reduces
-the blast radius of each deployment.
+dedicated PR, separate from the code that depends on them. This keeps
+deploy ordering flexible and reduces the blast radius of each deployment.
 
 ### Related skills
 
@@ -202,7 +214,7 @@ read the `SKILL.md` and follow it before performing the corresponding action:
   every `git commit` (including `--amend`): message language, subject/body
   format, `-F`-based multi-line commits, post-commit verification.
 - **`pull-request`** (`~/.claude/skills/pull-request/SKILL.md`) — follow it
-  before `gh pr create` or `gh pr edit --body` when the plan involves a PR.
+  before `gh pr create` or `gh pr edit --body`; every change ends in a PR.
 
 Referencing the skills by name alone is NOT sufficient; the file paths and
 trigger conditions above MUST appear in the plan so that an agent without
