@@ -32,7 +32,7 @@ Determine the repository's visibility with
 - **PUBLIC (open source)**: NEVER open the PR as a draft. Some
   open-source repositories forbid draft pull requests, and creating one
   can fail or be rejected. Open the PR only after the self-review rule
-  has completed with no Critical Issues and you have full confidence in
+  has completed with no blocking findings and you have full confidence in
   the change. If any doubt remains, do NOT open the PR; report the
   remaining concerns to the user instead of falling back to a draft.
 - **PRIVATE / INTERNAL**: ALWAYS open the PR as a draft

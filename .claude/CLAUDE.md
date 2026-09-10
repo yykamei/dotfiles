@@ -125,7 +125,7 @@ Determine the repository's visibility with
 - **PUBLIC (open source)**: NEVER open the PR as a draft. Some
   open-source repositories forbid draft pull requests, and creating one
   can fail or be rejected. Open the PR only after the self-review rule
-  has completed with no Critical Issues and you have full confidence in
+  has completed with no blocking findings and you have full confidence in
   the change. If any doubt remains, do NOT open the PR; report the
   remaining concerns to the user instead of falling back to a draft.
 - **PRIVATE / INTERNAL**: ALWAYS open the PR as a draft
@@ -269,7 +269,9 @@ read the `SKILL.md` and follow it before performing the corresponding action:
   logic.
 - **`code-review`** (`~/.claude/skills/code-review/SKILL.md`) — self-review
   the diff against its criteria after implementation and before committing;
-  fix any Critical Issues and re-review.
+  fix any blocking findings and re-review (see Self-Review After Code
+  Changes). For security-sensitive changes, the plan must also require
+  delegating to the `security-reviewer` subagent.
 - **`git-commit`** (`~/.claude/skills/git-commit/SKILL.md`) — follow it for
   every `git commit` (including `--amend`): message language, subject/body
   format, `-F`-based multi-line commits, post-commit verification.
@@ -291,14 +293,27 @@ proceeding to commit, PR creation, or any other subsequent step.
 
 After completing the implementation, load the `code-review` skill via the
 Skill tool and self-review the diff against its criteria in the main session.
-When the change touches security-sensitive areas (user input, authentication,
-API endpoints, or sensitive data), also delegate security review to the
-`security-reviewer` subagent -- an orchestrator that dispatches all nine
-per-perspective security subagents in parallel and returns one consolidated,
-cross-referenced report. The `security-review` skill remains as a manual
-reference checklist for the main session. If the review surfaces Critical
-Issues, fix them and re-review; proceed to commit or PR creation only after
-the review passes with no Critical Issues.
+
+When the change touches security-sensitive areas, also delegate security
+review to the `security-reviewer` subagent -- an orchestrator that dispatches
+all nine per-perspective security subagents in parallel and returns one
+consolidated, cross-referenced report. Run it in the same message alongside
+the code review so both run concurrently.
+
+A change is security-sensitive when it touches user input handling;
+authentication, authorization, or session management; API endpoints or
+external communication; sensitive data such as secrets, credentials, tokens,
+PII, or cryptographic operations; dependency manifests or lock files;
+CSRF/CORS/Cookie or other security-relevant configuration; or audit logging.
+
+The `security-review` skill remains as a manual reference checklist for the
+main session. If the code review flags security concerns or recommends
+delegating to `security-reviewer`, run `security-reviewer` before proceeding
+even if the change was not classified as security-sensitive.
+
+Fix code-review Critical Issues and `security-reviewer` CRITICAL/HIGH
+findings, and re-run the reviewer that reported them. Proceed to commit or PR
+creation only after the review passes with no blocking findings.
 
 ### Scope
 
