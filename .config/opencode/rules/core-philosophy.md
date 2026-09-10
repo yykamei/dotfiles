@@ -22,6 +22,11 @@ I use specialized agents and skills for complex tasks.
 - **Parallel Execution**: Use Task tool with multiple agents when possible
 - **Plan Before Execute**: Use Plan Mode for complex operations; the procedure
   itself lives outside this rule
+- **Human-Readable Output**: Every message is written to be read by a human.
+  Keep it concise in any situation — plan files, explanations, progress
+  narration, and summaries alike. Conciseness cuts filler, repetition, and
+  restated background; it never cuts information the reader needs or the
+  logical flow that carries it.
 - **Test-Driven**: When changing testable logic, follow the `tdd-workflow`
   skill. Not every change requires tests (e.g., shell aliases, dotfile edits)
 - **Security-First**: Treat input crossing a system boundary (user input,
