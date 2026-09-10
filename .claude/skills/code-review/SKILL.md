@@ -148,6 +148,9 @@ and prioritize the findings that matter most.
 
 For concerns beyond general code review:
 
-- **Security concerns**: Load the `security-review` skill and review in the main session
+- **Security concerns**: Delegate to the `security-reviewer` subagent (a
+  security review orchestrator that dispatches nine per-perspective
+  agents in parallel and returns one consolidated, cross-referenced
+  report)
 - **Architecture decisions**: Consider consulting domain experts
 - **Performance critical code**: May need profiling or benchmarks

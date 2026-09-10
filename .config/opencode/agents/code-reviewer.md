@@ -50,4 +50,7 @@ changes, or `git diff @{u}..HEAD` if all changes are committed.
 ## Delegation
 
 For security-specific concerns found during review, note them in your report
-and recommend delegating to the `security-reviewer` agent for deeper analysis.
+and recommend delegating to the `security-reviewer` agent for deeper
+analysis. That agent is a security review orchestrator: it dispatches all
+nine security perspective agents in parallel and returns one consolidated,
+cross-referenced report.

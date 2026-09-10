@@ -1,13 +1,21 @@
 ---
 name: security-review
-description: Load after writing or reviewing code that handles user input, authentication, API endpoints, or sensitive data. Defines the OWASP-oriented security checklist, severity classification, common vulnerability catalog, and the standard finding output format.
+description: Manual security review reference checklist for the main session. For the automated parallel review, delegate to the security-reviewer subagent, which fans out nine per-perspective agents. Defines the OWASP-oriented security checklist, severity classification, common vulnerability catalog, and the standard finding output format.
 ---
 
 # Security Review Workflow
 
-Guidelines for conducting a security review in the main session, focused on
-identifying and remediating vulnerabilities before they reach production.
-Review code, configurations, and dependencies against the criteria below.
+Guidelines for conducting a manual security review in the main session,
+focused on identifying and remediating vulnerabilities before they reach
+production. Review code, configurations, and dependencies against the
+criteria below.
+
+> **Automated alternative**: Delegate to the `security-reviewer`
+> subagent instead when you want the full review to run there -- it
+> dispatches nine per-perspective security subagents in parallel and
+> returns one consolidated, cross-referenced report. Use this skill for
+> manual or main-session reviews and as a reference for the perspective
+> checklists.
 
 ## Core Focus Areas
 
