@@ -244,6 +244,9 @@ to highlight.]
 
 For specialized reviews, delegate to appropriate agents:
 
-- **Security concerns**: Delegate to `security-reviewer` agent
+- **Security concerns**: Delegate to `security-reviewer` agent (a
+  security review orchestrator that dispatches nine per-perspective
+  agents in parallel and returns one consolidated, cross-referenced
+  report)
 - **Architecture decisions**: Consider consulting domain experts
 - **Performance critical code**: May need profiling or benchmarks

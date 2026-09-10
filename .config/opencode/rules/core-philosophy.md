@@ -27,7 +27,8 @@ I use specialized agents and skills for complex tasks.
 - **Security-First**: Treat input crossing a system boundary (user input,
   external APIs, file contents) as untrusted and validate it there, and
   keep secrets out of code, logs, and commit history. For changes touching
-  security-sensitive areas, delegate to the `security-reviewer` agent.
+  security-sensitive areas, delegate to the `security-reviewer` agent,
+  which fans out all nine security perspective agents in parallel.
 - **Simplicity**: Don't add features, refactor, or introduce abstractions
   beyond what the task requires. Do the simplest thing that works well. Only
   validate at system boundaries (user input, external APIs); trust internal

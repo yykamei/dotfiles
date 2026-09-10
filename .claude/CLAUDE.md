@@ -32,8 +32,8 @@ Always. This rule states baseline principles that apply to every turn.
 - **Security-First**: Treat input crossing a system boundary (user input,
   external APIs, file contents) as untrusted and validate it there, and
   keep secrets out of code, logs, and commit history. For changes touching
-  security-sensitive areas, the `security-review` skill applies (see
-  Self-Review After Code Changes).
+  security-sensitive areas, delegate security review to the
+  `security-reviewer` subagent (see Self-Review After Code Changes).
 - **Simplicity**: Don't add features, refactor, or introduce abstractions
   beyond what the task requires. Do the simplest thing that works well. Only
   validate at system boundaries (user input, external APIs); trust internal
@@ -232,10 +232,13 @@ proceeding to commit, PR creation, or any other subsequent step.
 After completing the implementation, load the `code-review` skill via the
 Skill tool and self-review the diff against its criteria in the main session.
 When the change touches security-sensitive areas (user input, authentication,
-API endpoints, or sensitive data), also load the `security-review` skill and
-review against its criteria. If the review surfaces Critical Issues, fix them
-and re-review; proceed to commit or PR creation only after the review passes
-with no Critical Issues.
+API endpoints, or sensitive data), also delegate security review to the
+`security-reviewer` subagent -- an orchestrator that dispatches all nine
+per-perspective security subagents in parallel and returns one consolidated,
+cross-referenced report. The `security-review` skill remains as a manual
+reference checklist for the main session. If the review surfaces Critical
+Issues, fix them and re-review; proceed to commit or PR creation only after
+the review passes with no Critical Issues.
 
 ### Scope
 

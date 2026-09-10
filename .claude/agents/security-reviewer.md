@@ -1,25 +1,11 @@
 ---
+name: security-reviewer
 description: |
   Security review orchestrator. Dispatches nine per-perspective security
   subagents in parallel (single message), then cross-references their
   findings into one consolidated report. Use after writing code that
   handles user input, authentication, API endpoints, or sensitive data.
-mode: subagent
-permission:
-  edit: deny
-  task:
-    "*": deny
-    "security-*": allow
-    "security-reviewer": deny
-  bash:
-    "*": deny
-    "git diff*": allow
-    "git log*": allow
-    "git status*": allow
-    "git show*": allow
-    "gh pr diff*": allow
-    "gh pr view*": allow
-    "gh pr checks*": allow
+tools: Agent, Read, Grep, Glob, Bash
 ---
 
 # Security Review Orchestrator
@@ -58,7 +44,7 @@ triage. This is why the dispatch step below is mandatory and parallel.
 
 2. **Dispatch all nine perspectives IN PARALLEL (mandatory)**
 
-   In a SINGLE message, issue nine Task tool calls -- one per perspective
+   In a SINGLE message, issue nine Agent tool calls -- one per perspective
    agent listed below. All nine MUST be dispatched together. Never run
    them sequentially, never dispatch a subset, and never proceed to
    aggregation until all nine have returned.
