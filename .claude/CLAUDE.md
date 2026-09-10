@@ -159,7 +159,8 @@ single commit are identical. The following apply to both:
   into a single commit before pushing and opening the PR, using the
   procedure in the `git-commit` skill.
 - If the PR branch has already been pushed, ask the user before force-pushing
-  the consolidated commit.
+  the consolidated commit. Exception: responses to PR review comments follow
+  the `pr-review-response` skill, which pre-authorizes the force-push.
 - If a diff grows too large for comfortable review, split it into multiple
   PRs along logical boundaries — each still being a single commit.
 

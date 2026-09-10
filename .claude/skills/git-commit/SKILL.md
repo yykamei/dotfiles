@@ -45,7 +45,8 @@ content. They apply regardless of language or commit type.
   follows the wrapping rules in "Commit message language rules". If not,
   amend with `git commit --amend -F <path>` using a corrected file (only if
   the commit has not been pushed; otherwise ask the user before
-  force-pushing).
+  force-pushing, except when following the `pr-review-response` skill,
+  which pre-authorizes it).
 - **Delete the message file after committing**: After verification passes,
   delete the temporary message file with `rm <path>` so stale content is not
   reused in a future session.
@@ -67,7 +68,9 @@ several work-in-progress commits need to be folded into one.
 - **Pushed branches require confirmation**: A consolidated commit on an
   already-pushed branch can only land via a force push. Ask the user before
   running `git push --force-with-lease`, and never force push to `main` /
-  `master` without explicit approval.
+  `master` without explicit approval. Exception: responses to PR review
+  comments follow the `pr-review-response` skill, which pre-authorizes the
+  force-push.
 - **Verify afterward**: Run `git log <base>..HEAD --oneline` to confirm
   exactly one commit remains, then run the standard post-commit verification
   from the Execution Rules above.

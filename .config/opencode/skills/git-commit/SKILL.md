@@ -54,7 +54,8 @@ content. They apply regardless of language or commit type.
     If the wrapping is off or paragraphs become hard to read, amend with
     `git commit --amend -F <path>` using the corrected file (only if
     the commit has not been pushed; otherwise ask the user before
-    force-pushing).
+    force-pushing, except when following the `pr-review-response` skill,
+    which pre-authorizes it).
 - **Delete the message file after committing**: After verification passes,
   immediately delete the temporary message file with `rm <path>`. This prevents
   stale content from being accidentally reused in a future session.
@@ -80,7 +81,9 @@ several work-in-progress commits need to be folded into one.
 - **Pushed branches require confirmation**: If the branch has already
   been pushed, the consolidated commit can only land via a force push.
   Ask the user before running `git push --force-with-lease`, and never
-  force push to `main` / `master` without explicit approval.
+  force push to `main` / `master` without explicit approval. Exception:
+  responses to PR review comments follow the `pr-review-response` skill,
+  which pre-authorizes the force-push.
 - **Verify afterward**: After the consolidation commit lands, run
   `git log <base>..HEAD --oneline` to confirm exactly one commit
   remains, then run the standard `git log -1 --format=%B` verification
