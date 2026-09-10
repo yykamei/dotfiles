@@ -58,6 +58,8 @@ title and body:
 
 - For single-commit PRs, use the commit subject as the PR title.
 - For multi-commit PRs, write a title that summarizes the overall change.
+- The title is the primary statement of what changed: make the change
+  understandable from the title alone, and do not restate it in the body.
 
 ### Step 3: Check for PR Templates
 
@@ -68,44 +70,40 @@ title and body:
    - `PULL_REQUEST_TEMPLATE.md` (repository root)
 2. If a template exists, follow its structure, sections, and checklists when
    composing the PR body.
-3. When a template exists, still ensure the PR body includes the information
-   required below. Put missing details in the most natural existing section,
-   or append additional sections at the end. Do not remove or rewrite template
-   checklists, guidance, or repository-specific fields.
+3. When a template exists, apply these rules:
+   - A Changes-like section: keep it as terse as possible and add no
+     extraneous content — the title and the diff already convey what changed.
+   - A Testing-like section: fill it in only when manual testing is needed.
+     Never list automated test cases; the diff already shows them.
+   - Any other missing context: put it in the most natural existing section,
+     or append additional sections at the end. Do not remove or rewrite
+     template checklists, guidance, or repository-specific fields.
 4. If no template exists, compose the PR body with the following default
    structure. Keep the section headers in English regardless of the determined
-   language:
+   language. Omit any section marked "omit if not applicable" entirely rather
+   than writing a placeholder.
 
    ```
-   ## Summary
-   [1-3 sentences: what changed]
-
    ## Purpose
    [1-2 sentences: the outcome or goal this PR achieves]
 
    ## Background
    [1-3 sentences: the prior situation, problem, or product/technical reason]
 
-   ## Changes
-   [1-3 sentences or bullets: what this PR intentionally changes, and how]
-
    ## Out of Scope
    [1-2 sentences or bullets: deliberate non-goals, or "None"]
-
-   ## Related
-   [Links to related PBI/issues/PRs, or "None"]
 
    ## Rollout Role
    [1-2 sentences: this PR's role in the release; omit if not applicable]
 
    ## Testing
-   [1-2 sentences: how to verify the change, or "N/A" if not applicable]
+   [Manual testing that automated tests cannot cover; omit if not applicable]
 
    ## Post-Release Verification
-   [1-2 sentences: what to check after release, or "N/A" if not applicable]
+   [1-2 sentences: what to check after release; omit if not applicable]
 
    ## Operational Notes
-   [1-2 sentences: cautions, monitoring, rollback, or "None"]
+   [1-2 sentences: cautions, monitoring, rollback; omit if not applicable]
    ```
 
 ### Step 3.5: Make the PR Description Self-Contained
@@ -120,7 +118,8 @@ Message Self-Contained" section apply: do not explain the PR only with
 plan-local or order-only references such as `PR2`, `previous PR`,
 `part 2 of 3`, or `phase 2`.
 
-If you need to mention another PR, include all of the following:
+If you need to mention another PR, put it in the most natural section (e.g.,
+Background or Operational Notes) and include all of the following:
 
 - The PR URL, preferably in `https://github.com/owner/repo/pull/N` form.
 - A 1-2 sentence explanation of what that PR completed, or is expected to
@@ -131,11 +130,9 @@ If you need to mention another PR, include all of the following:
 Example:
 
 ```markdown
-## Related
+## Background
 
-- https://github.com/example/app/pull/123 added the `users.deleted_at` column
-  and shipped the migration. This PR uses that column to hide deleted users
-  from the admin API response.
+- https://github.com/example/app/pull/123 added the `users.deleted_at` column and shipped the migration. This PR uses that column to hide deleted users from the admin API response.
 ```
 
 When the work is part of a phased rollout, the body must describe this PR's
@@ -151,14 +148,18 @@ carries background; compress the sentences instead.
 - Each section: 1-3 sentences (or up to ~5 bullets when genuinely
   enumerating items). One idea per sentence; cut filler and vague
   qualifiers; prefer concrete names and numbers.
+- The title is the primary statement of what changed; do not restate it
+  in the body.
 - Give each section a distinct job and never repeat content across
-  sections: Summary = a one-breath overview of what changed; Background
-  = why it is needed (problem/cause); Changes = per logical unit, what
-  is intentionally changed and how; Out of Scope = deliberate non-goals.
-  If two sections would say the same thing, write it in the more natural
-  one and leave the other at "None" where the structure allows.
+  sections: Purpose = the outcome or goal; Background = why it is needed
+  (problem/cause); Out of Scope = deliberate non-goals. If two sections
+  would say the same thing, write it in the more natural one and leave
+  the other at "None" where the structure allows.
 - Total body: aim within about 30 lines so a reviewer can read it in
   one pass.
+- Do not hard-wrap lines in the PR body: write each paragraph and bullet
+  on a single line and let the Markdown renderer soft-wrap. Fixed-column
+  wrapping is a commit-message convention, not a PR-description one.
 - When conciseness would force you to drop background, keep the
   background and exceed the target instead — cut wording, never context.
 
