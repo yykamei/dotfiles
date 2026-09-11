@@ -70,8 +70,10 @@ Run the project's build, lint, and tests for the touched code (see the
 ### Step 4: Self-Review Before Amending
 
 Follow the Self-Review After Code Changes rule on the pending diff before
-committing. Delegate to the `code-reviewer` agent. Fix any Critical Issues and
-re-review until none remain.
+committing. Delegate to the `code-reviewer` agent, and to the
+`security-reviewer` agent as well when the change is security-sensitive. Fix
+any blocking findings (code-review Critical Issues; security-review
+CRITICAL/HIGH) and re-review until none remain.
 
 ### Step 5: Amend and Force-Push
 

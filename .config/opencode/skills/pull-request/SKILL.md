@@ -184,7 +184,7 @@ draft status from the repository's visibility instead.
    - NEVER use `gh pr create --draft`. Some open-source repositories
      forbid draft pull requests, and creating one can fail or be rejected.
    - Open the PR with a plain `gh pr create` only after the self-review
-     rule has completed with no Critical Issues and you have full
+     rule has completed with no blocking findings and you have full
      confidence in the change. If any uncertainty remains, stop before
      `gh pr create` and report the concerns to the user — do not open a
      draft as a workaround.
