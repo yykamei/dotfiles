@@ -5,6 +5,9 @@
   ],
   "autoupdate": false,
   "model": "opencode-go/deepseek-v4.1-flash",
+  "experimental": {
+    "subagent_depth": 2
+  },
   "instructions": [
     "~/.config/opencode/rules/*.md"
   ],
