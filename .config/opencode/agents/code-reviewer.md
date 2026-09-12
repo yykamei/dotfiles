@@ -2,8 +2,9 @@
 description: |
   Code review specialist for local diffs and pull requests.
   Analyzes code changes for correctness, completeness, clarity, consistency,
-  and testability. Classifies issues as Critical, Warning, or Suggestion.
-  Use after completing code implementation for self-review.
+  testability, and design quality (Ousterhout Red Flags). Classifies issues
+  as Critical, Warning, or Suggestion. Use after completing code
+  implementation for self-review.
 mode: subagent
 tools:
   write: false

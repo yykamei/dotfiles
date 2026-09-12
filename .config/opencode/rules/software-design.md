@@ -44,13 +44,17 @@ design that violates the principles above:
 
 - **Shallow module**: small interface that reveals most of the
   implementation's complexity.
+- **Cosmetic decomposition**: functions split out only to satisfy
+  line-count or complexity linters, hiding no complexity. Short methods
+  are not a goal in themselves; prefer inlining single-call chains over
+  scattering logic (see Principle 6).
 - **Pass-through methods**: a method that does little but delegate to
   another method with a similar signature.
 - **Information leakage**: a design decision exposed through multiple
   modules (e.g., knowledge of a file format spread across layers).
 - **Temporal decomposition**: modules split by execution-time order rather
   than by information they hide, coupling them to a single call order.
-- **Over-exposure**: more parameters, members, or hooks than the common
+- **Overexposure**: more parameters, members, or hooks than the common
   usage needs.
 - **Hard-to-name entity**: struggling to describe a module in one clear
   phrase usually means its abstraction is wrong.
@@ -69,6 +73,7 @@ design that violates the principles above:
 ## Related rules
 
 - **Code Comment Guidelines** — interface comments documenting purpose,
-  usage, and an example are the surface side of "deep modules".
+  usage, and an example are the surface side of "deep modules"; the
+  **Comment Repeats Code** Red Flag is governed there.
 - **Core Philosophy → Simplicity** — this rule governs *how* to structure
   what is built; Simplicity governs *how much* to build.
