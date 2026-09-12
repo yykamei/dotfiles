@@ -52,7 +52,7 @@ export class AnalyticsClient {}
 ## When NOT to Write Comments
 
 - Do NOT write comments that restate what the code does — this is
-  Ousterhout's **Comments Repeat Code** Red Flag (*A Philosophy of Software
+  Ousterhout's **Comment Repeats Code** Red Flag (*A Philosophy of Software
   Design*)
 - Do NOT write comments that describe the obvious behavior of a function or
   variable
@@ -74,7 +74,7 @@ Only write comments that explain:
 
 ## Bad vs Good Examples
 
-Bad (restates the code — Comments Repeat Code):
+Bad (restates the code — Comment Repeats Code):
 
 ```ts
 // Get the user by ID

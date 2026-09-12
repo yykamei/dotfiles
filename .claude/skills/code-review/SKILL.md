@@ -50,7 +50,37 @@ Review the diff with these language-agnostic criteria:
   should have been cleaned up? Flag as Warnings (see the IMPROVE phase
   in the `tdd-workflow` skill for cleanup guidance).
 
-### 3. Review Metadata Quality (PR Only)
+### 3. Evaluate Design Quality (Red Flags)
+
+Check the diff for the following design Red Flags from John Ousterhout,
+*A Philosophy of Software Design*. Only flag a Red Flag when the diff
+**introduces or worsens** it; do not audit untouched code for pre-existing
+issues.
+
+- **Shallow Module**: an interface whose complexity rivals its
+  implementation -- callers must understand internals to use it correctly.
+- **Information Leakage**: a design decision (file format, protocol,
+  schema, etc.) exposed in multiple modules; changing it requires editing
+  otherwise unrelated files.
+- **Temporal Decomposition**: modules split by execution-time order
+  ("step 1 module", "step 2 module") rather than by the information they
+  hide; call order is enforced only by convention.
+- **Overexposure**: an interface demanding more parameters, members, or
+  hooks than the common usage needs.
+- **Pass-Through Method**: a method that does little but delegate to
+  another method with a similar signature.
+- **Comment Repeats Code**: a comment that merely restates what the code
+  does -- a signal of missing abstraction.
+
+Also flag **cosmetic decomposition** (a special form of Shallow Module):
+functions split out only to satisfy line-count or complexity linters,
+hiding no complexity. Detection cues: chains of single-caller methods that
+would read as one continuous block when inlined, strained names, and
+wrappers with near-identical signatures. Suggest inlining trivial
+extractions; if a linter forces the split, suggest adjusting the linter
+configuration rather than distorting the code.
+
+### 4. Review Metadata Quality (PR Only)
 
 #### PR Description
 
@@ -94,6 +124,9 @@ Issues that should be addressed:
 - Violations of established patterns
 - Leftover scaffolding tests from TDD (existence-only checks, redundant
   mock assertions, duplicates after refactoring)
+- Structural design Red Flags (see "Evaluate Design Quality"):
+  Information Leakage, Shallow Module, Temporal Decomposition, and
+  cosmetic decomposition -- their fix cost grows the longer they remain
 
 ### Suggestions (Nice to Have)
 
@@ -103,6 +136,8 @@ Improvements that enhance quality:
 - Refactoring opportunities
 - Documentation additions
 - Minor optimizations
+- Localized design Red Flags (see "Evaluate Design Quality"):
+  Overexposure, Pass-Through Methods, Comment Repeats Code
 
 ## Output Format
 
