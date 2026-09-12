@@ -140,6 +140,15 @@ role in domain terms, not only by sequence number. For example, write
 "This PR wires the already-created database column into the read API" rather
 than "This is PR2 after PR1".
 
+The same self-containment applies to environment details: do not include
+the versions of tools, binaries, or dependencies installed on your
+machine, local filesystem paths, host names, or personal setup in the PR
+body. Version and environment facts are welcome only when reviewers on
+another machine would act on them, such as a supported runtime range or a
+dependency upgrade target. See the `git-commit` skill's "Avoid
+Environment-Specific Details" section for the authoritative boundary and
+examples.
+
 ### Step 3.6: Keep the Body Concise
 
 Concise means tighter wording, not less context. Keep every section that
