@@ -164,6 +164,31 @@ terms, not only by sequence number. For example, write "This commit wires the
 already-created database column into the read API" rather than "This is phase 2
 after the first commit".
 
+### Avoid Environment-Specific Details
+
+The message must also be independent of the author's environment, just as
+it is independent of planning documents and session transcripts. Facts
+that exist only on the author's machine are noise for every other reader
+and age badly.
+
+Do not include:
+
+- Versions of tools, binaries, or dependencies installed on the author's
+  machine (e.g., "CLI 1.17.1", "Node 22.3.0").
+- Local filesystem paths, host or machine names, and personal setup
+  details.
+
+Version and environment facts stay only when a developer on another
+machine could act on them, such as a supported runtime range, a
+dependency upgrade target, an API version, or a version the code
+explicitly targets or works around. When a real constraint depends on
+the runtime, state it abstractly instead of naming the author's versions.
+
+Bad: "The installed CLI 1.17.1 rejects the key, while Desktop 1.18.30
+normalizes it."
+Good: "The top-level key is rejected as unrecognized by some builds,
+while the experimental key is normalized into the effective setting."
+
 ## Keep the Body Concise
 
 Background is mandatory; brevity must come from tighter wording, never
@@ -246,6 +271,9 @@ Make it concise:
   may not pass its tests. Include them only when the user explicitly asks.
   This does not prohibit describing the change itself, such as the tests added
   in a `test:` commit — only reporting the verification act/result is banned.
+- Environment-specific details are prohibited: local tool versions,
+  filesystem paths, host names, and other facts that describe only the
+  author's machine (see "Avoid Environment-Specific Details").
 
 ## Examples
 
