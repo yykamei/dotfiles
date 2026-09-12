@@ -23,7 +23,10 @@ Before creating any topic branch or making changes:
    would be overwritten by the switch, do NOT stash or discard them
    automatically — ask the user how to handle them before switching.
 3. **Create the topic branch** from the updated default branch:
-   `git switch -c <topic-branch>`.
+   `git switch -c <topic-branch>`. When the work will span multiple PRs as
+   a stack (see the `commit-granularity` rule), create only the bottom layer
+   branch here; the `pull-request` skill builds the upper layers on top of
+   it with `gh stack add`.
 4. **Delete merged local branches:**
    - `git branch --merged <default-branch>` finds branches merged by regular
      or fast-forward merges; delete them with `git branch -d`.
@@ -37,6 +40,9 @@ Before creating any topic branch or making changes:
      any merged PR, keep it and report to the user. These branches diverge
      from the default branch, so use `git branch -D` — safe because the
      merge status was confirmed via `gh`.
+   - Branches that belong to a tracked `gh stack` chain are cleaned with
+     `gh stack sync --prune`, not `git branch -D`; a plain delete can leave
+     stale stack tracking state.
    - NEVER delete: the default branch, the current branch, or a branch whose
      merged status cannot be confirmed. Report unconfirmed branches to the
      user and leave them untouched.

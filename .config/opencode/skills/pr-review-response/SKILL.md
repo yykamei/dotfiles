@@ -17,8 +17,14 @@ reply to the user.
    given, use the current branch:
    `gh pr view --json number,url,state,headRefName,baseRefName`.
 2. Stop and report if the PR is not open (merged or closed).
-3. Ensure you are on the PR's head branch. Run `gh pr checkout <number>` if not.
-4. The working tree must be clean. If there are uncommitted changes, ask the
+3. Ensure you are on the PR's head branch. Run `gh pr checkout <number>` if
+   not, then `gh stack view --short`. If it reports no stack for the branch and
+   the PR is stacked, run `gh stack checkout <number>` to bring the whole chain
+   local for the cascade rebase in Step 5.
+4. Determine the PR's base branch from `baseRefName`. For a stacked PR this is
+   the layer below, not the default branch; use it wherever `<base>` appears in
+   this workflow.
+5. The working tree must be clean. If there are uncommitted changes, ask the
    user how to handle them before proceeding.
 
 ### Step 1: Collect the Review Comments
@@ -79,18 +85,31 @@ CRITICAL/HIGH) and re-review until none remain.
 
 If at least one comment was addressed:
 
-1. Confirm the branch holds exactly one commit:
+1. Confirm the branch holds exactly one commit relative to its base branch:
    `git log <base>..HEAD --oneline`. If it does not, stop and report instead
    of amending.
 2. Amend that commit with `git commit --amend`, following the `git-commit`
    skill. Update the message when the change alters what the commit states;
    keep it self-contained and accurate.
-3. Push with `git push --force-with-lease`.
-4. Verify exactly one commit remains: `git log <base>..HEAD --oneline`.
+3. Push the amended layer.
+   - Standalone PR: `git push --force-with-lease`.
+   - Stacked PR: cascade-rebase the layers above onto the amended commit and
+     push the whole stack, since their parent changed.
+
+     ```bash
+     gh stack rebase --upstack
+     gh stack push
+     ```
+
+     `gh stack push` uses per-branch `--force-with-lease`.
+4. Verify exactly one commit remains: `git log <base>..HEAD --oneline`. For a
+   stack, also check `gh stack view --short`.
 
 This workflow pre-authorizes the force-push -- the confirmation normally
 required before force-pushing a pushed branch is covered by the user's request
-to handle the review comments. It is the explicit exception referenced by the
+to handle the review comments. For a stack, that authorization also covers the
+cascade force-push of the layers above, which only rebases them onto the
+amended commit. It is the explicit exception referenced by the
 `commit-granularity` rule and the `git-commit` skill. Never force-push to
 `main` / `master`.
 
@@ -103,6 +122,7 @@ For every comment, present:
 - A one-line summary of the comment.
 - The classification (Address / Decline / Uncertain).
 - For **Address**: what changed, including the amended commit subject.
+- For a stacked PR: which layers were rebased and pushed.
 - A concise draft reply the user can post, written in the language of the
   comment thread.
 
