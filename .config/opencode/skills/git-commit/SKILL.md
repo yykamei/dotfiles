@@ -63,14 +63,17 @@ content. They apply regardless of language or commit type.
 ## Consolidating multiple commits into one
 
 Use this procedure when a PR branch must be reduced to a single commit
-before being opened (per the `commit-granularity` rule), or whenever
-several work-in-progress commits need to be folded into one.
+relative to its base branch before being opened (per the
+`commit-granularity` rule; for a stacked PR the base is the parent layer
+branch, not the default branch), or whenever several work-in-progress
+commits need to be folded into one.
 
 - **Preferred path -- soft reset to base**: Run `git reset --soft <base>`
-  (where `<base>` is the merge-base with the target branch, typically
-  `origin/main`), which preserves the working tree and index while
-  collapsing the previous commits. Then create the consolidated commit
-  with a single `git commit -F <path>` using a message file.
+  (where `<base>` is the merge-base with the target branch -- the default
+  branch, or the parent layer branch for a stacked PR), which preserves
+  the working tree and index while collapsing the previous commits. Then
+  create the consolidated commit with a single `git commit -F <path>`
+  using a message file.
 - **Latest commit only -- amend**: When only the most recent commit
   needs to be updated (e.g., to absorb a small fixup), use
   `git commit --amend -F <path>`. Amend only commits that have not been
