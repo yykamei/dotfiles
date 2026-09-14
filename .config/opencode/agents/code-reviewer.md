@@ -6,9 +6,6 @@ description: |
   as Critical, Warning, or Suggestion. Use after completing code
   implementation for self-review.
 mode: subagent
-tools:
-  write: false
-  edit: false
 ---
 
 # Code Reviewer
