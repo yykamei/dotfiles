@@ -5,21 +5,6 @@ description: |
   findings into one consolidated report. Use after writing code that
   handles user input, authentication, API endpoints, or sensitive data.
 mode: subagent
-permission:
-  edit: deny
-  task:
-    "*": deny
-    "security-*": allow
-    "security-reviewer": deny
-  bash:
-    "*": deny
-    "git diff*": allow
-    "git log*": allow
-    "git status*": allow
-    "git show*": allow
-    "gh pr diff*": allow
-    "gh pr view*": allow
-    "gh pr checks*": allow
 ---
 
 # Security Review Orchestrator

@@ -5,7 +5,6 @@ description: |
   subagents in parallel (single message), then cross-references their
   findings into one consolidated report. Use after writing code that
   handles user input, authentication, API endpoints, or sensitive data.
-tools: Agent, Read, Grep, Glob, Bash
 ---
 
 # Security Review Orchestrator
