@@ -1,6 +1,6 @@
 ---
 name: pull-request
-description: Load before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained and concise descriptions, safe body editing, the visibility-based draft policy (draft for private repositories, never draft for open source), and the stacked-PR workflow for work that spans multiple PRs.
+description: Load before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained and concise descriptions, safe body editing, the visibility-based draft policy (draft for private repositories, never draft for open source), the stacked-PR workflow for work that spans multiple PRs, and the rule that review/self-review findings are folded back into the owning PR rather than a review-fixes PR.
 ---
 
 # Pull Request Creation Workflow
@@ -62,6 +62,7 @@ composing anything.
    workflow. Only when the user explicitly says the PRs target the fork
    itself may a fork be stacked; for a non-fork checkout, follow "Stacked
    Pull Requests" below.
+
 4. If the current branch already belongs to a stack, treat this as a new
    layer on top of it or an update to an existing layer rather than
    starting a new stack. Confirm the current state with
@@ -365,7 +366,32 @@ https://docs.github.com/en/pull-requests/get-started/about-stacked-prs
 - Never bundle unrelated changes into one layer to reduce the number of PRs;
   split them into a lower or higher layer instead.
 - Run the self-review rule on each layer's diff before opening that layer's
-  PR.
+  PR, and fold its findings back into the owning layer (see
+  "Review Findings Stay in Their Layers").
+
+### Review Findings Stay in Their Layers
+
+Self-review findings and reviewer feedback that amend the code a layer
+introduced are never a new layer on top of the stack. (The same rule applies
+to standalone PRs: fold findings into the PR's single commit; never open a
+separate review-fixes PR.) Feedback that requires genuinely new logic changes
+is not a finding to fold in — follow the `pr-review-response` skill and open
+it as follow-up work (a new top layer when stacked).
+
+- Fold each finding back into the layer branch that owns the changed code:
+  fix, test, and amend that layer's commit (per the `git-commit` skill). If
+  the layer is already pushed and open for review, follow the
+  `pr-review-response` skill, which pre-authorizes the cascade rebase and
+  force-push (see "Keep the Stack in Sync").
+- Do not stack a dedicated review-fixes layer. A PR titled like
+  `fix: 自己レビュー指摘の取り込み` or `fix: address review feedback` only
+  restates its provenance, so merging bottom-up would land the owning layer
+  in main without its fixes, and the PR itself conveys no intent beyond
+  that provenance.
+- Every layer must keep its change self-contained: its title states the
+  change, its body explains why, and its diff is one coherent logical change.
+  If findings span multiple layers, distribute them to their owning layers
+  and cascade the rebase upward.
 
 ### Build the Stack
 
