@@ -240,9 +240,16 @@ Before creating any topic worktree or making changes:
 4. **Create the topic worktree** from the updated default branch:
    - If a worktree for `<topic-branch>` already exists, move into it and
      reuse it instead of creating a new one.
-   - Otherwise: `git worktree add ../<repo>.worktrees/<topic-branch> -b
-     <topic-branch>`, where `<repo>` is the basename of the main worktree;
-     the path is a sibling of the main worktree.
+   - Otherwise: `mkdir -p ~/.worktrees/<repo>` first, then `git worktree add
+     ~/.worktrees/<repo>/<topic-branch> -b <topic-branch>`, where `<repo>` is
+     the basename of the main worktree. Topic worktrees always live under the
+     dedicated directory `~/.worktrees/`, which OpenCode and Claude Code are
+     permitted to access without prompts. `mkdir -p` is required because
+     `git worktree add` does not create parent directories. Pre-existing
+     worktrees under `../<repo>.worktrees/` may remain, but new ones must go
+     under `~/.worktrees/`. Do not place symlinks inside worktrees —
+     permission checks match lexical paths, so a symlink could escape the
+     permitted directory.
    - When the work will span multiple PRs as a stack (per the "Commit and PR
      Granularity" rule), create only the bottom layer worktree here; the
      `pull-request` skill builds the upper layers on top of it with

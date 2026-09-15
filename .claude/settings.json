@@ -17,19 +17,23 @@
       "Bash(tee:*)",
       "Bash(uniq:*)",
       "Bash(xargs:*)",
+      "Bash(mkdir -p ~/.worktrees/*)",
       "Read(~/.config/opencode/**)",
       "Read(~/.plannotator/**)",
       "Read(~/.claude/**)",
+      "Read(~/.worktrees/**)",
       "Read(//tmp/**)",
       "Read(//private/tmp/**)",
       "Edit(//tmp/**)",
       "Edit(//private/tmp/**)",
+      "Edit(~/.worktrees/**)",
       "mcp__sentry__*",
       "mcp__plugin_datadog_mcp__*"
     ],
     "defaultMode": "auto",
     "additionalDirectories": [
       "~/.config/opencode",
+      "~/.worktrees",
       "/tmp"
     ]
   },
