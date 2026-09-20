@@ -127,7 +127,7 @@ title and body:
    [1-3 sentences: the prior situation, problem, or product/technical reason]
 
    ## Out of Scope
-   [1-2 sentences or bullets: deliberate non-goals, or "None"]
+   [1-2 sentences or bullets: deliberate non-goals; omit if not applicable]
 
    ## Rollout Role
    [1-2 sentences: this PR's role in the release; omit if not applicable]
@@ -198,8 +198,8 @@ carries background; compress the sentences instead.
 - Give each section a distinct job and never repeat content across
   sections: Purpose = the outcome or goal; Background = why it is needed
   (problem/cause); Out of Scope = deliberate non-goals. If two sections
-  would say the same thing, write it in the more natural one and leave
-  the other at "None" where the structure allows.
+  would say the same thing, write it in the more natural one and omit
+  the other where the structure allows.
 - Total body: aim within about 30 lines so a reviewer can read it in
   one pass.
 - Do not hard-wrap lines in the PR body: write each paragraph and bullet
