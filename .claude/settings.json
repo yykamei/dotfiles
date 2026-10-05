@@ -40,7 +40,6 @@
   "enabledPlugins": {
     "datadog@claude-plugins-official": true,
     "figma@claude-plugins-official": true,
-    "plannotator@plannotator": true,
     "ruby-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true
   },
