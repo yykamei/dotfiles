@@ -205,6 +205,12 @@ Make it concise:
 - **Japanese style**:
   - **Subject**: Use 体言止め (noun phrase ending). Write "ログイン機能を追加" instead of "ログイン機能を追加します".
   - **Body**: Use です・ます調. Write "Aを実装します" instead of "Aを実装する".
+- **Naturalization**: When writing a Japanese subject or body, apply the
+  `naturalize-japanese` skill in its `本文のみモード` (return only the
+  finished text; no change report) when available, to both the subject and
+  body. The rules in this skill (体言止め, です・ます調, body wrapping) take
+  precedence. Do not ask questions; leave uncertain points unchanged and
+  mention them in the completion report, not in the commit message.
 - **Body wrapping (authoritative)**:
   - English body lines: keep around 72 characters.
   - Japanese body lines: aim for around 35-45 full-width characters per line
