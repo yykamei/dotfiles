@@ -90,6 +90,15 @@ title and body:
 - Good: 「〜を修正しました。」「〜に対応します。」「〜が必要です。」
 - Bad: 「〜を修正した。」「〜に対応する。」「〜が必要だ。」
 
+When writing the Japanese title and body, apply the `naturalize-japanese`
+skill in its `本文のみモード` (return only the finished text; no change
+report) when available, to both the title and body. This skill's
+conventions (polite form です・ます調, the title convention below) take
+precedence. Do not ask questions; leave uncertain points unchanged and
+mention them in the completion report, not in the PR body. For a
+single-commit PR, reuse the already-naturalized commit subject verbatim as
+the title.
+
 ### Step 2: PR Title Convention
 
 - For single-commit PRs, use the commit subject as the PR title.
