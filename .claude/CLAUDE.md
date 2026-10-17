@@ -292,35 +292,50 @@ Before creating any topic worktree or making changes:
 
 ### When this rule applies
 
-Whenever a plan for a coding task is produced in Plan Mode — both the plan
-file and the ExitPlanMode summary.
+Whenever a plan is produced in Plan Mode — both the plan file and the
+ExitPlanMode summary.
 
 ### Background
 
-Plans created in Plan Mode may be handed to a different AI agent for
-implementation. That agent cannot invoke the Skill tool, so the plan itself
-must carry the workflow rules explicitly.
+Plans created in Plan Mode may be executed in a fresh session or handed to a
+different AI agent for implementation. That agent may not know which skills
+apply or may not have the Skill tool, so the plan itself must carry the
+skill references and workflow rules explicitly.
 
 ### Rule
 
 Every plan MUST contain a section titled **"Rules for the Implementer"** that
-lists the following skills as mandatory rules. For each skill, state the
-definition file path and when it applies, and instruct the implementer to
-read the `SKILL.md` and follow it before performing the corresponding action:
+lists all skills to be used during implementation. For each skill, state the
+skill name, its definition file path (`SKILL.md`), and when or in which step
+of the plan it applies, and instruct the implementer to load the skill via
+the Skill tool (or read the `SKILL.md` directly if the Skill tool is
+unavailable) and follow it before performing the corresponding action:
 
-- **`tdd-workflow`** (`~/.claude/skills/tdd-workflow/SKILL.md`) — follow the
-  RED → GREEN → IMPROVE → LINT cycle when implementing or modifying testable
-  logic.
-- **`code-review`** (`~/.claude/skills/code-review/SKILL.md`) — self-review
-  the diff against its criteria after implementation and before committing;
-  fix any blocking findings and re-review (see Self-Review After Code
-  Changes). For security-sensitive changes, the plan must also require
-  delegating to the `security-reviewer` subagent.
-- **`git-commit`** (`~/.claude/skills/git-commit/SKILL.md`) — follow it for
-  every `git commit` (including `--amend`): message language, subject/body
-  format, `-F`-based multi-line commits, post-commit verification.
-- **`pull-request`** (`~/.claude/skills/pull-request/SKILL.md`) — follow it
-  before `gh pr create` or `gh pr edit --body`; every change ends in a PR.
+1. **Standard workflow skills** (mandatory for any plan that modifies a
+   repository):
+   - **`tdd-workflow`** (`~/.claude/skills/tdd-workflow/SKILL.md`) — follow
+     the RED → GREEN → IMPROVE → LINT cycle when implementing or modifying
+     testable logic.
+   - **`code-review`** (`~/.claude/skills/code-review/SKILL.md`) —
+     self-review the diff against its criteria after implementation and
+     before committing; fix any blocking findings and re-review (see
+     Self-Review After Code Changes). For security-sensitive changes, the
+     plan must also require delegating to the `security-reviewer` subagent.
+   - **`git-commit`** (`~/.claude/skills/git-commit/SKILL.md`) — follow it
+     for every `git commit` (including `--amend`): message language,
+     subject/body format, `-F`-based multi-line commits, post-commit
+     verification.
+   - **`pull-request`** (`~/.claude/skills/pull-request/SKILL.md`) — follow
+     it before `gh pr create` or `gh pr edit --body`; every change ends in a
+     PR.
+2. **Task-specific skills**: Review the available skills (under
+   `~/.claude/skills/`, `~/.agents/skills/`, and project-local skill
+   directories) when creating the plan, and include every additional skill
+   that applies to the planned work (for example, `no-metaprogramming`,
+   `naturalize-japanese`, `security-review`, `pbi-create`, or
+   project-specific skills). For each applicable skill, state its `SKILL.md`
+   file path and the specific step or condition in the plan where it must be
+   applied.
 
 Referencing the skills by name alone is NOT sufficient; the file paths and
 trigger conditions above MUST appear in the plan so that an agent without
