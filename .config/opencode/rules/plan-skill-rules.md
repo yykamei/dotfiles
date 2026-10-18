@@ -23,6 +23,11 @@ unavailable) and follow it before performing the corresponding action:
 
 1. **Standard workflow skills** (mandatory for any plan that modifies a
    repository):
+   - **`no-metaprogramming`**
+     (`~/.config/opencode/skills/no-metaprogramming/SKILL.md`) — load it
+     before writing production code so its restrictions stay in context while
+     implementing; metaprogramming tends to creep in mid-implementation, and
+     the skill enumerates the permitted exceptions.
    - **`tdd-workflow`** (`~/.config/opencode/skills/tdd-workflow/SKILL.md`) —
      follow the RED → GREEN → IMPROVE → LINT cycle when implementing or
      modifying testable logic.
@@ -43,12 +48,12 @@ unavailable) and follow it before performing the corresponding action:
    `~/.config/opencode/skills/`, configured `skills.paths`,
    `~/.claude/skills/`, `~/.agents/skills/`, and project-local skill
    directories) when creating the plan, and include every additional skill
-   that applies to the planned work (for example, `css`,
-   `no-metaprogramming`, `hallmark`, `naturalize-japanese`, `pbi-create`,
-   `customize-opencode`, or project-specific skills). For each applicable
-   skill, state its `SKILL.md` file path (or note that it is a built-in skill
-   when no file path exists on disk) and the specific step or condition in
-   the plan where it must be applied.
+   that applies to the planned work (for example, `css`, `hallmark`,
+   `naturalize-japanese`, `pbi-create`, `customize-opencode`, or
+   project-specific skills). For each applicable skill, state its `SKILL.md`
+   file path (or note that it is a built-in skill when no file path exists on
+   disk) and the specific step or condition in the plan where it must be
+   applied.
 
 Referencing the skills by name alone is NOT sufficient; the file paths and
 trigger conditions above MUST appear in the plan so that an agent without
