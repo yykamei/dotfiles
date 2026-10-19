@@ -26,14 +26,16 @@
       "~/.worktrees/**": "allow",
       "~/.rbenv/versions/**": "allow",
       "~/.cache/**": "allow",
-      "~/.config/opencode/**": "allow"
+      "~/.config/opencode/**": "allow",
+      "~/.pbi/**": "allow"
     },
     "edit": {
       "/tmp/**": "allow",
       "/private/tmp/**": "allow",
       "~/.worktrees/**": "allow",
       "~/.rbenv/versions/**": "deny",
-      "~/.cache/**": "allow"
+      "~/.cache/**": "allow",
+      "~/.pbi/**": "allow"
     }
   }
 }
