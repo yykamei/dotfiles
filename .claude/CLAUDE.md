@@ -183,6 +183,24 @@ DB migrations, configuration schema changes, and API schema changes
 dedicated PR, separate from the code that depends on them. This keeps
 deploy ordering flexible and reduces the blast radius of each deployment.
 
+### PR Description Drafts in Plans
+
+When creating a plan in Plan Mode, include a complete draft of every
+planned pull request's description in the plan. The draft MUST be the
+Markdown body submitted to `gh pr create` via `--body-file`, not an
+outline or a summary. Load the `pull-request` skill and follow its body
+conventions: language, repository template (or the default section
+structure when no template exists), self-containment, conciseness, and
+the stacked-PR body rules. Store the full draft in the plan file; the
+plan summary may point to it. Title drafts are not required, because the
+title is derived from the commit subject (one commit per PR). Details
+that are genuinely unknowable at plan time (for example, manual testing
+results or a lower layer's PR URL) may be left as explicit placeholders,
+but they MUST be resolved before the corresponding PR is opened. Do not
+add sections that the `pull-request` skill says to omit. Refine the
+draft during implementation when the actual diff, the determined
+language, or the repository's PR template requires it.
+
 ### Related skills
 
 Before writing the commit message itself (including for `git commit --amend`),
