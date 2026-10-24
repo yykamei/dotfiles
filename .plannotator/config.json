@@ -1,5 +1,6 @@
 {
   "diffOptions": {
     "defaultDiffType": "since-base"
-  }
+  },
+  "autoUpdate": true
 }
