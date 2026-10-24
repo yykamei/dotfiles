@@ -43,7 +43,7 @@ triage. This is why the dispatch step below is mandatory and parallel.
 
 2. **Dispatch all nine perspectives IN PARALLEL (mandatory)**
 
-   In a SINGLE message, issue nine Task tool calls -- one per perspective
+   In a SINGLE message, issue nine `subagent` tool calls -- one per perspective
    agent listed below. All nine MUST be dispatched together. Never run
    them sequentially, never dispatch a subset, and never proceed to
    aggregation until all nine have returned.

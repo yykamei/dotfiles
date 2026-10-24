@@ -15,11 +15,12 @@ skill references and workflow rules explicitly.
 ## Rule
 
 Every plan MUST contain a section titled **"Rules for the Implementer"** that
-lists all skills to be used during implementation. For each skill, state the
-skill name, its definition file path (`SKILL.md`), and when or in which step
-of the plan it applies, and instruct the implementer to load the skill via
-the `skill` tool (or read the `SKILL.md` directly if the `skill` tool is
-unavailable) and follow it before performing the corresponding action:
+lists all skills to be used during implementation. For each skill, state its
+path-derived skill ID (normally the directory name), its definition file path
+(`SKILL.md`), and the step where it applies. Then instruct the implementer to
+load the skill by ID via the `skill` tool (or read the `SKILL.md` directly if
+the `skill` tool is unavailable) and follow it before performing the
+corresponding action:
 
 1. **Standard workflow skills** (mandatory for any plan that modifies a
    repository):
@@ -45,7 +46,7 @@ unavailable) and follow it before performing the corresponding action:
      follow it before `gh pr create` or `gh pr edit --body`; every change
      ends in a PR.
 2. **Task-specific skills**: Review the available skills (under
-   `~/.config/opencode/skills/`, configured `skills.paths`,
+   `~/.config/opencode/skills/`, configured `skills` sources,
    `~/.claude/skills/`, `~/.agents/skills/`, and project-local skill
    directories) when creating the plan, and include every additional skill
    that applies to the planned work (for example, `css`, `hallmark`,
@@ -55,6 +56,6 @@ unavailable) and follow it before performing the corresponding action:
    disk) and the specific step or condition in the plan where it must be
    applied.
 
-Referencing the skills by name alone is NOT sufficient; the file paths and
+Referencing the skills by ID alone is NOT sufficient; the file paths and
 trigger conditions above MUST appear in the plan so that an agent without
 skill support can still comply.
