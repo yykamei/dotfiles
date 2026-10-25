@@ -2,5 +2,10 @@
   "diffOptions": {
     "defaultDiffType": "since-base"
   },
-  "autoUpdate": true
+  "autoUpdate": true,
+  "agentTool": true,
+  "reviewAnalysis": {
+    "semanticDiff": true,
+    "callFlow": false
+  }
 }
