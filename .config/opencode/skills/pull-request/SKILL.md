@@ -39,8 +39,11 @@ Before composing anything, confirm the PR scope.
 Decide whether this is a standalone PR or one layer of a stack before
 composing anything.
 
-1. Keep one session's work in a single PR by default; do not split a task
-   just to create a stack. If the work is a single PR, continue to Step 1.
+1. Keep one session's work in a single PR only when it fits the Reviewable
+   Size budget in the `commit-granularity` rule. Do not split a cohesive
+   task just to create a stack, but split when the budget or the
+   Granularity criteria require it. If the work fits in one PR, continue
+   to Step 0.6.
 2. If the plan splits the task into multiple PRs because of the
    `commit-granularity` criteria, open the resulting PRs as a stack
    whenever the layer branches can live in the repository that receives
@@ -67,6 +70,44 @@ composing anything.
    layer on top of it or an update to an existing layer rather than
    starting a new stack. Confirm the current state with
    `gh stack view --short`.
+
+### Step 0.6: Check the Reviewable Size Budget
+
+Measure the reviewable diff against the base before composing the PR.
+Sum the additions and deletions for rows that are not lockfiles, vendored
+or generated code, build output, binary assets (shown as `-`), or imported
+third-party data. Expected-behavior artifacts such as snapshots and golden
+files count even when generated; binary ones have no line count, so list
+them in the PR body. Filter known paths with pathspec excludes when
+convenient; adapt this example to the repository:
+
+```bash
+git diff --numstat <base>...HEAD -- . \
+  ':(exclude)vendor/**' ':(exclude)*.lock' ':(exclude)*.min.js'
+```
+
+The budget is defined in the `commit-granularity` rule's "Reviewable
+Size" section: target 400 changed lines, hard limit 600.
+
+- At or under 400 lines: proceed to Step 1; the target is met.
+- Over 400 but at or under 600 lines: proceed to Step 1; the target is a
+  preference, not a second gate.
+- Over 600 lines and the work can be split: return to Step 0.5, split the
+  work into layers, and re-run this check on each layer.
+- Over 600 lines and splitting would break cohesion (for example, one
+  atomic migration or a cohesive change with no clean behavior boundary):
+  ask the user for an explicit exception and record the reason in the PR
+  body. If the plan already records the approval, cite it instead of
+  asking again.
+
+If the work is already consolidated into one commit, split it before
+opening: create the layer branches bottom-up starting from the base (see
+"Build the Stack"), move each behavior's files or hunks into its layer,
+commit each layer, and re-run this check. If the original branch becomes
+the bottom layer and was already pushed, ask the user before force-pushing
+it.
+
+For a stack, apply the check to every layer against its own base.
 
 ### Step 1: Determine Language
 
@@ -367,6 +408,9 @@ https://docs.github.com/en/pull-requests/get-started/about-stacked-prs
 
 - One layer = one logical change = exactly one commit relative to its base
   branch (see the `commit-granularity` rule).
+- Each layer must fit the Reviewable Size budget on its own diff (target
+  400, hard limit 600 reviewable changed lines). Split along behavior
+  boundaries, never by file type or the test/implementation boundary.
 - Order layers bottom to top by dependency. Put foundational changes,
   including migrations and schema changes, in the bottom layer.
 - Keep each layer buildable and tested on top of its base. Upper layers may
