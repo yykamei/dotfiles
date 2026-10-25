@@ -161,8 +161,47 @@ single commit are identical. The following apply to both:
 - If the PR branch has already been pushed, ask the user before force-pushing
   the consolidated commit. Exception: responses to PR review comments follow
   the `pr-review-response` skill, which pre-authorizes the force-push.
-- If a diff grows too large for comfortable review, split it into multiple
-  PRs along logical boundaries — each still being a single commit.
+- Measure the diff against the Reviewable Size budget before opening the
+  PR. If it exceeds the hard limit, split it into multiple PRs along
+  logical boundaries — each still being a single commit.
+
+### Reviewable Size
+
+Human review is the bottleneck, so a PR must stay small enough to review
+in one sitting. The budget covers the reviewable diff only. A PR
+**fits the budget** when it is at or under the hard limit; the target is
+a planning preference, not a second gate.
+
+- **Target**: 400 changed lines (additions + deletions).
+- **Hard limit**: 600 changed lines. A PR over the hard limit MUST NOT be
+  opened until it is split into multiple PRs (stacked when the repository
+  supports stacks) or the user explicitly approves the exception.
+- **Counted content**: source, tests, configuration, documentation, and
+  expected-behavior artifacts such as fixtures, snapshots, and golden
+  files. Tests count because they need review too. Expected-behavior
+  artifacts count even when generated or imported, and this takes
+  precedence over the exclusions below.
+- **Excluded content**: lockfiles, vendored code, binary assets, generated
+  code and build output, and imported third-party data. Note material
+  exclusions in Background or Operational Notes, including binary
+  expected-behavior artifacts that have no line count.
+- **Split along behavior boundaries**: create a layer per deployable stage
+  or behavior. Never split by file type, and never separate tests from the
+  implementation they exercise. Never split a cohesive change only to hit
+  the number.
+- **Plan-time check**: estimate each planned PR's changed lines against
+  its base and state the estimate in the plan. If the estimate exceeds the
+  hard limit, split the work before implementation (or record the user's
+  approval when splitting would break cohesion).
+- **Exception**: when splitting would break cohesion — one atomic
+  migration, a repository-wide mechanical rewrite, or a cohesive change
+  with no clean behavior boundary — ask the user before opening the PR
+  and record the reason in the PR body's Background or Operational Notes.
+  A plan-time approval satisfies this check; cite it instead of asking
+  again.
+
+The `pull-request` skill's Step 0.6 performs the same check before a PR is
+opened.
 
 ### Commit Health
 
@@ -200,6 +239,9 @@ but they MUST be resolved before the corresponding PR is opened. Do not
 add sections that the `pull-request` skill says to omit. Refine the
 draft during implementation when the actual diff, the determined
 language, or the repository's PR template requires it.
+
+For each planned PR, also state the estimated reviewable changed lines
+against its base and whether it fits the Reviewable Size budget.
 
 ### Related skills
 

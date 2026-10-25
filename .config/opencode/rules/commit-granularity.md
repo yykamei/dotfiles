@@ -80,20 +80,60 @@ to both:
 - If the PR branch has already been pushed, ask the user before force-pushing
   the consolidated commit. Exception: responses to PR review comments follow
   the `pr-review-response` skill, which pre-authorizes the force-push.
-- If a diff grows too large for comfortable review, split it into multiple
-  PRs along logical boundaries -- each still being a single commit -- and
-  stack them as described below when possible.
+- Measure the diff against the Reviewable Size budget before opening the
+  PR. If it exceeds the hard limit, split it into multiple PRs along
+  logical boundaries -- each still being a single commit -- and stack them
+  as described below when possible.
+
+### Reviewable Size
+
+Human review is the bottleneck, so a PR must stay small enough to review
+in one sitting. The budget covers the reviewable diff only. A PR
+**fits the budget** when it is at or under the hard limit; the target is
+a planning preference, not a second gate.
+
+- **Target**: 400 changed lines (additions + deletions).
+- **Hard limit**: 600 changed lines. A PR over the hard limit MUST NOT be
+  opened until it is split into stacked layers (or independent PRs when
+  stacking is not possible) or the user explicitly approves the exception.
+- **Counted content**: source, tests, configuration, documentation, and
+  expected-behavior artifacts such as fixtures, snapshots, and golden
+  files. Tests count because they need review too. Expected-behavior
+  artifacts count even when generated or imported, and this takes
+  precedence over the exclusions below.
+- **Excluded content**: lockfiles, vendored code, binary assets, generated
+  code and build output, and imported third-party data. Note material
+  exclusions in Background or Operational Notes, including binary
+  expected-behavior artifacts that have no line count.
+- **Split along behavior boundaries**: create a layer per deployable stage
+  or behavior. Never split by file type, and never separate tests from the
+  implementation they exercise. Never split a cohesive change only to hit
+  the number.
+- **Plan-time check**: estimate each planned PR's changed lines against
+  its base and state the estimate in the plan. If the estimate exceeds the
+  hard limit, split the work before implementation (or record the user's
+  approval when splitting would break cohesion).
+- **Exception**: when splitting would break cohesion -- one atomic
+  migration, a repository-wide mechanical rewrite, or a cohesive change
+  with no clean behavior boundary -- ask the user before opening the PR
+  and record the reason in the PR body's Background or Operational Notes.
+  A plan-time approval satisfies this check; cite it instead of asking
+  again.
+
+The `pull-request` skill's Step 0.6 performs the same check on the actual
+diff before the PR is opened.
 
 ### Stacked Pull Requests
 
-Keep one session's work in one pull request by default. Do not split a task
-just to create a stack; split only when the Granularity criteria require it
-(for example, a diff too large to review, mixed concerns, or an
-isolation-required change). When such a split produces multiple PRs, open
-them as a stacked pull request chain whenever the branches can live in the
-repository that receives the PRs. A stack is an ordered chain where each PR
-targets the branch of the PR below it, and only the bottom PR targets the
-default branch.
+Keep one session's work in a single pull request only when it fits the
+Reviewable Size budget. Do not split a cohesive task just to create a
+stack, but split when the Granularity criteria or the Reviewable Size
+budget require it (for example, a diff over the hard limit, mixed
+concerns, or an isolation-required change). When such a split produces
+multiple PRs, open them as a stacked pull request chain whenever the
+branches can live in the repository that receives the PRs. A stack is an
+ordered chain where each PR targets the branch of the PR below it, and
+only the bottom PR targets the default branch.
 
 - **Stack when possible.** GitHub does not support cross-fork stacks, so a
   fork-based contribution to another repository is opened as independent
@@ -148,16 +188,17 @@ supports.
 When creating a plan in Plan Mode for a coding task:
 
 1. Break the work into steps where each step is one PR = one commit,
-   following the Granularity criteria above. Keep the task in a single PR
-   unless those criteria require a split; if the work does yield multiple
-   PRs, group the steps into a single stack, ordered bottom to top, when
-   stacking is possible.
-2. Explicitly state the PR boundary and its single purpose in the plan,
-   plus the topic branch to push and whether the PR will be a draft (per
-   the Draft Policy above). For a stack, list every layer in order with
-   its branch name, base branch, single purpose, and draft status; if the
-   work is instead opened as independent PRs, state why stacking is not
-   possible.
+   following the Granularity criteria and the Reviewable Size budget
+   above. Keep the task in a single PR only when it fits the budget; if it
+   exceeds the hard limit, split it into layers or record the user's
+   approval when splitting would break cohesion. Group the resulting PRs
+   into a single stack, ordered bottom to top, when stacking is possible.
+2. Explicitly state the PR boundary, its single purpose, and its estimated
+   review size in the plan, plus the topic branch to push and whether the
+   PR will be a draft (per the Draft Policy above). For a stack, list
+   every layer in order with its branch name, base branch, single purpose,
+   and draft status; if the work is instead opened as independent PRs,
+   state why stacking is not possible.
 3. If the task involves schema or migration changes, plan each as its own
    layer at the bottom of the stack, ordered by dependency (or as a
    preceding, independent PR when the work is not stacked).
