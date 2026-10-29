@@ -404,6 +404,32 @@ Referencing the skills by name alone is NOT sufficient; the file paths and
 trigger conditions above MUST appear in the plan so that an agent without
 skill support can still comply.
 
+## Plan File Path in Plan Output
+
+### When this rule applies
+
+Whenever you present a plan in Plan Mode.
+
+### Rule
+
+Include the plan file's absolute path in the message that presents the plan,
+on its own line:
+
+```text
+Plan file: /absolute/path/to/plan.md
+```
+
+Keep the `Plan file:` label literal even when responding in Japanese.
+
+- Plan mode names the plan file in its system instructions. The path already
+  reflects `plansDirectory` (default `~/.claude/plans/`); use the absolute
+  path it names.
+- Use the file plan mode actually writes; never invent a path.
+- If Plannotator review is in use and reports a saved copy (for example
+  `Saved to: <path>` after approval), print that path as well, because the
+  plan-mode file is not the durable copy; the archived copy is.
+- If the plan is not stored as a file, say so instead of guessing a path.
+
 ## Self-Review After Code Changes
 
 ### When this rule applies
