@@ -18,7 +18,14 @@ reply to the user.
    `gh pr view --json number,url,state,headRefName,baseRefName`.
 2. Stop and report if the PR is not open (merged or closed).
 3. Ensure you are on the PR's head branch. Run `gh pr checkout <number>` if not.
-4. The working tree must be clean. If there are uncommitted changes, ask the
+4. Determine the PR's base branch from `baseRefName`. For a standalone PR,
+   set `<base>` to `origin/<baseRefName>` (or the target remote's tracking ref
+   for a fork contribution) so a stale local base branch cannot affect the
+   comparison. Fetch that ref (`git fetch <target-remote> <baseRefName>`)
+   before comparing. For a stacked PR, set `<base>` to the local branch of the
+   layer below, not the default branch. Use it wherever `<base>` appears in
+   this workflow.
+5. The working tree must be clean. If there are uncommitted changes, ask the
    user how to handle them before proceeding.
 
 ### Step 1: Collect the Review Comments
