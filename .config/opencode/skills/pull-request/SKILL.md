@@ -16,11 +16,17 @@ Before creating a pull request, execute the following steps in order.
 
 Before composing anything, confirm the PR scope.
 
-1. Determine the intended base branch. For a standalone PR this is the
-   repository's default branch (typically `main`), or a different base
-   the user specified. For a stacked PR, the base is the branch of the
-   layer directly below; only the bottom layer targets the default
-   branch. See "Stacked Pull Requests" below.
+1. Determine the intended base. For a standalone PR, set `<base>` to the
+   target remote's default ref (typically `origin/<default-branch>`), or to
+   the remote-tracking ref of a different base the user specified. Use the
+   target remote's tracking ref instead of `origin` for a fork
+   contribution. Refresh `<base>` by fetching its branch from the target
+   remote (for example, `git fetch <target-remote> <base-branch>`) before
+   comparing. This keeps a stale local default branch from inflating the
+   range; the PR target passed to `gh pr create --base` is still the branch
+   name without the remote prefix. For a stacked PR, set `<base>` to the
+   local branch of the layer directly below; only the bottom layer targets
+   the default branch. See "Stacked Pull Requests" below.
 2. Run `git log <base>..HEAD --oneline` to inspect the commits the PR
    will introduce.
 3. If the range is empty, the branch has nothing to propose — stop and
