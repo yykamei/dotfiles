@@ -45,7 +45,8 @@
     "datadog@claude-plugins-official": true,
     "figma@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "sentry@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "plannotator": {
