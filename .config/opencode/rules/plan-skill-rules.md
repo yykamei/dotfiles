@@ -2,8 +2,7 @@
 
 ## When this rule applies
 
-Whenever a plan is produced in Plan Mode (including plans submitted via
-`submit_plan`).
+Whenever a plan is produced in Plan Mode.
 
 ## Background
 
