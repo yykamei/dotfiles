@@ -510,9 +510,6 @@ Keep the `Plan file:` label literal even when responding in Japanese.
   reflects `plansDirectory` (default `~/.claude/plans/`); use the absolute
   path it names.
 - Use the file plan mode actually writes; never invent a path.
-- If Plannotator review is in use and reports a saved copy (for example
-  `Saved to: <path>` after approval), print that path as well, because the
-  plan-mode file is not the durable copy; the archived copy is.
 - If the plan is not stored as a file, say so instead of guessing a path.
 
 ## Self-Review After Code Changes

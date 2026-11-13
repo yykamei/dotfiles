@@ -20,7 +20,6 @@
       "Bash(mkdir -p ~/.worktrees/*)",
       "Bash(mkdir -p ~/.pbi)",
       "Read(~/.config/opencode/**)",
-      "Read(~/.plannotator/**)",
       "Read(~/.claude/**)",
       "Read(~/.worktrees/**)",
       "Read(~/.pbi/**)",
@@ -47,15 +46,6 @@
     "ruby-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
     "sentry@claude-plugins-official": true
-  },
-  "extraKnownMarketplaces": {
-    "plannotator": {
-      "source": {
-        "source": "github",
-        "repo": "backnotprop/plannotator"
-      },
-      "autoUpdate": true
-    }
   },
   "theme": "light"
 }
