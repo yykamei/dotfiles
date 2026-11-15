@@ -27,8 +27,15 @@ part of the same self-review.
    message so both reviews run in parallel. Pass the same review scope to both
 4. **Handle blocking findings** -- Fix blocking findings in the main session,
    then re-run the reviewer(s) that reported them:
-   - `code-reviewer` -- Critical Issues
+   - `code-reviewer` -- Critical Issues, plus structural design Warnings
+     (Information Leakage, Shallow Module, Temporal Decomposition, and
+     Cosmetic Decomposition). Their fix cost grows the longer they remain.
+     Localized design Red Flags (Overexposure, Pass-Through Methods,
+     Hard-to-name Entity, Comment Repeats Code) remain Suggestions.
    - `security-reviewer` -- CRITICAL and HIGH findings
+   If a structural design Warning cannot be resolved without expanding beyond
+   the current task, changing public behavior, or contradicting a design the
+   user mandated, stop and present the trade-off instead of iterating.
    If the `code-reviewer` report flags security concerns or recommends
    delegating to `security-reviewer`, run `security-reviewer` before
    proceeding even if step 2 did not classify the change as security-sensitive

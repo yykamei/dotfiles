@@ -80,7 +80,7 @@ Follow the Self-Review After Code Changes rule on the pending diff before
 committing. Load the `code-review` skill and review against its criteria in the
 main session, delegating to the `security-reviewer` subagent as well when the
 change is security-sensitive. Fix any blocking findings and re-review until
-none remain.
+no blocking findings remain.
 
 ### Step 5: Amend and Force-Push
 
