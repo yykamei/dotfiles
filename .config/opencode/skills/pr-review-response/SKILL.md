@@ -82,8 +82,8 @@ Run the project's build, lint, and tests for the touched code (see the
 Follow the Self-Review After Code Changes rule on the pending diff before
 committing. Delegate to the `code-reviewer` agent, and to the
 `security-reviewer` agent as well when the change is security-sensitive. Fix
-any blocking findings (code-review Critical Issues; security-review
-CRITICAL/HIGH) and re-review until none remain.
+any blocking findings defined by that rule and re-review until no blocking
+findings remain.
 
 ### Step 5: Amend and Force-Push
 

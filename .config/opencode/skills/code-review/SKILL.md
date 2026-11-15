@@ -161,6 +161,8 @@ issues.
   hooks than the common usage needs.
 - **Pass-Through Method**: a method that does little but delegate to
   another method with a similar signature.
+- **Hard-to-name Entity**: a module, class, or function that resists a clear
+  one-phrase name, usually because its abstraction mixes responsibilities.
 - **Comment Repeats Code**: a comment that merely restates what the code
   does -- a signal of missing abstraction.
 
@@ -171,6 +173,14 @@ would read as one continuous block when inlined, strained names, and
 wrappers with near-identical signatures. Suggest inlining trivial
 extractions; if a linter forces the split, suggest adjusting the linter
 configuration rather than distorting the code.
+
+Report this check in the mandatory **Design Quality** section of the output,
+even when no Red Flag is found. The detection cues in the `software-design`
+rule (`~/.config/opencode/rules/software-design.md`) list the diff patterns
+that most often signal a Red Flag.
+
+In self-review, structural design Red Flags are blocking Warnings; see
+"Self-Review After Code Changes".
 
 ### 4. Review Metadata Quality (PR Only)
 
@@ -218,7 +228,8 @@ Issues that should be addressed:
   mock assertions, duplicates after refactoring)
 - Structural design Red Flags (see "Evaluate Design Quality"):
   Information Leakage, Shallow Module, Temporal Decomposition, and
-  cosmetic decomposition -- their fix cost grows the longer they remain
+  cosmetic decomposition -- their fix cost grows the longer they remain.
+  In self-review these are blocking (see "Self-Review After Code Changes").
 
 ### Suggestions (Nice to Have)
 
@@ -229,7 +240,8 @@ Improvements that enhance quality:
 - Documentation additions
 - Minor optimizations
 - Localized design Red Flags (see "Evaluate Design Quality"):
-  Overexposure, Pass-Through Methods, Comment Repeats Code
+  Overexposure, Pass-Through Methods, Hard-to-name Entity, Comment Repeats
+  Code
 
 ## Output Format
 
@@ -258,6 +270,12 @@ Structure review feedback as follows:
 ## Suggestions
 
 [List suggestions or "None"]
+
+## Design Quality
+
+[One line stating that all Red Flags in "Evaluate Design Quality" were
+checked and the result, for example: "All Red Flags checked: none
+introduced." If one was found, it is listed above and referenced here.]
 
 ## Positive Highlights
 
