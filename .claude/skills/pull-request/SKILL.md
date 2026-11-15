@@ -176,9 +176,6 @@ the title.
    than writing a placeholder.
 
    ```
-   ## Purpose
-   [1-2 sentences: the outcome or goal this PR achieves]
-
    ## Background
    [1-3 sentences: the prior situation, problem, or product/technical reason]
 
@@ -252,10 +249,9 @@ carries background; compress the sentences instead.
 - The title is the primary statement of what changed; do not restate it
   in the body.
 - Give each section a distinct job and never repeat content across
-  sections: Purpose = the outcome or goal; Background = why it is needed
-  (problem/cause); Out of Scope = deliberate non-goals. If two sections
-  would say the same thing, write it in the more natural one and omit
-  the other where the structure allows.
+  sections: Background = why it is needed (problem/cause); Out of Scope =
+  deliberate non-goals. If two sections would say the same thing, write it
+  in the more natural one and omit the other where the structure allows.
 - Total body: aim within about 30 lines so a reviewer can read it in
   one pass.
 - Do not hard-wrap lines in the PR body: write each paragraph and bullet
@@ -306,9 +302,6 @@ Write the body to a file and pass the path to `gh`:
 ```bash
 # Write the body
 cat > /tmp/PR_BODY.md <<'EOF'
-## Purpose
-…
-
 ## Background
 …
 EOF
@@ -328,7 +321,7 @@ too:
 
 ```bash
 gh pr create --title "…" --body "$(cat <<'EOF'
-## Purpose
+## Background
 …
 EOF
 )"
