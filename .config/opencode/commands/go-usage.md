@@ -1,6 +1,5 @@
 ---
-description: Show OpenCode Go usage as a compact mobile chart (free model)
-model: opencode-go/beam-free
+description: Show OpenCode Go usage as a compact mobile chart
 ---
 !`bun ~/.config/opencode/scripts/go-usage.ts`
 
