@@ -35,9 +35,10 @@ a visible marker.
 - Put the file path, and the enclosing function or section when it helps
   locate the change, immediately above the snippet(s).
 - Fence each snippet with the file's language. Use `text` when no language
-  applies, and a fence longer than the longest run of backticks in the content.
-  Include the affected hunk and enough unchanged context to locate it; elide
-  unrelated code with `...` instead of pasting a whole large file.
+  applies, and follow the `markdown-fence-safety` rule: use a tilde fence when
+  the content contains a backtick fence, and never let an inner fence close the
+  outer one. Include the affected hunk and enough unchanged context to locate
+  it; elide unrelated code with `...` instead of pasting a whole large file.
 - `Before:` MUST come from the file content read during planning, not from
   memory or inference. `After:` MUST be the exact code the plan intends to
   produce, except where redaction or omission applies.
