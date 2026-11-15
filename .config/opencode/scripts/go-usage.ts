@@ -39,8 +39,6 @@ type SessionStats = {
 }
 
 type Summary = {
-  models: string[]
-  steps: number
   input: number
   output: number
   reasoning: number
@@ -94,8 +92,8 @@ export function isPaidGoModel(model: { providerID: string; id: string }): boolea
 }
 
 /**
- * Aggregates paid OpenCode Go model usage into the totals shown by
- * `/go-usage`.
+ * Aggregates paid OpenCode Go token usage and local cost into the totals
+ * shown by `/go-usage`.
  *
  * Free Go models are excluded because they do not consume the paid
  * allowance. See `isPaidGoModel` for the boundary.
@@ -113,8 +111,6 @@ export function summarize(models: readonly ModelUsage[]): Summary {
   const cacheRead = sum((entry) => entry.tokens.cache.read)
   const cacheWrite = sum((entry) => entry.tokens.cache.write)
   return {
-    models: [...new Set(selected.map((entry) => entry.model.id))].sort(),
-    steps: sum((entry) => entry.steps),
     input,
     output,
     reasoning,
@@ -125,21 +121,142 @@ export function summarize(models: readonly ModelUsage[]): Summary {
   }
 }
 
+const METER_WIDTH = 10
+
 function pad(value: number): string {
   return String(value).padStart(2, "0")
 }
 
-function formatTime(value: Date): string {
-  return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())} ${pad(value.getHours())}:${pad(value.getMinutes())}`
+function formatDate(value: Date): string {
+  return `${pad(value.getMonth() + 1)}/${pad(value.getDate())}`
 }
 
-function formatInteger(value: number): string {
-  return new Intl.NumberFormat("en-US").format(value)
+/**
+ * Renders a 10-block meter for a percentage.
+ *
+ * Used by `/go-usage` so the three Go windows read as bars instead of a
+ * wall of numbers.
+ *
+ * ```ts
+ * meterBar(67) // "███████░░░"
+ * ```
+ */
+export function meterBar(percent: number, width = METER_WIDTH): string {
+  const filled = Math.max(0, Math.min(width, Math.round((percent / 100) * width)))
+  return "█".repeat(filled) + "░".repeat(width - filled)
 }
 
-function printUsageURL(limits: UsageLimits | null | undefined): void {
-  const usageURL = limits?.workspace?.usageURL
-  if (usageURL) console.log(`Exact allowance dollars: ${usageURL}`)
+/**
+ * Formats a token count for the compact report.
+ *
+ * ```ts
+ * compactTokens(17_848_121) // "17.8M"
+ * ```
+ */
+export function compactTokens(value: number): string {
+  if (value >= 999_500_000) return `${(value / 1_000_000_000).toFixed(1)}B`
+  if (value >= 999_500) return `${(value / 1_000_000).toFixed(1)}M`
+  if (value >= 1_000) return `${Math.round(value / 1_000)}K`
+  return String(value)
+}
+
+/**
+ * Formats the time until a Go window resets for the compact report.
+ *
+ * ```ts
+ * relativeReset(now + 27 * 24 * 60 * 60_000, now) // "27d"
+ * ```
+ */
+export function relativeReset(resetsAt: number, now: number): string {
+  const minutes = Math.floor((resetsAt - now) / 60_000)
+  if (minutes <= 0) return "now"
+  if (minutes < 60) return `${minutes}m`
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
+  // Keep the reset column at six characters for the 32-character mobile row.
+  if (hours < 24) {
+    const withMinutes = `${hours}h ${mins}m`
+    if (mins === 0 || withMinutes.length > 6) return `${hours}h`
+    return withMinutes
+  }
+  const days = Math.floor(hours / 24)
+  const hrs = hours % 24
+  const withHours = `${days}d ${hrs}h`
+  if (hrs === 0 || withHours.length > 6) return `${days}d`
+  return withHours
+}
+
+/**
+ * Formats one Go window row for the compact mobile chart.
+ *
+ * The row is designed to fit 32 characters so Mobile's code block does not
+ * clip the reset column.
+ *
+ * ```ts
+ * formatMeterRow("Weekly", { percent: 67, limited: false, resetsAt: now + 21 * 60 * 60_000 }, now)
+ * // "Weekly    ███████░░░  67%    21h"
+ * ```
+ */
+export function formatMeterRow(label: string, meter: Meter, now: number): string {
+  const name = `${label}${meter.limited ? "!" : ""}`
+  const percent = `${Math.round(meter.percent)}%`.padStart(4)
+  return `${name.padEnd(9)} ${meterBar(meter.percent, METER_WIDTH)} ${percent} ${relativeReset(meter.resetsAt, now).padStart(6)}`
+}
+
+function formatHeader(): string {
+  return `${"window".padEnd(9)} ${" ".repeat(METER_WIDTH)} ${"used".padStart(4)} ${"reset".padStart(6)}`
+}
+
+function formatCost(cost: number): string {
+  return cost >= 100 ? `$${Math.round(cost)}` : `$${cost.toFixed(2)}`
+}
+
+function formatTokenLines(summary: Summary): string[] {
+  const lines = [
+    `input ${compactTokens(summary.input)} · output ${compactTokens(summary.output)}`,
+    `reasoning ${compactTokens(summary.reasoning)} · cache rd ${compactTokens(summary.cacheRead)}`,
+  ]
+  if (summary.cacheWrite > 0) lines.push(`cache wr ${compactTokens(summary.cacheWrite)}`)
+  lines.push(`total ${compactTokens(summary.total)} · local cost ${formatCost(summary.cost)}`)
+  return lines
+}
+
+/**
+ * Renders the `/go-usage` report lines.
+ *
+ * The code-block rows are designed to fit 32 characters on Mobile. The
+ * Console link sits outside the code block so it renders as a link.
+ *
+ * ```ts
+ * renderReport(limits, stats, new Date())
+ * ```
+ */
+export function renderReport(
+  limits: UsageLimits,
+  stats: SessionStats | undefined,
+  now: Date,
+  tokenError?: string,
+): string[] {
+  const go = limits.go
+  if (!go) return []
+  const monthlyReset = new Date(go.monthly.resetsAt)
+  const periodStart = previousMonth(monthlyReset)
+  const lines = ["```text", "OpenCode Go · free model", "", formatHeader()]
+  for (const [label, meter] of [
+    ["Rolling", go.rolling],
+    ["Weekly", go.weekly],
+    ["Monthly", go.monthly],
+  ] as const) {
+    lines.push(formatMeterRow(label, meter, now.getTime()))
+  }
+  if ([go.rolling, go.weekly, go.monthly].some((meter) => meter.limited)) lines.push("! = limited")
+  lines.push("", `Billing ~${formatDate(periodStart)}–${formatDate(monthlyReset)}`, "paid Go · this machine")
+  if (stats) lines.push(...formatTokenLines(summarize(stats.models ?? [])))
+  lines.push("```", "")
+  if (tokenError) lines.push(`Billing-period tokens are unavailable: ${tokenError}`, "")
+  const usageURL = limits.workspace?.usageURL
+  if (usageURL) lines.push(`[Exact allowance dollars](${usageURL})`)
+  return lines
 }
 
 function main(): number {
@@ -151,62 +268,36 @@ function main(): number {
     return 0
   }
 
-  if (limits.data === null) {
+  const data = limits.data
+  if (data === null) {
     console.log("Not signed in to OpenCode Console.")
     return 0
   }
-
-  const go = limits.data?.go
+  if (!data) {
+    console.log("OpenCode Go usage is unavailable.")
+    return 0
+  }
+  const go = data.go
   if (!go) {
     console.log("OpenCode Go is not available for this workspace (no Go subscription).")
     return 0
   }
 
   const now = new Date()
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const monthlyReset = new Date(go.monthly.resetsAt)
   const periodStart = previousMonth(monthlyReset)
-
-  console.log("OpenCode Go usage")
-  console.log()
-  for (const [label, meter] of [
-    ["Rolling (5h)", go.rolling],
-    ["Weekly", go.weekly],
-    ["Monthly", go.monthly],
-  ] as const) {
-    const suffix = meter.limited ? " (limited)" : ""
-    console.log(`${label}: ${Math.round(meter.percent)}% used${suffix} (resets at ${formatTime(new Date(meter.resetsAt))})`)
-  }
-
-  console.log()
-  console.log(
-    `Estimated billing period: ${formatTime(periodStart)} – ${formatTime(monthlyReset)} (${timezone})`,
-  )
-
-  let stats: { data?: SessionStats | null }
+  let stats: SessionStats | undefined
+  let tokenError: string | undefined
   try {
-    stats = apiGet(
+    const response = apiGet(
       `/api/experimental/session/stats?from=${periodStart.getTime()}&to=${now.getTime()}&tools=none`,
     ) as { data?: SessionStats | null }
+    stats = response.data ?? undefined
   } catch (error) {
-    console.log(`Billing-period tokens are unavailable: ${error instanceof Error ? error.message : String(error)}`)
-    printUsageURL(limits.data)
-    return 0
+    tokenError = error instanceof Error ? error.message : String(error)
   }
 
-  const summary = summarize(stats.data?.models ?? [])
-  console.log("Paid Go usage on this machine (free models excluded):")
-  console.log(`  Models: ${summary.models.length > 0 ? summary.models.join(", ") : "none"}`)
-  console.log(`  Steps: ${formatInteger(summary.steps)}`)
-  console.log(`  Input tokens: ${formatInteger(summary.input)}`)
-  console.log(`  Output tokens: ${formatInteger(summary.output)}`)
-  console.log(`  Reasoning tokens: ${formatInteger(summary.reasoning)}`)
-  console.log(`  Cache read tokens: ${formatInteger(summary.cacheRead)}`)
-  console.log(`  Cache write tokens: ${formatInteger(summary.cacheWrite)}`)
-  console.log(`  Total tokens: ${formatInteger(summary.total)}`)
-  console.log(`  Local cost: $${summary.cost.toFixed(2)} (Go plan; local data does not include allowance dollars)`)
-
-  printUsageURL(limits.data)
+  for (const line of renderReport(data, stats, now, tokenError)) console.log(line)
   return 0
 }
 
