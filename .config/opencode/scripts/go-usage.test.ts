@@ -204,6 +204,8 @@ describe("renderReport", () => {
 
     expect(start).toBeGreaterThanOrEqual(0)
     expect(end).toBeGreaterThan(start)
+    expect(lines).toContain("OpenCode Go")
+    expect(lines).not.toContain("OpenCode Go · free model")
     for (const line of lines.slice(start + 1, end)) {
       expect(line.length).toBeLessThanOrEqual(32)
     }

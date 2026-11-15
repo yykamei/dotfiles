@@ -241,7 +241,7 @@ export function renderReport(
   if (!go) return []
   const monthlyReset = new Date(go.monthly.resetsAt)
   const periodStart = previousMonth(monthlyReset)
-  const lines = ["```text", "OpenCode Go · free model", "", formatHeader()]
+  const lines = ["```text", "OpenCode Go", "", formatHeader()]
   for (const [label, meter] of [
     ["Rolling", go.rolling],
     ["Weekly", go.weekly],
