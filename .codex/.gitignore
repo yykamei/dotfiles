@@ -1,0 +1,9 @@
+/*
+!/.gitignore
+!/AGENTS.md
+!/agents/
+/agents/*
+!/agents/*.toml
+/.gitignore/
+/AGENTS.md/
+/agents/*/
