@@ -1,14 +1,17 @@
-"""Canonical agent configuration rendering and rule synchronization.
+"""Canonical agent configuration rendering and synchronization.
 
-The rule files under `.config/opencode/rules/` are the source of truth. This
-module renders the aggregate global instruction files used by Claude Code and
-Codex, verifies them in `--check` mode, and writes them atomically otherwise.
+The rule files under `.config/opencode/rules/` and the skill directories under
+`.config/opencode/skills/` are the source of truth. This module renders the
+aggregate global instruction files used by Claude Code and Codex, links the
+canonical skills into Claude Code's project directory, verifies both in
+`--check` mode, and writes only when a check is not requested.
 
 ```python
 from pathlib import Path
-from agent_config import sync_rules
+from agent_config import sync_rules, sync_skills
 
 sync_rules(Path("/path/to/dotfiles"), check=False)
+sync_skills(Path("/path/to/dotfiles"), check=False)
 ```
 """
 
@@ -17,6 +20,7 @@ from __future__ import annotations
 import argparse
 import os
 import re
+import shutil
 import stat
 import sys
 import tempfile
@@ -24,6 +28,9 @@ from pathlib import Path
 
 RULE_DIR = Path(".config/opencode/rules")
 GENERATED_RULES = (Path(".claude/CLAUDE.md"), Path(".codex/AGENTS.md"))
+SKILL_SOURCE = Path(".config/opencode/skills")
+SKILL_DESTINATION = Path(".claude/skills")
+SKILL_NAME = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 RULE_ORDER = (
     "core-philosophy.md",
     "code-comments.md",
@@ -64,8 +71,7 @@ def _display(root: Path, path: Path) -> str:
         return str(path)
 
 
-def _check_path(root: Path, path: Path) -> None:
-    """Reject symlinked or non-regular paths and paths outside the repository."""
+def _check_components(root: Path, path: Path) -> None:
     try:
         resolved = path.resolve(strict=False)
         resolved_root = root.resolve()
@@ -83,16 +89,32 @@ def _check_path(root: Path, path: Path) -> None:
             break
         current = current.parent
 
+
+def _lstat_mode(root: Path, path: Path) -> int | None:
     try:
-        mode = path.lstat().st_mode
+        return path.lstat().st_mode
     except FileNotFoundError:
-        return
+        return None
     except OSError as error:
         raise ConfigError(
             f"cannot inspect {_display(root, path)}: {error.strerror or error}"
         ) from error
-    if not stat.S_ISREG(mode):
+
+
+def _check_path(root: Path, path: Path) -> None:
+    """Reject symlinked or non-regular files and paths outside the repository."""
+    _check_components(root, path)
+    mode = _lstat_mode(root, path)
+    if mode is not None and not stat.S_ISREG(mode):
         raise ConfigError(f"refusing non-regular path: {_display(root, path)}")
+
+
+def _check_directory(root: Path, path: Path) -> None:
+    """Reject symlinked or non-directory paths and paths outside the repository."""
+    _check_components(root, path)
+    mode = _lstat_mode(root, path)
+    if mode is not None and not stat.S_ISDIR(mode):
+        raise ConfigError(f"refusing non-directory path: {_display(root, path)}")
 
 
 def _validate_rule_set(root: Path) -> None:
@@ -181,6 +203,127 @@ def render_rules(root: Path) -> str:
     return HEADER + "\n" + "\n\n".join(sections) + "\n"
 
 
+def _check_skill_tree(root: Path, skill: Path) -> None:
+    def onerror(error: OSError) -> None:
+        filename = getattr(error, "filename", None)
+        if filename is None:
+            raise ConfigError(
+                f"cannot inspect skill tree: {error.strerror or error}"
+            ) from error
+        raise ConfigError(
+            f"cannot inspect {_display(root, Path(filename))}: "
+            f"{error.strerror or error}"
+        ) from error
+
+    for directory, dirnames, filenames in os.walk(
+        skill, followlinks=False, onerror=onerror
+    ):
+        for name in dirnames + filenames:
+            path = Path(directory) / name
+            if path.is_symlink():
+                raise ConfigError(f"refusing symlinked path: {_display(root, path)}")
+            if name in dirnames:
+                _check_directory(root, path)
+            else:
+                _check_path(root, path)
+
+
+def _skill_directories(root: Path) -> list[Path]:
+    source = root / SKILL_SOURCE
+    _check_directory(root, source)
+    if not source.is_dir():
+        raise ConfigError(f"skill source is not a directory: {_display(root, source)}")
+
+    directories = []
+    for path in sorted(source.iterdir()):
+        if path.is_symlink():
+            raise ConfigError(f"refusing symlinked path: {_display(root, path)}")
+        if not SKILL_NAME.fullmatch(path.name):
+            if path.is_dir():
+                raise ConfigError(f"invalid skill directory name: {path.name}")
+            continue
+        if not path.is_dir():
+            raise ConfigError(f"skill path is not a directory: {_display(root, path)}")
+        _check_directory(root, path)
+        if not (path / "SKILL.md").is_file():
+            raise ConfigError(f"skill is missing SKILL.md: {_display(root, path)}")
+        _check_skill_tree(root, path)
+        directories.append(path)
+    return directories
+
+
+def _current_link(link: Path, source: Path) -> bool:
+    if not link.is_symlink():
+        return False
+    try:
+        target = os.readlink(link)
+    except OSError as error:
+        raise ConfigError(
+            f"cannot read link {link.name}: {error.strerror or error}"
+        ) from error
+    return target == os.path.relpath(source, link.parent)
+
+
+def sync_skills(root: Path, *, check: bool) -> list[str]:
+    """Mirror the canonical skills as symlinks in Claude Code's directory.
+
+    Returns the repository-relative links that are missing, stale, or point
+    somewhere else. With `check=True`, nothing is written.
+    """
+    destination = root / SKILL_DESTINATION
+    skills = _skill_directories(root)
+    _check_directory(root, destination)
+    expected_names = {path.name for path in skills}
+
+    for source in skills:
+        link = destination / source.name
+        if link.is_symlink() or not link.exists():
+            continue
+        if not link.is_dir() or not (link / "SKILL.md").is_file():
+            raise ConfigError(f"refusing non-skill path: {_display(root, link)}")
+
+    changed = []
+    if destination.is_dir():
+        for path in sorted(destination.iterdir()):
+            if path.name in expected_names:
+                continue
+            changed.append(str(path.relative_to(root)))
+            if check:
+                continue
+            if path.is_symlink():
+                path.unlink()
+            elif path.is_dir():
+                _check_directory(root, path)
+                shutil.rmtree(path)
+            else:
+                path.unlink()
+
+    for source in skills:
+        link = destination / source.name
+        if _current_link(link, source):
+            continue
+        if link.is_symlink():
+            changed.append(str(link.relative_to(root)))
+            if not check:
+                link.unlink()
+        elif link.exists():
+            if not link.is_dir() or not (link / "SKILL.md").is_file():
+                raise ConfigError(f"refusing non-skill path: {_display(root, link)}")
+            changed.append(str(link.relative_to(root)))
+            if not check:
+                _check_directory(root, link)
+                shutil.rmtree(link)
+        else:
+            changed.append(str(link.relative_to(root)))
+
+        if check:
+            continue
+        destination.mkdir(parents=True, exist_ok=True)
+        _check_directory(root, destination)
+        link.symlink_to(os.path.relpath(source, destination), target_is_directory=True)
+    return changed
+
+
 def _write_atomic(path: Path, data: bytes) -> None:
     try:
         mode = path.lstat().st_mode & 0o777
@@ -263,13 +406,23 @@ def sync_rules(root: Path, *, check: bool) -> list[str]:
 def main(argv: list[str] | None = None, *, root: Path | None = None) -> int:
     """CLI entry point for sync-agent-config.py."""
     parser = argparse.ArgumentParser(
-        description="Render and check the Claude Code and Codex global rules."
+        description=(
+            "Render and check the Claude Code and Codex global rules and "
+            "skill links."
+        )
     )
     parser.add_argument("--check", action="store_true", help="verify without writing")
     args = parser.parse_args(argv)
     target = root if root is not None else Path(__file__).resolve().parents[1]
     try:
-        changed = sync_rules(target, check=args.check)
+        if args.check:
+            changed = sync_rules(target, check=True)
+            changed += sync_skills(target, check=True)
+        else:
+            sync_rules(target, check=True)
+            sync_skills(target, check=True)
+            changed = sync_rules(target, check=False)
+            changed += sync_skills(target, check=False)
     except (ConfigError, OSError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 2

@@ -26,12 +26,12 @@ python3 scripts/link-codex.py
 
 ## エージェント共通設定
 
-`.config/opencode/rules/` を正として、Claude Code と Codex のグローバルルールを生成します。
+`.config/opencode/rules/` と `.config/opencode/skills/` を正として、Claude Code と Codex のグローバル設定を同期します。
 
 ```sh
 python3 scripts/sync-agent-config.py
 ```
 
-`python3 scripts/sync-agent-config.py --check` は、`.claude/CLAUDE.md` と `.codex/AGENTS.md` が正と一致しているか確認します。ルールを編集したら生成スクリプトを実行してからコミットしてください。新しいルールを追加するときは、`scripts/agent_config.py` の `RULE_ORDER` にも追加します。
+`.claude/CLAUDE.md` と `.codex/AGENTS.md` はルールから生成し、`.claude/skills/<name>` は `.config/opencode/skills/<name>` への相対 symlink にします。`.claude/skills` はこのチェックアウトが管理するため、管理外のスキルは置かないでください。`python3 scripts/sync-agent-config.py --check` は、これらの生成物と symlink が正と一致しているか確認します。ルールやスキルを編集したら同期スクリプトを実行してからコミットしてください。新しいルールを追加するときは、`scripts/agent_config.py` の `RULE_ORDER` にも追加します。
 
 信頼できないチェックアウトでは書き込みモードを実行しないでください。まず `--check` で同期漏れがないか確認し、内容を確認できた場合だけ生成してください。
