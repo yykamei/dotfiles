@@ -9,9 +9,11 @@ Guidelines for conducting effective code reviews on pull requests, local diffs,
 and any code changes.
 
 > **How this skill is used**: Load this skill directly in the main session
-> whenever you perform a review -- the post-implementation self-review required
-> by the Self-Review rule (in CLAUDE.md), reviewing a teammate's PR, or any
-> manual review of a local diff.
+> whenever you perform a review -- the post-implementation self-review
+> required by the Self-Review rule, reviewing a teammate's PR, or any manual
+> review of a local diff. Also load the `no-metaprogramming` skill and flag
+> violations. Security-specific findings are delegated to the
+> `security-reviewer` subagent.
 
 ## Gathering Context
 
@@ -49,6 +51,9 @@ Review the diff with these language-agnostic criteria:
 - **Test quality**: Are there leftover scaffolding tests from TDD that
   should have been cleaned up? Flag as Warnings (see the IMPROVE phase
   in the `tdd-workflow` skill for cleanup guidance).
+
+If the diff includes plain CSS files (`.css`), also load the `css` skill and
+apply its guidance.
 
 ### 3. Evaluate Design Quality (Red Flags)
 
