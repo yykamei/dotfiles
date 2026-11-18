@@ -26,11 +26,17 @@ import sys
 import tempfile
 from pathlib import Path
 
+from agent_paths import (
+    check_directory,
+    check_path,
+    display_relative,
+    skill_directories,
+)
+
 RULE_DIR = Path(".config/opencode/rules")
 GENERATED_RULES = (Path(".claude/CLAUDE.md"), Path(".codex/AGENTS.md"))
 SKILL_SOURCE = Path(".config/opencode/skills")
 SKILL_DESTINATION = Path(".claude/skills")
-SKILL_NAME = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 RULE_ORDER = (
     "core-philosophy.md",
     "code-comments.md",
@@ -64,63 +70,12 @@ class ConfigError(RuntimeError):
     """Raised when the canonical configuration cannot be rendered or synced."""
 
 
-def _display(root: Path, path: Path) -> str:
-    try:
-        return str(path.relative_to(root))
-    except ValueError:
-        return str(path)
-
-
-def _check_components(root: Path, path: Path) -> None:
-    try:
-        resolved = path.resolve(strict=False)
-        resolved_root = root.resolve()
-    except (OSError, RuntimeError) as error:
-        detail = getattr(error, "strerror", None) or "symlink loop"
-        raise ConfigError(f"cannot resolve {_display(root, path)}: {detail}") from error
-    if not resolved.is_relative_to(resolved_root):
-        raise ConfigError(f"path escapes the repository: {_display(root, path)}")
-
-    current = path
-    while current != root:
-        if current.is_symlink():
-            raise ConfigError(f"refusing symlinked path: {_display(root, current)}")
-        if current.parent == current:
-            break
-        current = current.parent
-
-
-def _lstat_mode(root: Path, path: Path) -> int | None:
-    try:
-        return path.lstat().st_mode
-    except FileNotFoundError:
-        return None
-    except OSError as error:
-        raise ConfigError(
-            f"cannot inspect {_display(root, path)}: {error.strerror or error}"
-        ) from error
-
-
-def _check_path(root: Path, path: Path) -> None:
-    """Reject symlinked or non-regular files and paths outside the repository."""
-    _check_components(root, path)
-    mode = _lstat_mode(root, path)
-    if mode is not None and not stat.S_ISREG(mode):
-        raise ConfigError(f"refusing non-regular path: {_display(root, path)}")
-
-
-def _check_directory(root: Path, path: Path) -> None:
-    """Reject symlinked or non-directory paths and paths outside the repository."""
-    _check_components(root, path)
-    mode = _lstat_mode(root, path)
-    if mode is not None and not stat.S_ISDIR(mode):
-        raise ConfigError(f"refusing non-directory path: {_display(root, path)}")
-
-
 def _validate_rule_set(root: Path) -> None:
     directory = root / RULE_DIR
     if not directory.is_dir():
-        raise ConfigError(f"missing rule directory: {_display(root, directory)}")
+        raise ConfigError(
+            f"missing rule directory: {display_relative(root, directory)}"
+        )
 
     present = {path.name for path in directory.glob("*.md")}
     expected = set(RULE_ORDER)
@@ -139,26 +94,31 @@ def _validate_rule_set(root: Path) -> None:
 
 def _read_rule(root: Path, name: str) -> str:
     path = root / RULE_DIR / name
-    _check_path(root, path)
+    check_path(root, path, ConfigError, lambda item: display_relative(root, item))
     flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
     try:
         descriptor = os.open(path, flags)
     except OSError as error:
         raise ConfigError(
-            f"cannot read rule {_display(root, path)}: {error.strerror or error}"
+            f"cannot read rule {display_relative(root, path)}: "
+            f"{error.strerror or error}"
         ) from error
 
     with os.fdopen(descriptor, "rb") as handle:
         if not stat.S_ISREG(os.fstat(handle.fileno()).st_mode):
-            raise ConfigError(f"not a regular file: {_display(root, path)}")
+            raise ConfigError(
+                f"not a regular file: {display_relative(root, path)}"
+            )
         data = handle.read(MAX_RULE_BYTES + 1)
 
     if len(data) > MAX_RULE_BYTES:
-        raise ConfigError(f"rule is too large: {_display(root, path)}")
+        raise ConfigError(f"rule is too large: {display_relative(root, path)}")
     try:
         return data.decode("utf-8").removeprefix("\ufeff")
     except UnicodeDecodeError as error:
-        raise ConfigError(f"rule is not UTF-8: {_display(root, path)}") from error
+        raise ConfigError(
+            f"rule is not UTF-8: {display_relative(root, path)}"
+        ) from error
 
 
 def demote_headings(text: str) -> str:
@@ -203,55 +163,6 @@ def render_rules(root: Path) -> str:
     return HEADER + "\n" + "\n\n".join(sections) + "\n"
 
 
-def _check_skill_tree(root: Path, skill: Path) -> None:
-    def onerror(error: OSError) -> None:
-        filename = getattr(error, "filename", None)
-        if filename is None:
-            raise ConfigError(
-                f"cannot inspect skill tree: {error.strerror or error}"
-            ) from error
-        raise ConfigError(
-            f"cannot inspect {_display(root, Path(filename))}: "
-            f"{error.strerror or error}"
-        ) from error
-
-    for directory, dirnames, filenames in os.walk(
-        skill, followlinks=False, onerror=onerror
-    ):
-        for name in dirnames + filenames:
-            path = Path(directory) / name
-            if path.is_symlink():
-                raise ConfigError(f"refusing symlinked path: {_display(root, path)}")
-            if name in dirnames:
-                _check_directory(root, path)
-            else:
-                _check_path(root, path)
-
-
-def _skill_directories(root: Path) -> list[Path]:
-    source = root / SKILL_SOURCE
-    _check_directory(root, source)
-    if not source.is_dir():
-        raise ConfigError(f"skill source is not a directory: {_display(root, source)}")
-
-    directories = []
-    for path in sorted(source.iterdir()):
-        if path.is_symlink():
-            raise ConfigError(f"refusing symlinked path: {_display(root, path)}")
-        if not SKILL_NAME.fullmatch(path.name):
-            if path.is_dir():
-                raise ConfigError(f"invalid skill directory name: {path.name}")
-            continue
-        if not path.is_dir():
-            raise ConfigError(f"skill path is not a directory: {_display(root, path)}")
-        _check_directory(root, path)
-        if not (path / "SKILL.md").is_file():
-            raise ConfigError(f"skill is missing SKILL.md: {_display(root, path)}")
-        _check_skill_tree(root, path)
-        directories.append(path)
-    return directories
-
-
 def _current_link(link: Path, source: Path) -> bool:
     if not link.is_symlink():
         return False
@@ -271,8 +182,18 @@ def sync_skills(root: Path, *, check: bool) -> list[str]:
     somewhere else. With `check=True`, nothing is written.
     """
     destination = root / SKILL_DESTINATION
-    skills = _skill_directories(root)
-    _check_directory(root, destination)
+    skills = skill_directories(
+        root,
+        root / SKILL_SOURCE,
+        ConfigError,
+        lambda path: display_relative(root, path),
+    )
+    check_directory(
+        root,
+        destination,
+        ConfigError,
+        lambda path: display_relative(root, path),
+    )
     expected_names = {path.name for path in skills}
 
     for source in skills:
@@ -280,7 +201,9 @@ def sync_skills(root: Path, *, check: bool) -> list[str]:
         if link.is_symlink() or not link.exists():
             continue
         if not link.is_dir() or not (link / "SKILL.md").is_file():
-            raise ConfigError(f"refusing non-skill path: {_display(root, link)}")
+            raise ConfigError(
+                f"refusing non-skill path: {display_relative(root, link)}"
+            )
 
     changed = []
     if destination.is_dir():
@@ -293,7 +216,12 @@ def sync_skills(root: Path, *, check: bool) -> list[str]:
             if path.is_symlink():
                 path.unlink()
             elif path.is_dir():
-                _check_directory(root, path)
+                check_directory(
+                    root,
+                    path,
+                    ConfigError,
+                    lambda item: display_relative(root, item),
+                )
                 shutil.rmtree(path)
             else:
                 path.unlink()
@@ -308,10 +236,17 @@ def sync_skills(root: Path, *, check: bool) -> list[str]:
                 link.unlink()
         elif link.exists():
             if not link.is_dir() or not (link / "SKILL.md").is_file():
-                raise ConfigError(f"refusing non-skill path: {_display(root, link)}")
+                raise ConfigError(
+                    f"refusing non-skill path: {display_relative(root, link)}"
+                )
             changed.append(str(link.relative_to(root)))
             if not check:
-                _check_directory(root, link)
+                check_directory(
+                    root,
+                    link,
+                    ConfigError,
+                    lambda item: display_relative(root, item),
+                )
                 shutil.rmtree(link)
         else:
             changed.append(str(link.relative_to(root)))
@@ -319,7 +254,12 @@ def sync_skills(root: Path, *, check: bool) -> list[str]:
         if check:
             continue
         destination.mkdir(parents=True, exist_ok=True)
-        _check_directory(root, destination)
+        check_directory(
+            root,
+            destination,
+            ConfigError,
+            lambda path: display_relative(root, path),
+        )
         link.symlink_to(os.path.relpath(source, destination), target_is_directory=True)
     return changed
 
@@ -375,14 +315,20 @@ def sync_rules(root: Path, *, check: bool) -> list[str]:
     changed = []
     for relative in GENERATED_RULES:
         path = root / relative
-        _check_path(root, path)
+        check_path(
+            root,
+            path,
+            ConfigError,
+            lambda item: display_relative(root, item),
+        )
         try:
             current = path.read_bytes()
         except FileNotFoundError:
             current = None
         except OSError as error:
             raise ConfigError(
-                f"cannot read {_display(root, path)}: {error.strerror or error}"
+                f"cannot read {display_relative(root, path)}: "
+                f"{error.strerror or error}"
             ) from error
 
         if current == expected:
@@ -395,10 +341,15 @@ def sync_rules(root: Path, *, check: bool) -> list[str]:
             path.parent.mkdir(parents=True, exist_ok=True)
         except OSError as error:
             raise ConfigError(
-                f"cannot create {_display(root, path.parent)}: "
+                f"cannot create {display_relative(root, path.parent)}: "
                 f"{error.strerror or error}"
             ) from error
-        _check_path(root, path)
+        check_path(
+            root,
+            path,
+            ConfigError,
+            lambda item: display_relative(root, item),
+        )
         _write_atomic(path, expected)
     return changed
 

@@ -130,13 +130,13 @@ class AgentConfigTest(unittest.TestCase):
         with self.assertRaises(agent_config.ConfigError):
             agent_config.render_rules(self.root)
 
-    def test_refuses_output_escaping_repository(self) -> None:
+    def test_refuses_output_escaping_root(self) -> None:
         outside = tempfile.TemporaryDirectory()
         self.addCleanup(outside.cleanup)
         (self.root / ".claude").symlink_to(outside.name, target_is_directory=True)
         with self.assertRaises(agent_config.ConfigError) as context:
             agent_config.sync_rules(self.root, check=False)
-        self.assertIn("escapes the repository", str(context.exception))
+        self.assertIn("escapes the allowed root", str(context.exception))
 
     def test_reports_parent_that_is_a_file(self) -> None:
         (self.root / ".claude").write_text("not a directory\n", encoding="utf-8")
