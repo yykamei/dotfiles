@@ -437,55 +437,62 @@ Before creating any worktree or making changes:
 
 ### When this rule applies
 
-Whenever a plan is produced in Plan Mode — both the plan file and the
-ExitPlanMode summary.
+Whenever a plan is produced in Plan Mode.
 
 ### Background
 
 Plans created in Plan Mode may be executed in a fresh session or handed to a
 different AI agent for implementation. That agent may not know which skills
-apply or may not have the Skill tool, so the plan itself must carry the
+apply or may not have the `skill` tool, so the plan itself must carry the
 skill references and workflow rules explicitly.
 
 ### Rule
 
 Every plan MUST contain a section titled **"Rules for the Implementer"** that
-lists all skills to be used during implementation. For each skill, state the
-skill name, its definition file path (`SKILL.md`), and when or in which step
-of the plan it applies, and instruct the implementer to load the skill via
-the Skill tool (or read the `SKILL.md` directly if the Skill tool is
-unavailable) and follow it before performing the corresponding action:
+lists all skills to be used during implementation. For each skill, state its
+path-derived skill ID (normally the directory name), its definition file path
+(`SKILL.md`), and the step where it applies. Then instruct the implementer to
+load the skill through the harness's skill mechanism (or read the `SKILL.md`
+directly if no skill tool is available) and follow it before performing the
+corresponding action.
+
+Let `<skills-dir>` be the platform's user-level skills directories:
+`~/.claude/skills/` for Claude Code, `~/.agents/skills/` for Codex, and
+`~/.config/opencode/skills/`, `~/.agents/skills/`, and `~/.claude/skills/`
+for OpenCode.
 
 1. **Standard workflow skills** (mandatory for any plan that modifies a
    repository):
-   - **`no-metaprogramming`** (`~/.agents/skills/no-metaprogramming/SKILL.md`)
-     — load it before writing production code so its restrictions stay in
+   - **`no-metaprogramming`** (`<skills-dir>/no-metaprogramming/SKILL.md`) —
+     load it before writing production code so its restrictions stay in
      context while implementing; metaprogramming tends to creep in
      mid-implementation, and the skill enumerates the permitted exceptions.
-   - **`tdd-workflow`** (`~/.agents/skills/tdd-workflow/SKILL.md`) — follow
-     the RED → GREEN → IMPROVE → LINT cycle when implementing or modifying
+   - **`tdd-workflow`** (`<skills-dir>/tdd-workflow/SKILL.md`) — follow the
+     RED → GREEN → IMPROVE → LINT cycle when implementing or modifying
      testable logic.
-   - **`code-review`** (`~/.agents/skills/code-review/SKILL.md`) —
-     self-review the diff against its criteria after implementation and
-     before committing; fix any blocking findings and re-review (see
-     Self-Review After Code Changes). For security-sensitive changes, the
-     plan must also require delegating to the `security-reviewer` subagent.
-   - **`git-commit`** (`~/.agents/skills/git-commit/SKILL.md`) — follow it
-     for every `git commit` (including `--amend`): message language,
+   - **`code-review`** (`<skills-dir>/code-review/SKILL.md`) — self-review
+     the diff against its criteria after implementation and before
+     committing; fix any blocking findings and re-review (see Self-Review
+     After Code Changes). For security-sensitive changes, the plan must also
+     require delegating to the `security-reviewer` subagent.
+   - **`git-commit`** (`<skills-dir>/git-commit/SKILL.md`) — follow it for
+     every `git commit` (including `--amend`): message language,
      subject/body format, `-F`-based multi-line commits, post-commit
      verification.
-   - **`pull-request`** (`~/.agents/skills/pull-request/SKILL.md`) — follow
-     it before `gh pr create` or `gh pr edit --body`; every change ends in a
+   - **`pull-request`** (`<skills-dir>/pull-request/SKILL.md`) — follow it
+     before `gh pr create` or `gh pr edit --body`; every change ends in a
      PR.
 2. **Task-specific skills**: Review the available skills (under
-   `~/.agents/skills/`, and project-local skill
+   `<skills-dir>`, configured `skills` sources, and project-local skill
    directories) when creating the plan, and include every additional skill
-   that applies to the planned work (for example, `naturalize-japanese`,
+   that applies to the planned work (for example, `css`, `naturalize-japanese`,
    `security-review`, `pbi-create`, or project-specific skills). For each
-   applicable skill, state its `SKILL.md` file path and the specific step or
-   condition in the plan where it must be applied.
+   applicable skill, state its `SKILL.md`
+   file path (or note that it is a built-in skill when no file path exists on
+   disk) and the specific step or condition in the plan where it must be
+   applied.
 
-Referencing the skills by name alone is NOT sufficient; the file paths and
+Referencing the skills by ID alone is NOT sufficient; the file paths and
 trigger conditions above MUST appear in the plan so that an agent without
 skill support can still comply.
 
@@ -591,46 +598,82 @@ proceeding to commit, PR creation, or any other subsequent step.
 
 ### Rule
 
-After completing the implementation, load the `code-review` skill via the
-Skill tool and self-review the diff against its criteria in the main session.
+After completing the implementation, load the `code-review` skill and
+self-review the diff against its criteria in the main session.
 
-When the change touches security-sensitive areas, also delegate security
-review to the `security-reviewer` subagent -- an orchestrator that dispatches
-all nine per-perspective security subagents in parallel and returns one
-consolidated, cross-referenced report. Run it in the same message alongside
-the code review so both run concurrently.
-
-A change is security-sensitive when it touches user input handling;
-authentication, authorization, or session management; API endpoints or
-external communication; sensitive data such as secrets, credentials, tokens,
-PII, or cryptographic operations; dependency manifests or lock files;
-CSRF/CORS/Cookie or other security-relevant configuration; or audit logging.
+When the change touches security-sensitive areas (see Security-Sensitive
+Changes below), also delegate security review to the `security-reviewer`
+subagent -- an orchestrator that dispatches all nine per-perspective security
+subagents in parallel and returns one consolidated, cross-referenced report.
+Run it in the same message alongside the code review so both run
+concurrently.
 
 The `security-review` skill remains as a manual reference checklist for the
 main session. If the code review flags security concerns or recommends
 delegating to `security-reviewer`, run `security-reviewer` before proceeding
 even if the change was not classified as security-sensitive.
 
-Fix code-review Critical Issues, structural design Warnings (Information
-Leakage, Shallow Module, Temporal Decomposition, Cosmetic Decomposition), and
-`security-reviewer` CRITICAL/HIGH findings; then repeat the self-review on
-the updated pending diff. Localized design Red Flags (Overexposure,
-Pass-through Methods, Hard-to-name Entity, Comment Repeats Code) remain
-Suggestions. If a
-structural design Warning cannot be resolved without expanding beyond the
-current task, changing public behavior, or contradicting a design the user
-mandated, stop and present the trade-off instead of iterating. Proceed to
-commit or PR creation only after the review passes with no blocking findings.
+### Workflow
+
+1. **Finish implementation** -- Complete all code changes, including TDD
+   cycles.
+2. **Classify the change** -- Inspect the diff (e.g.,
+   `git diff HEAD --name-only`) and decide whether it touches a
+   security-sensitive area.
+3. **Review** -- Load the `code-review` skill and review the pending diff in
+   the main session. If the change is security-sensitive, also launch the
+   `security-reviewer` subagent in the same message.
+4. **Handle blocking findings** -- Fix Critical Issues, structural design
+   Warnings (Information Leakage, Shallow Module, Temporal Decomposition, and
+   Cosmetic Decomposition), and security CRITICAL/HIGH findings, then repeat
+   the review. Localized design Red Flags (Overexposure, Pass-Through
+   Methods, Hard-to-name Entity, Comment Repeats Code) remain Suggestions.
+5. **Proceed** -- Commit or open the PR only after no blocking findings
+   remain.
+
+If a structural design Warning cannot be resolved without expanding beyond
+the current task, changing public behavior, or contradicting a design the
+user mandated, stop and present the trade-off instead of iterating.
+
+### Security-Sensitive Changes
+
+A change is security-sensitive when it touches any of the following. These
+areas cover all nine perspectives of the `security-reviewer` agent:
+
+- User input handling -- parsing, validation, sanitization
+- Authentication, authorization, or session management
+- API endpoints, external requests, or network communication
+- Sensitive data -- secrets, credentials, tokens, PII, cryptographic
+  operations
+- Dependency manifests or lock files
+- CSRF/CORS/Cookie or other security-relevant configuration
+- Audit logging or logging of security-relevant events
 
 ### Scope
 
-In scope: executable code, test code, and configuration files that affect
-runtime or agent behavior (including Codex rules, skills, agents, and
-plugins), regardless of implementation method. Out of scope: documentation-only
-edits (except agent behavior definitions), comment-only or typo-only changes,
-and auxiliary files such as `.gitignore`.
+This rule applies to changes in **executable code, test code, and
+configuration files**, regardless of the implementation method used (TDD,
+direct implementation, refactoring, etc.).
 
-If the user explicitly requests a review, conduct it regardless of scope.
+**In scope (self-review required):**
+
+- Executable code -- `.ts`, `.js`, `.py`, `.go`, `.rs`, `.sh`, `.lua`, `.rb`,
+  and similar source files
+- Test code -- any file under test directories or matching test naming
+  conventions
+- Configuration files -- `.yaml`, `.yml`, `.toml`, `.json`, `Dockerfile`, CI workflow
+  definitions, build configs, agent configuration (rules, skills, agents, and
+  plugins), and similar files that affect runtime or agent behavior
+
+**Out of scope (self-review skipped):**
+
+- Documentation-only edits (`.md`, `.txt`), unless the documentation is an
+  agent rule, skill, command, or other agent behavior definition
+- Comment-only or typo-only changes
+- Auxiliary files such as `.gitignore`, `.editorconfig`
+
+**Escape hatch:** If the user explicitly requests a review, conduct it
+regardless of scope.
 
 ## Software Design Principles
 

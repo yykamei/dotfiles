@@ -7,40 +7,42 @@ proceeding to commit, PR creation, or any other subsequent step.
 
 ## Rule
 
-After completing any code implementation, you MUST conduct a self-review by
-delegating to the `code-reviewer` agent before proceeding to commit, PR
-creation, or any other subsequent step.
+After completing the implementation, load the `code-review` skill and
+self-review the diff against its criteria in the main session.
 
 When the change touches security-sensitive areas (see Security-Sensitive
-Changes below), you MUST also delegate to the `security-reviewer` agent as
-part of the same self-review.
+Changes below), also delegate security review to the `security-reviewer`
+subagent -- an orchestrator that dispatches all nine per-perspective security
+subagents in parallel and returns one consolidated, cross-referenced report.
+Run it in the same message alongside the code review so both run
+concurrently.
+
+The `security-review` skill remains as a manual reference checklist for the
+main session. If the code review flags security concerns or recommends
+delegating to `security-reviewer`, run `security-reviewer` before proceeding
+even if the change was not classified as security-sensitive.
 
 ## Workflow
 
-1. **Finish implementation** -- Complete all code changes (including TDD cycles
-   if using the `tdd-workflow` skill)
+1. **Finish implementation** -- Complete all code changes, including TDD
+   cycles.
 2. **Classify the change** -- Inspect the diff (e.g.,
-   `git diff HEAD --name-only`) and decide whether it touches any
-   security-sensitive area
-3. **Delegate** -- Always launch the `code-reviewer` agent. If the change is
-   security-sensitive, launch the `security-reviewer` agent in the SAME
-   message so both reviews run in parallel. Pass the same review scope to both
-4. **Handle blocking findings** -- Fix blocking findings in the main session,
-   then re-run the reviewer(s) that reported them:
-   - `code-reviewer` -- Critical Issues, plus structural design Warnings
-     (Information Leakage, Shallow Module, Temporal Decomposition, and
-     Cosmetic Decomposition). Their fix cost grows the longer they remain.
-     Localized design Red Flags (Overexposure, Pass-Through Methods,
-     Hard-to-name Entity, Comment Repeats Code) remain Suggestions.
-   - `security-reviewer` -- CRITICAL and HIGH findings
-   If a structural design Warning cannot be resolved without expanding beyond
-   the current task, changing public behavior, or contradicting a design the
-   user mandated, stop and present the trade-off instead of iterating.
-   If the `code-reviewer` report flags security concerns or recommends
-   delegating to `security-reviewer`, run `security-reviewer` before
-   proceeding even if step 2 did not classify the change as security-sensitive
-5. **Proceed** -- Only after the review passes with no blocking findings, move
-   on to commit or PR creation
+   `git diff HEAD --name-only`) and decide whether it touches a
+   security-sensitive area.
+3. **Review** -- Load the `code-review` skill and review the pending diff in
+   the main session. If the change is security-sensitive, also launch the
+   `security-reviewer` subagent in the same message.
+4. **Handle blocking findings** -- Fix Critical Issues, structural design
+   Warnings (Information Leakage, Shallow Module, Temporal Decomposition, and
+   Cosmetic Decomposition), and security CRITICAL/HIGH findings, then repeat
+   the review. Localized design Red Flags (Overexposure, Pass-Through
+   Methods, Hard-to-name Entity, Comment Repeats Code) remain Suggestions.
+5. **Proceed** -- Commit or open the PR only after no blocking findings
+   remain.
+
+If a structural design Warning cannot be resolved without expanding beyond
+the current task, changing public behavior, or contradicting a design the
+user mandated, stop and present the trade-off instead of iterating.
 
 ## Security-Sensitive Changes
 
@@ -69,15 +71,15 @@ direct implementation, refactoring, etc.).
 - Test code -- any file under test directories or matching test naming
   conventions
 - Configuration files -- `.yaml`, `.yml`, `.toml`, `.json`, `Dockerfile`, CI workflow
-  definitions, build configs, opencode configuration, agents, skills, plugins,
-  and similar files that affect runtime or agent behavior
+  definitions, build configs, agent configuration (rules, skills, agents, and
+  plugins), and similar files that affect runtime or agent behavior
 
 **Out of scope (self-review skipped):**
 
 - Documentation-only edits (`.md`, `.txt`), unless the documentation is an
-  opencode rule, skill, agent, command, or other agent behavior definition
+  agent rule, skill, command, or other agent behavior definition
 - Comment-only or typo-only changes
 - Auxiliary files such as `.gitignore`, `.editorconfig`
 
-**Escape hatch:** If the user explicitly requests a review, run the
-`code-reviewer` agent regardless of scope.
+**Escape hatch:** If the user explicitly requests a review, conduct it
+regardless of scope.
