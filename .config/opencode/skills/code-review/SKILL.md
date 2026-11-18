@@ -179,9 +179,8 @@ extractions; if a linter forces the split, suggest adjusting the linter
 configuration rather than distorting the code.
 
 Report this check in the mandatory **Design Quality** section of the output,
-even when no Red Flag is found. The detection cues in the `software-design`
-rule (`~/.config/opencode/rules/software-design.md`) list the diff patterns
-that most often signal a Red Flag.
+even when no Red Flag is found. The detection cues in the Software Design
+Principles rule list the diff patterns that most often signal a Red Flag.
 
 In self-review, structural design Red Flags are blocking Warnings; see
 "Self-Review After Code Changes".
