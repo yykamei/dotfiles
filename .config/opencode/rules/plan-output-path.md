@@ -17,6 +17,6 @@ Keep the `Plan file:` label literal even when responding in Japanese.
 
 - Use the file plan mode actually writes; never invent a path.
 - If the plan is not stored as a file, say so instead of guessing a path.
-  OpenCode 2 keeps the plan in the conversation and names only a directory
+  Some harnesses keep the plan in the conversation and name only a directory
   for explicit saves, so state that no plan file exists unless the user
   asked for one.

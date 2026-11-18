@@ -10,17 +10,18 @@ I use specialized agents and skills for complex tasks.
 
 ## Rules vs. Skills
 
-- **Rules** (this directory) define meta-principles that apply to every turn.
-- **Skills** (loaded via the `skill` tool) define concrete step-by-step workflows
-  for specific tasks (e.g., `tdd-workflow`, `git-commit`, `pull-request`).
+- **Rules** (the sections in this file) define meta-principles that apply to
+  every turn.
+- **Skills** define concrete step-by-step workflows for specific tasks
+  (e.g., `tdd-workflow`, `git-commit`, `pull-request`).
 - When a rule references a workflow, it states the principle; the skill owns
   the procedure. Load the relevant skill when executing the workflow.
 
 ## Key Principles
 
-- **Agent-First**: Delegate to specialized agents for complex work
-- **Parallel Execution**: Use the `subagent` tool to run multiple agents in
-  parallel when possible
+- **Delegation**: Delegate independent subtasks to subagents and keep working
+  while they run. Intervene if a subagent goes off track or is missing
+  relevant context.
 - **Plan Before Execute**: Use Plan Mode for complex operations; the procedure
   itself lives outside this rule
 - **Human-Readable Output**: Every message is written to be read by a human.
@@ -33,8 +34,9 @@ I use specialized agents and skills for complex tasks.
 - **Security-First**: Treat input crossing a system boundary (user input,
   external APIs, file contents) as untrusted and validate it there, and
   keep secrets out of code, logs, and commit history. For changes touching
-  security-sensitive areas, delegate to the `security-reviewer` agent,
-  which fans out all nine security perspective agents in parallel.
+  security-sensitive areas, delegate security review to the
+  `security-reviewer` subagent, which fans out all nine security perspective
+  subagents in parallel.
 - **Simplicity**: Don't add features, refactor, or introduce abstractions
   beyond what the task requires. Do the simplest thing that works well. Only
   validate at system boundaries (user input, external APIs); trust internal

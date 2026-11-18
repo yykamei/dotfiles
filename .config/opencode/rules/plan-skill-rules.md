@@ -60,10 +60,3 @@ for OpenCode.
 Referencing the skills by ID alone is NOT sufficient; the file paths and
 trigger conditions above MUST appear in the plan so that an agent without
 skill support can still comply.
-
-## Design Gate
-
-Follow the design gate in the Software Design Principles rule
-(`~/.config/opencode/rules/software-design.md`): a plan that meets its trigger
-MUST include the `## Design` section defined there. Decide the module
-boundaries in the plan, not during implementation.

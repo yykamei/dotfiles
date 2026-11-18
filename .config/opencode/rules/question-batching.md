@@ -2,17 +2,18 @@
 
 ## When this rule applies
 
-When using the `question` tool to ask the user one or more questions.
+When using the agent harness's question tool to ask the user one or more
+questions.
 
 ## Rule
 
-When asking the user questions using the `question` tool, batch related questions
-into a single invocation to minimize back-and-forth.
+When asking the user questions using the agent harness's question tool, batch
+related questions into a single invocation to minimize back-and-forth.
 
 ## Guidelines
 
 - **Batch related questions**: Group questions about the same topic or context
-  into a single `question` tool invocation
+  into a single question-tool invocation
 - **Split unrelated topics**: If questions cover different topics or contexts,
   ask them in separate invocations
 - **Sequential when dependent**: If a later question depends on the answer
