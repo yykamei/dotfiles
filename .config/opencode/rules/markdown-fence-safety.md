@@ -13,8 +13,8 @@ fence, optionally preceded by up to three spaces and followed only by spaces.
 Markdown has no escape sequence inside a fence. When a snippet contains its
 own fenced block and the outer fence is not longer, the inner closing fence
 ends the outer block and the rest of the message renders as Markdown.
-OpenCode's renderer treats a bare same-character fence of equal or greater
-length as the closing fence, so the fix belongs in the message source.
+Some renderers treat a bare same-character fence of equal or greater length
+as the closing fence, so the fix belongs in the message source.
 
 ## Rule
 

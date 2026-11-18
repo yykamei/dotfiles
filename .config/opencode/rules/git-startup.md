@@ -129,7 +129,8 @@ Before creating any worktree or making changes:
      `<target-remote>/<default-branch>`. This is the only permitted switch in
      this rule.
    - Topic and investigation worktrees always live under `~/.worktrees/`,
-     which OpenCode and Claude Code are permitted to access without prompts.
+     which the agent harnesses are typically permitted to access without
+     prompts when configured.
      `mkdir -p` is required because `git worktree add` does not create parent
      directories. Pre-existing worktrees under `../<repo>.worktrees/` may
      remain, but new ones must go under `~/.worktrees/`. Do not place symlinks

@@ -23,3 +23,15 @@ python3 scripts/link-codex.py
 
 `git clean -fdx` などで端末データへのリンクが消えた場合は、Codex を起動する前に
 同じスクリプトを再実行するとリンクを復旧できます。
+
+## エージェント共通設定
+
+`.config/opencode/rules/` を正として、Claude Code と Codex のグローバルルールを生成します。
+
+```sh
+python3 scripts/sync-agent-config.py
+```
+
+`python3 scripts/sync-agent-config.py --check` は、`.claude/CLAUDE.md` と `.codex/AGENTS.md` が正と一致しているか確認します。ルールを編集したら生成スクリプトを実行してからコミットしてください。新しいルールを追加するときは、`scripts/agent_config.py` の `RULE_ORDER` にも追加します。
+
+信頼できないチェックアウトでは書き込みモードを実行しないでください。まず `--check` で同期漏れがないか確認し、内容を確認できた場合だけ生成してください。

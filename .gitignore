@@ -7,3 +7,6 @@
 .vim/plugged
 .vim/.netrwhist
 service.json
+
+__pycache__/
+.*.tmp
