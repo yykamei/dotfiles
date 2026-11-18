@@ -119,5 +119,5 @@ function saveUser(user: User, destination: StorageDestination): void {}
   **Comment Repeats Code** Red Flag is governed there.
 - **Core Philosophy → Simplicity** — this rule governs *how* to structure
   what is built; Simplicity governs *how much* to build.
-- **Before/After Snippets in Plans** — the Design section fixes the
-  boundaries; the snippets show the exact code that fills them.
+- **Plan Structure** — the Design section fixes the boundaries; the
+  implementation steps name the files that implement each boundary.
