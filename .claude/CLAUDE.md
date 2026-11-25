@@ -30,8 +30,10 @@ I use specialized agents and skills for complex tasks.
 - **Delegation**: Delegate independent subtasks to subagents and keep working
   while they run. Intervene if a subagent goes off track or is missing
   relevant context.
-- **Plan Before Execute**: Use Plan Mode for complex operations; the procedure
-  itself lives outside this rule
+- **Plan Before Execute**: Use Plan Mode for complex operations. When a design
+  decision depends on whether an ordering of events or a combination of states
+  can violate a requirement, use the `verify-plan` skill before presenting
+  the plan. Routine edits need no model or extra plan section.
 - **Human-Readable Output**: Every message is written to be read by a human.
   Keep it concise in any situation — plan files, explanations, progress
   narration, and summaries alike. Conciseness cuts filler, repetition, and
