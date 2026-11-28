@@ -1,6 +1,6 @@
 ---
 name: pull-request
-description: Load before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, self-contained and concise descriptions, safe body editing, the visibility-based draft policy (draft for private repositories, never draft for open source), the stacked-PR workflow for work that spans multiple PRs, and the rule that review/self-review findings are folded back into the owning PR rather than a review-fixes PR.
+description: Load before `gh pr create` or `gh pr edit --body`. Defines PR title/body conventions, the mandatory `## Breaking Changes` section when a published artifact changes incompatibly, self-contained and concise descriptions, safe body editing, the visibility-based draft policy (draft for private repositories, never draft for open source), the stacked-PR workflow for work that spans multiple PRs, and the rule that review/self-review findings are folded back into the owning PR rather than a review-fixes PR.
 ---
 
 # Pull Request Creation Workflow
@@ -39,6 +39,10 @@ Before composing anything, confirm the PR scope.
    one commit relative to its base branch at the time the PR is opened.
    If multiple commits exist, consolidate them first using the
    procedure in the `git-commit` skill.
+6. If the change breaks backward compatibility of a published artifact
+   (see the `breaking-changes` rule), confirm the single commit carries
+   `!` after the type or scope and a `BREAKING CHANGE:` footer. The PR
+   title inherits the `!` because it comes from the commit subject.
 
 ### Step 0.5: Decide the PR Topology (Stack or Independent)
 
@@ -179,6 +183,11 @@ the title.
    ## Background
    [1-3 sentences: the prior situation, problem, or product/technical reason]
 
+   ## Breaking Changes
+   [What breaks, who is affected, the migration steps, and the major version
+   bump the release needs. Required when the change breaks a published
+   artifact; omit if not applicable]
+
    ## Out of Scope
    [1-2 sentences or bullets: deliberate non-goals; omit if not applicable]
 
@@ -194,6 +203,12 @@ the title.
    ## Operational Notes
    [1-2 sentences: cautions, monitoring, rollback; omit if not applicable]
    ```
+
+5. When the PR changes the public surface of a published artifact (see the
+   `breaking-changes` rule), the `## Breaking Changes` section is mandatory,
+   not optional. It must agree with the commit's `BREAKING CHANGE:` footer and
+   carry the fuller explanation. If a template exists, place it in the most
+   natural existing section or append it at the end.
 
 ### Step 3.5: Make the PR Description Self-Contained
 
