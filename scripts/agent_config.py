@@ -48,6 +48,7 @@ RULE_ORDER = (
     "plan-output-path.md",
     "plan-structure.md",
     "self-review.md",
+    "oss-diff-review.md",
     "software-design.md",
     "markdown-fence-safety.md",
     "question-batching.md",
