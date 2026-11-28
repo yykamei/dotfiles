@@ -41,6 +41,7 @@ RULE_ORDER = (
     "core-philosophy.md",
     "code-comments.md",
     "commit-granularity.md",
+    "breaking-changes.md",
     "git-startup.md",
     "plan-skill-rules.md",
     "design-gate.md",

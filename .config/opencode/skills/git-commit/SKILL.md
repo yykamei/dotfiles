@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: Load before running `git commit` or `git commit --amend`. Defines commit message language detection, self-contained and concise commit messages, subject/body formatting and length targets, multi-line commits via `-F` (never `-m`), and post-commit verification with `git log -1 --format=%B`.
+description: Load before running `git commit` or `git commit --amend`. Defines commit message language detection, self-contained and concise commit messages, subject/body formatting and length targets, Conventional Commits breaking-change markers (`!` and a `BREAKING CHANGE:` footer), multi-line commits via `-F` (never `-m`), and post-commit verification with `git log -1 --format=%B`.
 ---
 
 # Git Commit Message Guidelines
@@ -111,6 +111,11 @@ Select the appropriate prefix based on the changes.
 - `test`: Adding or correcting tests
 - `chore`: Changes to the build process or tools
 
+When the commit breaks backward compatibility of an artifact that a public
+repository publishes, add `!` immediately after the type or scope. Whether a
+change is breaking is decided by the `breaking-changes` rule; this skill only
+defines how to mark it. See "Breaking Changes" below for the full format.
+
 ## Style Guide
 
 - **Language**: English or Japanese (See "Commit message language rules" for more details)
@@ -129,6 +134,34 @@ Select the appropriate prefix based on the changes.
   precondition for committing, so such statements add no information and even
   imply the commit may not pass. Include verification details only when the
   user explicitly asks for them.
+
+## Breaking Changes
+
+A commit that breaks backward compatibility of a published artifact (see the
+`breaking-changes` rule) carries the marker in two places:
+
+1. `!` immediately after the type or scope:
+   `feat(api)!: drop the legacy v1 endpoint`.
+2. A `BREAKING CHANGE:` footer after the body, separated from it by a blank
+   line. The token is uppercase, followed by a colon and one space. State what
+   breaks and how consumers migrate, in one to three sentences, wrapped with
+   the same column rules as the body.
+
+Keep the footer on its own paragraph; never fold it into the body. When one
+commit contains independent breaks, write one footer for each. The footer is
+part of the message format, so it does not replace the body's explanation of
+why the change is needed.
+
+```
+feat(api)!: drop the legacy v1 endpoint
+
+The v1 endpoint only mirrors /v2 and has seen no traffic since the deprecation
+announced two releases ago, so keeping it doubles the maintenance of the
+handler.
+
+BREAKING CHANGE: The v1 endpoint is removed. Clients must call /v2 with the
+same payload; the response shape is unchanged.
+```
 
 ## Make the Commit Message Self-Contained
 
